@@ -1,0 +1,57 @@
+VEYNO - Foto-Editor (laeuft komplett lokal, nichts wird hochgeladen)
+=====================================================================
+
+WINDOWS STARTEN
+---------------
+  1. Diesen Ordner KOMPLETT entpacken (nicht direkt aus dem ZIP starten)
+  2. "VEYNO starten.cmd" doppelklicken
+     - Falls Windows warnt: "Weitere Informationen" -> "Trotzdem ausfuehren"
+  3. Der Browser oeffnet sich von selbst (http://127.0.0.1:8766)
+
+  Das schwarze Fenster ist der lokale Server - offen lassen.
+  Schliessen = VEYNO beenden.
+
+LINUX / macOS STARTEN
+---------------------
+  Voraussetzung: Node.js installiert
+    Debian/Ubuntu:  sudo apt install nodejs
+    Fedora:         sudo dnf install nodejs
+    macOS (Homebrew): brew install node        (oder https://nodejs.org)
+
+  Dann im entpackten Ordner ein Terminal oeffnen und EINES davon:
+    bash start.sh         (am einfachsten - geht immer)
+    ./start.sh            (falls noetig vorher:  chmod +x start.sh)
+  Oder ganz ohne Skript:
+    node veyno-server.js     dann http://127.0.0.1:8766 im Browser oeffnen
+
+  Das Terminal-Fenster offen lassen (= der Server). Strg+C beendet VEYNO.
+
+AM HANDY NUTZEN (gleiches WLAN)
+-------------------------------
+  Windows: "VEYNO am Handy nutzen.cmd" doppelklicken -> Seite mit QR-Code
+    oeffnet sich (Windows evtl. einmal Netzwerk-Freigabe -> "Zulassen").
+    QR-Code mit der Handy-Kamera scannen -> VEYNO im Handy-Browser.
+    Ueber "Teilen -> Zum Home-Bildschirm" wie eine echte App ablegen.
+  Linux/macOS: im Terminal  HOST=0.0.0.0 node veyno-server.js  starten,
+    PC-IP herausfinden (z. B. `hostname -I`) und am Handy
+    http://<PC-IP>:8766 oeffnen.
+
+  Wichtig: Der PC muss an bleiben und im selben WLAN sein.
+
+BROWSER-HINWEIS
+---------------
+  Fuer RAW-Fotos (CR2/NEF/ARW/...) und die schnellste KI-Hintergrund-
+  entfernung am besten Chrome oder Edge nutzen. In Firefox kann ein
+  installiertes Add-on diese Funktionen blockieren - dann Add-ons
+  deaktivieren oder Chrome/Edge verwenden. Alles andere laeuft ueberall.
+
+Es wird nichts installiert und nichts ins Internet geschickt - alle
+Berechnungen passieren lokal auf deinem Geraet bzw. PC.
+
+---------------------------------------------------------------------
+ENGLISH (short)
+  Windows  : unzip fully, run "VEYNO starten.cmd".
+  Linux/Mac: install Node.js, then run  bash start.sh  (or
+             node veyno-server.js) and open http://127.0.0.1:8766
+  Keep the window/terminal open. Nothing is installed or uploaded.
+  For RAW + fastest AI background removal use Chrome/Edge.

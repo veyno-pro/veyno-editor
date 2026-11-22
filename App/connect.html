@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>VEYNO – am Handy öffnen</title>
+<style>
+  :root{ --bg:#121316; --panel:#191a1e; --panel2:#212227; --line:#2b2c32; --text:#e6e8ec; --muted:#979aa2; --accent:#52b788; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; min-height:100vh; background:var(--bg); color:var(--text); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:24px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:20px; padding:30px 34px; max-width:440px; width:100%; text-align:center;
+    box-shadow:0 18px 60px rgba(0,0,0,.5); }
+  .brand{ font-weight:800; letter-spacing:3px; font-size:22px; margin-bottom:4px; }
+  .brand .v{ color:inherit; }
+  .sub{ color:var(--muted); font-size:13.5px; margin-bottom:22px; }
+  #qr{ background:#fff; border-radius:16px; padding:16px; display:inline-block; line-height:0; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+  #qr svg, #qr img{ width:230px; height:230px; display:block; }
+  .url{ margin:20px 0 6px; font:600 15px ui-monospace,Consolas,monospace; color:var(--text); word-break:break-all;
+    background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:11px 14px; }
+  .hint{ color:var(--muted); font-size:12.5px; margin:14px 0 0; }
+  .steps{ text-align:left; color:var(--muted); font-size:13px; margin:18px 0 0; padding-left:20px; }
+  .steps li{ margin:5px 0; }
+  .warn{ color:#e8a040; }
+  button.copy{ margin-top:8px; background:var(--accent); color:#fff; border:none; border-radius:9px; padding:9px 18px; font-size:13.5px; font-weight:600; cursor:pointer; }
+  .err{ color:#e87070; font-size:14px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand"><span class="v">V</span>EYNO</div>
+  <div class="sub" id="sub">Mit dem Handy scannen – im selben WLAN</div>
+  <div id="qr"></div>
+  <div class="url" id="url">…</div>
+  <button class="copy" id="copy">Adresse kopieren</button>
+  <ol class="steps">
+    <li>Handy ins <b>gleiche WLAN</b> wie dieser PC bringen.</li>
+    <li>QR-Code mit der <b>Kamera</b> scannen – oder die Adresse oben am Handy eintippen.</li>
+    <li>VEYNO öffnet sich im Handy-Browser. Über „Teilen → Zum Home-Bildschirm" lässt es sich wie eine App ablegen.</li>
+  </ol>
+  <p class="hint" id="lanhint"></p>
+</div>
+<script src="vendor/qrcode.min.js"></script>
+<script>
+  (function(){
+    var q=new URLSearchParams(location.search);
+    var ip=q.get('ip'), port=q.get('port')||location.port||'8766';
+    var url, lanWarn='';
+    if(ip && ip!=='127.0.0.1'){ url='http://'+ip+':'+port+'/'; }
+    else { url=location.origin+'/'; lanWarn='Hinweis: Es wurde keine Heimnetz-Adresse erkannt. Starte VEYNO über „VEYNO am Handy nutzen.cmd", damit hier die richtige Adresse fürs Handy steht.'; }
+    document.getElementById('url').textContent=url;
+    document.getElementById('lanhint').innerHTML = lanWarn ? '<span class="warn">'+lanWarn+'</span>' : 'Läuft komplett lokal – nichts verlässt dein Heimnetz.';
+    try{
+      var qr=qrcode(0,'M'); qr.addData(url); qr.make();
+      document.getElementById('qr').innerHTML=qr.createSvgTag({cellSize:6, margin:0, scalable:true});
+    }catch(e){ document.getElementById('qr').innerHTML='<div class="err" style="padding:40px">QR-Code konnte nicht erzeugt werden.<br>Bitte die Adresse oben am Handy eintippen.</div>'; }
+    document.getElementById('copy').onclick=function(){
+      var b=this;
+      (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject())
+        .then(function(){ b.textContent='Kopiert ✓'; }, function(){
+          var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); t.select();
+          try{ document.execCommand('copy'); b.textContent='Kopiert ✓'; }catch(e){} t.remove();
+        });
+    };
+  })();
+</script>
+</body>
+</html>

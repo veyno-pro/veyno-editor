@@ -1,0 +1,84 @@
+﻿VEYNO für Windows – Installation
+================================
+(English below)
+
+WAS DU BEKOMMST
+- VEYNO-Setup-1.9.0.exe       VEYNO mit allen KI-Modellen (Setup deutlich über 1 GB)
+- VEYNO-Lite-Setup-1.9.0.exe  VEYNO Lite ohne KI-Modelle (Setup rund 90 MB)
+
+SYSTEMVORAUSSETZUNGEN
+- Windows 10 oder Windows 11, 64 Bit
+- Freier Speicherplatz: rund 300 MB für VEYNO Lite, rund 1,5 GB für VEYNO
+- Keine Administratorrechte nötig: VEYNO wird nur für dein Benutzerkonto installiert.
+- Für die großen KI-Modelle sind mehr als 4 GB Arbeitsspeicher sinnvoll. Auf schwächeren Rechnern nimmt VEYNO
+  von selbst die schnellen, kleinen Modelle (Einstellungen → Erweitert → KI-Modelle).
+
+INSTALLIEREN
+1. Die Setup-Datei doppelklicken.
+2. Erscheint „Der Computer wurde durch Windows geschützt“: auf „Weitere Informationen“ klicken,
+   dann auf „Trotzdem ausführen“. (Der Installer ist nicht digital signiert; Windows warnt deshalb
+   bei Programmen, die es noch nicht kennt.)
+3. Die Nutzungsbedingungen lesen und zustimmen.
+4. Den Zielordner bestätigen (Vorgabe: %LOCALAPPDATA%\Programs\VEYNO bzw. ...\VEYNO Lite) und installieren.
+5. Starten über die Verknüpfung auf dem Desktop oder im Startmenü.
+
+VEYNO ODER VEYNO LITE?
+- VEYNO enthält alle KI-Modelle: Freistellen, Objekt entfernen, KI-Entrauschen, Smart-Auswahl, Himmel,
+  Tiefe, Hochskalieren, Gesichts-Retusche und Kolorieren laufen vollständig offline auf deinem Rechner.
+- VEYNO Lite ist dieselbe App ohne die KI-Modelle – viel kleiner. Regler, Masken, Retusche, RAW und Export
+  funktionieren genauso. Wo die KI fehlt, rechnet VEYNO klassisch (z. B. Freistellen, Objekt entfernen,
+  Himmel) oder meldet „In VEYNO Lite nicht enthalten“ (z. B. Kolorieren, Smart-Auswahl, KI-Entrauschen).
+  Diese Funktionen gibt es in der Vollversion und in der Web-Version (veyno.art).
+- Beide lassen sich nebeneinander installieren; sie haben getrennte Einstellungen.
+
+AKTUALISIEREN
+Die neue Setup-Datei einfach installieren. Einstellungen bleiben erhalten.
+
+DEINSTALLIEREN
+- Windows-Einstellungen → Apps → Installierte Apps → „VEYNO“ bzw. „VEYNO Lite“ → Deinstallieren
+  (Windows 10: Einstellungen → Apps → Apps & Features).
+- Entfernt werden Programm, Verknüpfungen und Registrierungseinträge. Deine Fotos und Exporte bleiben unberührt.
+- Die Einstellungen bleiben im Ordner %APPDATA%\veyno bzw. %APPDATA%\veyno-lite. Wer alles entfernen will,
+  löscht diesen Ordner nach der Deinstallation von Hand.
+
+
+VEYNO for Windows – Installation
+================================
+
+WHAT YOU GET
+- VEYNO-Setup-1.9.0.exe       VEYNO with all AI models (setup well over 1 GB)
+- VEYNO-Lite-Setup-1.9.0.exe  VEYNO Lite without AI models (setup about 90 MB)
+
+SYSTEM REQUIREMENTS
+- Windows 10 or Windows 11, 64-bit
+- Free disk space: about 300 MB for VEYNO Lite, about 1.5 GB for VEYNO
+- No administrator rights needed: VEYNO is installed for your user account only.
+- The large AI models work best with more than 4 GB of RAM. On smaller machines VEYNO picks the fast,
+  small models by itself (Settings → Advanced → AI models).
+
+INSTALL
+1. Double-click the setup file.
+2. If "Windows protected your PC" appears: click "More info", then "Run anyway".
+   (The installer is not digitally signed, so Windows warns about programs it does not know yet.)
+3. Read and accept the terms of use.
+4. Confirm the destination folder (default: %LOCALAPPDATA%\Programs\VEYNO or ...\VEYNO Lite) and install.
+5. Start VEYNO from the shortcut on the desktop or in the Start menu.
+
+VEYNO OR VEYNO LITE?
+- VEYNO contains all AI models: cut-out, object removal, AI denoising, smart selection, sky, depth,
+  upscaling, face retouching and colorization run fully offline on your computer.
+- VEYNO Lite is the same app without the AI models – much smaller. Sliders, masks, retouching, RAW and
+  export work the same. Where AI is missing, VEYNO uses the classic method (e.g. cut-out, object removal,
+  sky) or says "Not included in VEYNO Lite" (e.g. colorization, smart selection, AI denoising).
+  These features are available in the full version and in the web version (veyno.art).
+- Both can be installed side by side; they keep separate settings.
+
+UPDATE
+Simply install the new setup file. Your settings are kept.
+
+UNINSTALL
+- Windows Settings → Apps → Installed apps → "VEYNO" or "VEYNO Lite" → Uninstall
+  (Windows 10: Settings → Apps → Apps & features).
+- This removes the program, shortcuts and registry entries. Your photos and exports are not touched.
+- Settings stay in %APPDATA%\veyno or %APPDATA%\veyno-lite. To remove everything, delete that folder
+  by hand after uninstalling.

@@ -1,0 +1,557 @@
+<div id="baModal" class="modal">
+  <div class="dialog" id="baDialog" role="dialog" aria-modal="true" aria-labelledby="baTitle">
+    <h2 id="baTitle" data-i18n="ba_title">Vorher/Nachher-Bild</h2>
+    <div class="ba-slots">
+      <div class="ba-slot" id="baSlotA" role="button" tabindex="0" data-taste><span class="ba-tag" data-i18n="ba_left">Links</span><span class="ba-drop" data-i18n="ba_drop">Bild hierher ziehen oder klicken</span></div>
+      <div class="ba-slot" id="baSlotB" role="button" tabindex="0" data-taste><span class="ba-tag" data-i18n="ba_right">Rechts</span><span class="ba-drop" data-i18n="ba_drop">Bild hierher ziehen oder klicken</span></div>
+    </div>
+    <div class="ba-prevwrap"><canvas id="baPrev"></canvas></div>
+    <div class="row" style="margin-top:10px"><label class="cap"><span data-i18n="ba_split">Trennkante</span> <input type="number" class="val numbox" data-for="baSplit" min="0" max="100" value="50"></label><input type="range" id="baSplit" data-norender min="0" max="100" value="50"></div>
+    <label class="ba-opt"><input type="checkbox" id="baLine" class="schalter" checked> <span data-i18n="ba_line">Trennlinie zeigen</span></label>
+    <p class="hint" data-i18n="ba_hint" data-falt>Linke Bildhälfte kommt vom linken Bild, rechte vom rechten. Kante mit der Maus im Bild verschieben.</p>
+    <p class="hint" id="baSizeInfo" style="display:none" data-i18n="ba_sizeinfo">Das rechte Bild wird auf die Maße des linken gebracht.</p>
+    <div class="btnrow" style="margin-top:12px">
+      <button id="baSwap" data-i18n="ba_swap" data-licon="arrow-left-right">Seiten tauschen</button>
+      <button id="baExport" class="primary" data-i18n="ba_export" data-licon="download">Bild speichern</button>
+    </div>
+    <div class="btnrow" style="margin-top:8px"><button id="baClose" class="wide" data-i18n="cancel">Schließen</button></div>
+    <input type="file" id="baFileA" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden><input type="file" id="baFileB" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+  </div>
+</div>
+
+<div id="searchModal" class="modal">
+  <div class="dialog" id="searchDialog" role="dialog" aria-modal="true" data-i18n-aria="search_title" aria-label="Suchen">
+    <div class="searchbox"><i data-lucide="search"></i><input type="text" id="searchInput" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="searchResults" data-i18n-aria="search_title"></div>
+    <div id="searchResults" role="listbox"></div>
+  </div>
+</div>
+
+<div id="serieModal" class="modal">
+  <div class="dialog" id="serieDialog" role="dialog" aria-modal="true" aria-labelledby="serieTitle">
+    <h2 id="serieTitle" data-i18n="se_title">Serie entwickeln</h2>
+    <p class="hint se-intro" data-i18n="se_intro" data-falt>Die Bearbeitung des geöffneten Bildes wird auf jedes Foto eines Ordners übertragen. Jedes Foto wird einzeln entwickelt und als JPG gespeichert. Masken, Retusche, Text und Zuschnitt gelten nur für das Einzelbild.</p>
+    <div class="se-schritt"><span class="se-nr">1</span><div class="se-mitte"><div class="se-k" data-i18n="se_quelle">Fotos</div><div class="se-info" id="seQuelleInfo"></div><div class="se-unbearb" id="seUnbearb" hidden><span id="seUnbearbT"></span><button type="button" id="seUebernehmen" data-i18n="se_uebernehmen">Bearbeitung des offenen Fotos übernehmen</button></div></div><button type="button" id="seQuelleBtn"><span data-i18n="files_ordner" data-licon="folder-plus">Ordner hinzufügen</span></button></div>
+    <div class="se-schritt"><span class="se-nr">2</span><div class="se-mitte"><div class="se-k" data-i18n="se_ziel">Speichern in</div><div class="se-info" id="seZielInfo" data-i18n="se_keinordner">Noch kein Ordner gewählt</div></div><button type="button" id="seZielBtn"><span data-i18n="se_waehlen" data-licon="folder-open">Ordner wählen</span></button></div>
+    <div class="se-schritt se-einst"><span class="se-nr">3</span><div class="se-mitte">
+      <div class="row"><label class="cap"><span data-i18n="exQuality">Qualität</span> <input type="number" class="val numbox" data-for="seQual" min="40" max="100" value="90"></label><input type="range" id="seQual" data-norender min="40" max="100" value="90"></div>
+      <div class="seg" id="seQualSeg"><button type="button" data-q="96" data-i18n="exq_max">Maximal</button><button type="button" data-q="90" class="active" data-i18n="exq_high">Hoch</button><button type="button" data-q="80" data-i18n="exq_web">Web</button></div>
+      <div class="se-k" style="margin-top:10px" data-i18n="se_groesse">Größe</div>
+      <div class="seg" id="seGroesseSeg"><button type="button" data-lk="0" class="active" data-i18n="se_voll">Volle Auflösung</button><button type="button" data-lk="4000">4000 px</button><button type="button" data-lk="3000">3000 px</button><button type="button" data-lk="2048">2048 px</button></div>
+      <div class="se-rawwahl" id="seRawWahl" hidden><div class="se-k" style="margin-top:10px" data-i18n="se_raw">RAW-Dateien</div>
+      <div class="seg" id="seRawSeg"><button type="button" data-raw="voll" class="active" data-i18n="se_raw_voll">Voll entwickeln</button><button type="button" data-raw="kamera" data-i18n="se_raw_kamera">Kamera-JPG (schnell)</button></div>
+      <p class="hint se-klein" id="seRawHint" data-i18n="se_raw_hint_voll">Beste Qualität und volle Reserven, dauert je Foto länger.</p></div>
+    </div></div>
+    <div class="se-schaetzung" id="seSchaetzung"></div>
+    <div class="se-fort" id="seFort" hidden><div class="progbar"><div id="seFortBar"></div></div><div class="se-fort-t" id="seFortText"></div></div>
+    <div class="btnrow se-knoepfe"><button type="button" id="seSchliessen" data-i18n="close">Schließen</button><button type="button" id="seZeigen" hidden data-i18n="se_zeigen">Ordner öffnen</button><button type="button" id="sePause" hidden data-i18n="se_pause">Pause</button><button type="button" id="seStart" class="primary" disabled data-i18n="se_start">Entwickeln starten</button></div>
+  </div>
+</div>
+<div id="nameModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <h2 id="nameModalTitle">Name</h2>
+    <input type="text" id="nameModalInput" aria-labelledby="nameModalTitle" style="width:100%;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--panel-2);color:var(--text);font-size:13px">
+    <div class="btnrow" style="margin-top:14px"><button id="nameModalCancel" data-i18n="cancel">Abbrechen</button><button id="nameModalOk" class="primary">OK</button></div>
+  </div>
+</div>
+<div id="qtModal" class="modal">
+  <div class="dialog qt-dialog" role="dialog" aria-modal="true" aria-labelledby="qtTitel">
+    <h2 id="qtTitel" data-i18n="qt_titel">Quelltext</h2>
+    <p class="hint" id="qtInfo" style="margin:0 0 10px"></p>
+    <textarea id="qtFeld" readonly spellcheck="false" wrap="off" data-i18n-aria="qt_titel" aria-label="Quelltext"></textarea>
+    <div class="btnrow" style="margin-top:12px"><button id="qtSpeichern" type="button" data-i18n="qt_speichern" data-licon="download">Als Datei speichern</button><button id="qtZu" class="primary" type="button" data-i18n="close">Schließen</button></div>
+  </div>
+</div>
+
+<div id="helpModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+    <h2 id="helpTitle" data-i18n="help_title">Tastenkürzel</h2>
+    <p class="hint" id="hkAendernHint" hidden data-i18n="hk_aendern_hint">Auf eine Taste klicken, dann die neue Taste drücken. Ist sie schon belegt, tauschen die beiden.</p>
+    <div id="helpList"></div>
+    <div class="btnrow" style="margin-top:14px"><button id="hkAendern" data-i18n="hk_aendern" data-licon="keyboard">Belegung ändern</button><button id="hkStandard" hidden data-i18n="hk_standard" data-licon="rotate-ccw">Standard</button><button id="helpClose" class="primary" data-i18n="close">Schließen</button></div>
+  </div>
+</div>
+
+<div id="exportModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="exTitle">
+    <h2 id="exTitle" data-i18n="exportTitle">Exportieren</h2>
+    <div class="seg" id="exModeSeg" role="tablist">
+      <button type="button" role="tab" data-exmode="file" class="active"><i data-lucide="image"></i> <span data-i18n="exmode_file">Bild</span></button>
+      <button type="button" role="tab" data-exmode="batch"><i data-lucide="images"></i> <span data-i18n="exmode_batch">Mehrere Größen</span></button>
+      <button type="button" role="tab" data-exmode="print"><i data-lucide="printer"></i> <span data-i18n="exmode_print">Druck</span></button>
+    </div>
+    <div class="ex-kopf"><p class="ex-sum" id="exInfo">–</p><p class="hint" id="exAuflHinweis" hidden></p></div>
+    <div class="ex-cols">
+    <div class="ex-left">
+      <div id="exPreviewWrap"><canvas id="exPreview"></canvas></div>
+      <p class="hint ex-sum" id="exMetaInfo"></p>
+      <p class="hint" id="exResNote" style="display:none;color:var(--warn-text)"></p>
+    </div>
+    <div class="ex-right">
+    <div class="row" style="display:none"><label class="cap" style="cursor:pointer"><input type="checkbox" id="exPrint"> <span data-i18n="prn_enable">Druck-Layout</span></label></div>
+    <div id="exNormalOpts">
+    <div class="row exv-row"><label class="cap" for="exVorlage"><span data-i18n="exv_titel" data-help="exv_tip">Vorlage</span></label>
+      <div class="exv-zeile"><select id="exVorlage"></select><button type="button" id="exvSpeichern" class="ticon" data-i18n-title="exv_speichern" title="Als Vorlage speichern"><i data-lucide="save"></i></button><button type="button" id="exvLoeschen" class="ticon" data-i18n-title="exv_loeschen" title="Vorlage löschen" disabled><i data-lucide="trash-2"></i></button></div></div>
+    <div class="row"><label class="cap"><span data-i18n="exFormat">Format</span></label>
+      <div class="seg" id="exFmtSeg">
+        <button data-fmt="image/jpeg" class="active">JPG</button>
+        <button data-fmt="image/png">PNG</button>
+        <button data-fmt="image/webp">WebP</button>
+        <button data-fmt="image/avif" hidden title="Kleiner als JPEG bei gleicher Qualität; neuere Browser und Programme" data-i18n-title="ex_avif">AVIF</button>
+        <span class="ex-fmtsep" aria-hidden="true"></span>
+        <button data-fmt="png16" title="16 Bit pro Kanal" data-i18n-title="ex_16bit">PNG·16</button>
+        <button data-fmt="tiff16" title="16 Bit pro Kanal, unkomprimiert" data-i18n-title="ex_16bit_t">TIFF·16</button>
+        <button data-fmt="psd" title="Mit Ebenen, Masken und Text, für Photoshop, GIMP, Affinity" data-i18n-title="ex_psd">PSD</button>
+      </div>
+    </div>
+    <div class="row" id="exGrRow"><label class="cap"><span data-i18n="exScale">Größe</span> <select id="exGrModus" class="ex-gr-sel"><option value="prozent" data-i18n="exg_prozent">Prozent</option><option value="lang" data-i18n="exg_lang">Lange Kante</option><option value="kurz" data-i18n="exg_kurz">Kurze Kante</option><option value="breite" data-i18n="exg_breite">Breite</option><option value="hoehe" data-i18n="exg_hoehe">Höhe</option><option value="mp" data-i18n="exg_mp">Megapixel</option></select> <span class="val" id="exScaleVal">100%</span></label><input type="range" id="exScale" data-norender min="10" max="100" value="100">
+      <div class="ex-gr-wert" id="exGrWertRow" hidden><input type="number" id="exGrWert" min="1" step="1" data-i18n-aria="exScale"> <span id="exGrEinheit">px</span></div></div>
+    <div class="row" id="exQualRow"><label class="cap"><span data-i18n="exQuality">Qualität</span> <span class="val" id="exQualVal">92</span></label><input type="range" id="exQual" data-norender min="40" max="100" value="92"></div>
+    <div class="row" id="exQualPresetRow"><label class="cap"><span data-i18n="exQualPreset">Voreinstellung</span></label>
+      <div class="seg">
+        <button data-q="100" data-i18n="exq_max">Maximal</button>
+        <button data-q="92" class="active" data-i18n="exq_high">Hoch</button>
+        <button data-q="75" data-i18n="exq_web">Web</button>
+      </div>
+    </div>
+    <div class="row" id="exMaxRow"><label class="toggle" style="margin:0"><input type="checkbox" id="exMaxAn"> <span data-i18n="exmax_titel" data-help="exmax_tip">Dateigröße begrenzen</span></label>
+      <span class="ex-max-wert" id="exMaxWert" hidden><input type="number" id="exMaxMB" min="0.05" max="200" step="0.1" value="2" data-i18n-aria="exmax_titel"> MB</span></div>
+    <div class="row" id="exMetaRow"><label class="cap"><span data-i18n="ex_meta">Metadaten</span></label>
+      <div class="seg" id="exMetaSeg"><button data-exmeta="ohneOrt" data-i18n="exm_noloc">Ohne Standort</button><button data-exmeta="alle" data-i18n="exm_all">Mit Standort</button><button data-exmeta="keine" data-i18n="exm_none">Keine</button></div></div>
+    <div class="row" style="display:none"><label class="cap"><input type="checkbox" id="exBatch"> <span data-i18n="ex_batch">Stapel-Export (mehrere Breiten als ZIP)</span></label></div>
+    <div class="row" id="exBatchRow" style="display:none"><label class="cap" for="exWidths" data-i18n="ex_widths">Breiten (px, kommagetrennt)</label><input type="text" id="exWidths" value="2560, 1920, 1280, 640" style="width:100%;margin-top:4px"><p class="hint" data-i18n="ex_batch_hint" style="margin-top:6px">Jede Breite wird eine eigene Datei, zusammen als ZIP.</p></div>
+    <details id="exMehr" class="ex-mehr"><summary data-i18n="ex_mehr">Weitere Optionen</summary>
+    <div class="row" id="exRaumRow"><label class="cap"><span data-i18n="exr_titel" data-help="exr_tip">Farbraum</span></label>
+      <div class="seg" id="exRaumSeg"><button type="button" data-raum="srgb" class="active">sRGB</button><button type="button" data-raum="p3">Display P3</button><button type="button" data-raum="adobe">Adobe RGB</button></div>
+    </div>
+    <div class="row" id="exSchRow"><label class="cap"><span data-i18n="exs_titel" data-help="exs_tip">Ausgabeschärfung</span></label>
+      <div class="seg" id="exSchSeg"><button type="button" data-sch="aus" class="active" data-i18n="exs_aus">Aus</button><button type="button" data-sch="schirm" data-i18n="exs_schirm">Bildschirm</button><button type="button" data-sch="matt" data-i18n="exs_matt">Matt</button><button type="button" data-sch="glanz" data-i18n="exs_glanz">Glänzend</button></div>
+      <div class="seg" id="exSchStufe" style="margin-top:6px"><button type="button" data-st="lo" data-i18n="exs_lo">Niedrig</button><button type="button" data-st="mid" class="active" data-i18n="exs_mid">Standard</button><button type="button" data-st="hi" data-i18n="exs_hi">Hoch</button></div>
+    </div>
+    <div class="row" id="exMuster2Row"><label class="cap" for="exMuster2"><span data-i18n="exo_muster" data-help="exo_muster_tip">Dateiname</span></label><input type="text" id="exMuster2" class="metain" spellcheck="false" autocomplete="off" placeholder="{name}-edit" maxlength="120"><p class="hint" id="exMuster2Bsp" style="margin:4px 0 0"></p></div>
+    <div class="row" id="exPpiRow"><label class="cap" for="exPpi"><span data-i18n="exppi_titel" data-help="exppi_tip">Druckauflösung</span></label>
+      <div class="ex-ppi"><input type="number" id="exPpi" min="1" max="2400" step="1" value="300"> ppi <span id="exPpiCm" class="hint" style="margin:0"></span></div></div>
+    <div class="row" id="exFullRow" style="display:none"><label class="cap" style="cursor:pointer"><input type="checkbox" id="exFull" class="schalter" checked> <span data-i18n="ex_full">Volle Auflösung</span> <span id="exFullDims" style="color:var(--muted);font-size:11px;margin-left:6px"></span></label></div>
+    <label class="toggle" id="exKiMarkRow" hidden><input type="checkbox" id="exKiMark" checked> <span data-i18n="ex_kimark" data-help="ex_kimark_tip">KI-Anteile kennzeichnen</span></label>
+    </details>
+    </div>
+    <div id="exPrintRow" style="display:none">
+      <div class="row"><label class="cap" data-i18n="prn_paper">Papiergröße</label>
+        <div class="seg"><button data-paper="a4" class="active">A4</button><button data-paper="a3">A3</button><button data-paper="10x15">10×15 cm</button></div></div>
+      <div class="row"><label class="cap" data-i18n="prn_orient">Ausrichtung</label>
+        <div class="seg"><button data-orient="portrait" class="active" data-i18n="prn_portrait">Hoch</button><button data-orient="landscape" data-i18n="prn_landscape">Quer</button></div></div>
+      <div class="row"><label class="cap" data-i18n="prn_dpi">Auflösung</label>
+        <div class="seg"><button data-dpi="150">150 dpi</button><button data-dpi="300" class="active">300 dpi</button></div></div>
+      <div class="row"><label class="cap"><span data-i18n="prn_margin">Rand</span> <span class="val" id="prnMarginVal">5 mm</span></label><input type="range" id="prnMargin" data-norender min="0" max="20" value="5"></div>
+      <div class="row"><label class="cap" data-i18n="prn_outfmt">Format</label>
+        <div class="seg"><button data-prnfmt="pdf" class="active">PDF</button><button data-prnfmt="png">PNG</button></div></div>
+      <p class="hint" id="prnInfo">–</p>
+      <p class="hint" data-i18n="prn_hint" style="color:var(--accent)">Für Druck empfohlen: 300 dpi, sRGB</p>
+    </div>
+    </div>
+    </div>
+    <div class="btnrow" id="exActions" style="margin-top:14px">
+      <button id="exCancel" data-i18n="cancel">Abbrechen</button>
+      <button id="exCopy" data-i18n="exCopy">Kopieren</button>
+      <button id="exShare" style="display:none" data-i18n="exShare">Teilen</button>
+      <button id="exDownload" class="primary" data-autofocus data-i18n="exDownload">Herunterladen</button>
+    </div>
+  </div>
+</div>
+
+<div id="gifModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="gifTitle" style="max-width:560px">
+    <h2 id="gifTitle" data-i18n="plus_gif">GIF erstellen</h2>
+    <p class="hint" id="gifHint" data-i18n="gif_hint" data-falt>Bilder aus dem Stapel auswählen – die Reihenfolge der Auswahl ist die Frame-Reihenfolge.</p>
+    <div id="gifPick" class="pickGrid"></div>
+    <div id="gifPreviewWrap" style="display:flex;justify-content:center;margin:12px 0"><canvas id="gifPreview" style="max-width:300px;max-height:240px;border-radius:8px;border:1px solid var(--line);background:var(--chk2)"></canvas></div>
+    <div class="row"><label class="cap"><span data-i18n="gif_speed">Tempo pro Bild</span> <span class="val" id="gifDelayVal">300 ms</span></label><input type="range" id="gifDelay" min="100" max="1000" step="50" value="300"></div>
+    <div class="row"><label class="cap"><span data-i18n="gif_size">Größe (max.)</span> <span class="val" id="gifSizeVal">480 px</span></label><input type="range" id="gifSize" min="120" max="800" step="20" value="480"></div>
+    <div class="row"><label class="cap" style="cursor:pointer"><input type="checkbox" id="gifLoop" class="schalter" checked> <span data-i18n="gif_loop">Endlos-Schleife</span></label></div>
+    <p class="hint" id="gifStatus"></p>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="gifCancel" data-i18n="cancel">Abbrechen</button>
+      <button id="gifAll" data-i18n="gif_all">Alle</button>
+      <button id="gifExport" class="primary" data-i18n="gif_export">GIF herunterladen</button>
+    </div>
+  </div>
+</div>
+
+<div id="sicht" hidden role="dialog" aria-modal="true" aria-labelledby="siName">
+  <div class="si-kopf">
+    <div class="si-titel"><span id="siName"></span><span id="siInfo"></span></div>
+    <div class="seg" id="siFilter"><button type="button" data-f="alle" class="active"><span data-i18n="si_f_alle">Alle</span><b></b></button><button type="button" data-f="offen"><span data-i18n="si_f_offen">Unbewertet</span><b></b></button><button type="button" data-f="sterne"><span data-i18n="si_f_sterne">Mit Sternen</span><b></b></button><button type="button" data-f="gut"><span data-i18n="si_f_gut">Ohne Abgelehnte</span><b></b></button><button type="button" data-f="weg"><span data-i18n="si_f_weg">Abgelehnt</span><b></b></button></div>
+    <div class="si-rechts">
+      <span id="siZaehler"></span>
+      <button type="button" id="siUnscharf" data-i18n-title="si_unscharf_tip" title="Lehnt alle Fotos ab, die unscharf wirken und keine Sterne haben"><span data-i18n="si_unscharf_alle" data-licon="droplet">Unscharfe ablehnen</span></button>
+      <button type="button" id="siEntfernen" data-i18n-title="si_entfernen_tip" title="Nimmt abgelehnte Fotos aus der Liste. Die Dateien bleiben erhalten."><span data-i18n="si_entfernen" data-licon="trash-2">Abgelehnte entfernen</span></button>
+      <button type="button" id="siZu" class="ticon" data-i18n-title="close" title="Schließen"><i data-lucide="x"></i></button>
+    </div>
+  </div>
+  <div class="si-fortschritt"><i id="siBalken"></i></div>
+  <div class="si-buehne"><canvas id="siBild" width="1" height="1" data-i18n-title="si_zoom_tip" title="Klick ins Foto: 100 %, ziehen zum Verschieben"></canvas><div id="siMarke"></div><div id="siGitter" hidden></div><p id="siLeer" hidden data-i18n="si_leer">Kein Foto passt zum Filter.</p>
+    <button type="button" class="si-pfeil l" id="siVor" data-i18n-title="mfn_zur" title="Vorheriges Foto"><i data-lucide="chevron-left"></i></button><button type="button" class="si-pfeil r" id="siNach" data-i18n-title="mfn_vor" title="Nächstes Foto"><i data-lucide="chevron-right"></i></button></div>
+  <div class="si-leiste">
+    <div class="si-gruppe">
+      <div id="siSterne"><button type="button" data-s="1">★</button><button type="button" data-s="2">★</button><button type="button" data-s="3">★</button><button type="button" data-s="4">★</button><button type="button" data-s="5">★</button></div>
+      <button type="button" id="siAblehnen"><span data-i18n="si_ablehnen" data-licon="flag-off">Ablehnen</span><kbd>X</kbd></button>
+      <button type="button" id="siZurueck" class="si-nur-icon" disabled data-i18n-title="si_zurueck" title="Letzte Bewertung zurücknehmen (Strg+Z)"><i data-lucide="undo-2"></i></button>
+    </div>
+    <div class="si-gruppe">
+      <button type="button" id="siZoom" aria-pressed="false"><span data-i18n="si_zoom" data-licon="zoom-in">100 %</span><kbd>Z</kbd></button>
+      <button type="button" id="siPeak" aria-pressed="false"><span data-i18n="si_peak" data-licon="focus">Fokus-Peaking</span><kbd>F</kbd></button>
+      <button type="button" id="siVergleich" aria-pressed="false"><span data-i18n="si_vergleich" data-licon="columns-2">Vergleichen</span><kbd>C</kbd></button>
+      <div class="seg" id="siAnzahl" hidden><button type="button" data-n="2">2</button><button type="button" data-n="3">3</button><button type="button" data-n="4" class="active">4</button></div>
+      <button type="button" id="siAndere" hidden data-i18n-title="si_andere_tip" title="Lehnt die übrigen Fotos im Vergleich ab, außer denen mit Sternen"><span data-i18n="si_andere" data-licon="circle-x">Andere ablehnen</span></button>
+    </div>
+    <div class="si-gruppe">
+      <label class="toggle si-weiter"><span data-i18n="si_weiter">Danach weiter</span><input type="checkbox" id="siWeiter" checked></label>
+      <button type="button" id="siBearbeiten" class="primary"><span data-i18n="si_oeffnen">Bearbeiten</span><kbd>↵</kbd></button>
+    </div>
+  </div>
+  <p class="si-hilfe" data-i18n="si_hilfe">← → blättern · 1–5 Sterne · 0 löschen · Strg+Z zurücknehmen · Esc schließen</p>
+  <div id="siFilm"></div>
+</div>
+
+<div id="kbModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="kbTitelH" style="width:min(720px,94vw);max-width:720px">
+    <h2 id="kbTitelH" data-i18n="kb_titel" data-help="kb_hint">Kontaktbogen</h2>
+    <div class="kb-spalten">
+      <div class="kb-links"><canvas id="kbVorschau" width="1" height="1"></canvas><p class="hint" id="kbInfo"></p></div>
+      <div class="kb-rechts">
+        <div class="row"><label class="cap" data-i18n="kb_quelle">Fotos</label><div class="seg" id="kbQuelle"><button type="button" data-q="alle" data-i18n="si_f_alle">Alle</button><button type="button" data-q="gut" class="active" data-i18n="si_f_gut">Ohne Abgelehnte</button><button type="button" data-q="sterne" data-i18n="si_f_sterne">Mit Sternen</button><button type="button" data-q="markiert" data-i18n="kb_q_mk">Markierte</button></div></div>
+        <div class="row"><label class="cap" data-i18n="kb_papier">Papier</label><div class="seg" id="kbPapier"><button type="button" data-p="a4" class="active">A4</button><button type="button" data-p="a3">A3</button><button type="button" data-p="letter">Letter</button></div></div>
+        <div class="row"><label class="cap" data-i18n="prn_orient">Ausrichtung</label><div class="seg" id="kbLage"><button type="button" data-l="hoch" class="active" data-i18n="prn_portrait">Hoch</button><button type="button" data-l="quer" data-i18n="prn_landscape">Quer</button></div></div>
+        <div class="row"><label class="cap"><span data-i18n="kb_spalten">Spalten</span> <input type="number" class="val numbox" data-for="kbSpalten" min="2" max="10" value="5"></label><input type="range" id="kbSpalten" data-norender min="2" max="10" value="5"></div>
+        <div class="row"><label class="cap" data-i18n="kb_text">Beschriftung</label><div class="seg" id="kbText"><button type="button" data-t="keine" data-i18n="kb_t_keine">Keine</button><button type="button" data-t="name" data-i18n="kb_t_name">Dateiname</button><button type="button" data-t="exif" class="active" data-i18n="kb_t_exif">+ Aufnahmedaten</button></div></div>
+        <label class="toggle"><span data-i18n="kb_sterne">Sterne zeigen</span><input type="checkbox" id="kbSterne" checked></label>
+        <div class="row"><label class="cap" data-i18n="kb_hg">Hintergrund</label><div class="seg" id="kbHg"><button type="button" data-h="weiss" class="active" data-i18n="kb_weiss">Weiß</button><button type="button" data-h="schwarz" data-i18n="kb_schwarz">Schwarz</button></div></div>
+        <div class="row"><label class="cap" for="kbTitel" data-i18n="kb_titelfeld">Titel (optional)</label><input type="text" id="kbTitel" class="metain" maxlength="80"></div>
+        <div class="row"><label class="cap" data-i18n="prn_outfmt">Format</label><div class="seg" id="kbFmt"><button type="button" data-f="pdf" class="active">PDF</button><button type="button" data-f="png">PNG</button></div></div>
+      </div>
+    </div>
+    <div class="progbar" id="kbProg" style="display:none"><div id="kbProgBar"></div></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="kbAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="kbErstellen" class="primary" data-i18n="kb_erstellen" data-autofocus>Erstellen</button>
+    </div>
+  </div>
+</div>
+
+<div id="stModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="stTitle" style="max-width:600px">
+    <h2 id="stTitle" data-i18n="st_title" data-help="st_hint">Sternspuren</h2>
+    <p class="hint" id="stQuelle"></p>
+    <div id="stVorschauWrap"><canvas id="stVorschau" width="1" height="1"></canvas><p class="hint" id="stLeer" data-i18n="st_leer">Die Vorschau entsteht beim Stapeln.</p></div>
+    <div class="row"><label class="cap"><span data-i18n="st_komet" data-help="st_komet_tip">Kometen-Schweif</span> <input type="number" class="val numbox" data-for="stKomet" min="0" max="100" value="0"></label><input type="range" id="stKomet" data-norender min="0" max="100" value="0"></div>
+    <label class="toggle" id="stUmkehrenRow"><span data-i18n="st_umkehren">Schweif umkehren</span><input type="checkbox" id="stUmkehren"></label>
+    <label class="toggle"><span data-i18n="st_vg" data-help="st_vg_tip">Vordergrund entrauschen</span><input type="checkbox" id="stVg" checked></label>
+    <label class="toggle"><span data-i18n="st_hot" data-help="st_hot_tip">Hotpixel entfernen</span><input type="checkbox" id="stHot" checked></label>
+    <div class="row"><label class="cap"><span data-i18n="st_groesse">Größe</span></label>
+      <div class="seg" id="stGroesse"><button type="button" data-g="2400" data-i18n="st_g_std">Standard</button><button type="button" data-g="4000" class="active" data-i18n="st_g_gross">Groß</button><button type="button" data-g="6000" data-i18n="st_g_voll">Voll</button></div></div>
+    <p class="hint" id="stStatus"></p>
+    <div class="progbar" id="stProg" style="display:none"><div id="stProgBar"></div></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="stAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="stStart" data-i18n="st_start" data-autofocus>Stapeln</button>
+      <button id="stUebernehmen" class="primary" data-i18n="st_apply" disabled>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="staubModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="staubTitel" style="width:min(720px,94vw);max-width:720px">
+    <h2 id="staubTitel" data-i18n="staub_titel" data-help="staub_hint">Sensorstaub entfernen</h2>
+    <div class="seg" id="staubModus"><button type="button" data-m="staub" class="active" data-i18n="staub_m_staub">Sensorstaub</button><button type="button" data-m="kratzer" data-i18n="staub_m_kratzer">Alte Fotos: Kratzer &amp; Flecken</button></div>
+    <div id="staubWrap"><canvas id="staubVorschau" width="1" height="1"></canvas></div>
+    <p class="hint" id="staubInfo"></p>
+    <div class="row"><label class="cap"><span data-i18n="staub_empf">Empfindlichkeit</span> <input type="number" class="val numbox" data-for="staubEmpf" min="0" max="100" value="50"></label><input type="range" id="staubEmpf" data-norender min="0" max="100" value="50"></div>
+    <label class="toggle"><input type="checkbox" id="staubZeigen" checked> <span data-i18n="staub_zeigen">Staub sichtbar machen</span></label>
+    <label class="toggle" id="staubLichtRow" hidden><input type="checkbox" id="staubLicht" checked> <span data-i18n="staub_licht" data-help="staub_licht_tip">Helle Lichtpunkte schützen</span></label>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="staubAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="staubEntfernen" class="primary" data-i18n="staub_entfernen" data-autofocus>Alle entfernen</button>
+    </div>
+  </div>
+</div>
+
+<div id="koModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="koTitel" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="koTitel" data-i18n="ko_titel" data-help="ko_tip">Kolorieren (KI)</h2>
+    <div id="koVorschauWrap"><canvas id="koVorschau" width="1" height="1"></canvas><p class="hint" id="koStatus"></p></div>
+    <div class="row"><label class="cap"><span data-i18n="ko_staerke">Farbstärke</span> <input type="number" class="val numbox" data-for="koStaerke" min="0" max="150" value="100"></label><input type="range" id="koStaerke" data-norender min="0" max="150" value="100"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="koAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="koUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="zeitModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="zeitTitel" style="max-width:420px">
+    <h2 id="zeitTitel" data-i18n="zt_titel">Aufnahmezeit ändern</h2>
+    <p class="hint" data-i18n="zt_hint" style="margin-top:-4px">Die korrigierte Zeit wird in exportierte Dateien geschrieben und für Dateinamen-Muster benutzt. Die Originaldatei bleibt unberührt.</p>
+    <p class="hint" id="zeitAlt" style="margin:10px 0 6px"></p>
+    <div class="row" style="display:block"><label class="cap" for="zeitFeld" data-i18n="zt_neu">Datum und Uhrzeit</label><input type="datetime-local" id="zeitFeld" step="1" class="metain" style="width:100%;margin-top:4px"></div>
+    <p class="hint" id="zeitVersatz" role="status" style="min-height:1.4em;margin-top:6px"></p>
+    <label class="toggle" id="zeitAlleRow" hidden><input type="checkbox" id="zeitAlle"> <span id="zeitAlleText"></span></label>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="zeitZurueck" data-i18n="zt_zurueck">Zurücksetzen</button>
+      <button id="zeitAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="zeitUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="kaModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="kaTitel" style="width:min(700px,94vw);max-width:700px">
+    <h2 id="kaTitel" data-i18n="ka_titel">Instagram-Karussell</h2>
+    <div class="ex-vorschau-wrap" id="kaVorschauWrap"><canvas id="kaVorschau" width="1" height="1"></canvas></div>
+    <p class="hint" id="kaInfo" role="status" style="min-height:1.4em"></p>
+    <div class="seg" id="kaFormat"><button type="button" data-ka="45" class="active" data-i18n="ka_45">4:5 hoch</button><button type="button" data-ka="11" data-i18n="ka_11">1:1 Quadrat</button></div>
+    <div class="row" style="margin-top:8px"><label class="cap"><span data-i18n="ka_anzahl">Kacheln</span> <span class="val" data-for="kaAnzahl">3</span></label><input type="range" id="kaAnzahl" data-norender min="2" max="10" step="1" value="3"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="kaAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="kaSpeichern" class="primary" data-i18n="ka_speichern" data-autofocus>Als ZIP speichern</button>
+    </div>
+  </div>
+</div>
+
+<div id="ukModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="ukTitel" style="width:min(700px,94vw);max-width:700px">
+    <h2 id="ukTitel" data-i18n="uk_titel">Unkenntlich machen</h2>
+    <p class="hint" data-i18n="uk_hint" style="margin-top:-4px">Gesichter werden automatisch gefunden. Ein Klick auf einen Rahmen schaltet ihn ab; über Nummernschilder, Namen oder übersehene Gesichter ziehst du einen neuen Rahmen.</p>
+    <div class="ex-vorschau-wrap" id="ukVorschauWrap"><canvas id="ukVorschau" width="1" height="1"></canvas></div>
+    <p class="hint" id="ukStatus" role="status" style="min-height:1.4em"></p>
+    <div class="seg" id="ukArt"><button type="button" data-uk="pixel" class="active" data-i18n="uk_pixel">Verpixeln</button><button type="button" data-uk="weich" data-i18n="uk_weich">Weichzeichnen</button><button type="button" data-uk="balken" data-i18n="uk_balken">Schwärzen</button></div>
+    <div class="row" id="ukStaerkeRow" style="margin-top:8px"><label class="cap"><span data-i18n="uk_staerke">Stärke</span> <span class="val" data-for="ukStaerke">70</span></label><input type="range" id="ukStaerke" data-norender min="0" max="100" step="1" value="70"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="ukAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="ukUebernehmen" class="primary" data-i18n="st_apply" data-autofocus disabled>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="adModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="adTitel" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="adTitel">Filter</h2>
+    <p class="hint" id="adVon" style="margin-top:-4px"></p>
+    <div id="adVorschauWrap"><canvas id="adVorschau" width="1" height="1"></canvas></div>
+    <p class="hint" id="adStatus" role="status" style="min-height:1.4em"></p>
+    <div id="adParams"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="adAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="adUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="liModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="liTitel" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="liTitel" data-i18n="li_titel" data-help="li_hint">Objektivunschärfe</h2>
+    <div id="liVorschauWrap"><canvas id="liVorschau" width="1" height="1"></canvas><p class="hint" id="liStatus"></p></div>
+    <div class="row"><label class="cap"><span data-i18n="li_fokus" data-help="li_fokus_tip">Scharf auf</span></label>
+      <div class="seg" id="liFokus"><button type="button" data-f="motiv" class="active" data-i18n="li_motiv">Motiv</button><button type="button" data-f="punkt" data-i18n="li_punkt">Punkt im Bild</button><button type="button" data-f="band" data-i18n="li_band" data-help="li_band_tip">Miniatur</button></div></div>
+    <div class="row"><label class="cap"><span data-i18n="li_staerke">Stärke</span> <input type="number" class="val numbox" data-for="liStaerke" min="0" max="100" value="50"></label><input type="range" id="liStaerke" data-norender min="0" max="100" value="50"></div>
+    <div class="row"><label class="cap"><span data-i18n="li_tiefe" data-help="li_tiefe_tip">Schärfebereich</span> <input type="number" class="val numbox" data-for="liTiefe" min="0" max="100" value="25"></label><input type="range" id="liTiefe" data-norender min="0" max="100" value="25"></div>
+    <div class="row"><label class="cap"><span data-i18n="li_lichter" data-help="li_lichter_tip">Lichtpunkte</span> <input type="number" class="val numbox" data-for="liLichter" min="0" max="100" value="40"></label><input type="range" id="liLichter" data-norender min="0" max="100" value="40"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="liEntfernen" hidden data-i18n="li_entfernen">Unschärfe entfernen</button>
+      <button id="liAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="liUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="hiModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="hiTitle" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="hiTitle" data-i18n="hi_title" data-help="hi_hint">Himmel ersetzen</h2>
+    <div id="hiVorschauWrap"><canvas id="hiVorschau" width="1" height="1"></canvas><p class="hint" id="hiLeer" hidden data-i18n="hi_keiner">In diesem Foto wurde kein Himmel gefunden.</p></div>
+    <div class="seg hi-arten" id="hiArt"><button type="button" data-a="klar" class="active" data-i18n="hi_klar">Klar</button><button type="button" data-a="wolken" data-i18n="hi_wolken">Wolken</button><button type="button" data-a="abend" data-i18n="hi_abend">Abend</button><button type="button" data-a="drama" data-i18n="hi_drama">Dramatisch</button><button type="button" data-a="nacht" data-i18n="hi_nacht">Nacht</button><button type="button" data-a="eigen" data-i18n="hi_eigen">Eigenes Bild …</button></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_kante" data-help="hi_kante_tip">Kante</span> <input type="number" class="val numbox" data-for="hiKante" min="0" max="100" value="15"></label><input type="range" id="hiKante" data-norender min="0" max="100" value="15"></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_horizont">Himmel verschieben</span> <input type="number" class="val numbox" data-for="hiHorizont" min="-50" max="50" value="0"></label><input type="range" id="hiHorizont" data-norender min="-50" max="50" value="0"></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_groesse">Größe</span> <input type="number" class="val numbox" data-for="hiGroesse" min="100" max="250" value="100"></label><input type="range" id="hiGroesse" data-norender min="100" max="250" value="100"></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_hell">Helligkeit Himmel</span> <input type="number" class="val numbox" data-for="hiHell" min="-100" max="100" value="0"></label><input type="range" id="hiHell" data-norender min="-100" max="100" value="0"></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_angleich" data-help="hi_angleich_tip">Vordergrund angleichen</span> <input type="number" class="val numbox" data-for="hiAngleich" min="0" max="100" value="50"></label><input type="range" id="hiAngleich" data-norender min="0" max="100" value="50"></div>
+    <label class="toggle"><span data-i18n="hi_spiegeln">Himmel spiegeln</span><input type="checkbox" id="hiSpiegeln"></label>
+    <input type="file" id="hiDatei" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="hiAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="hiUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="rlModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="rlTitel" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="rlTitel" data-i18n="rl_titel" data-help="rl_hint">Licht setzen</h2>
+    <div id="rlVorschauWrap"><canvas id="rlVorschau" width="1" height="1"></canvas></div>
+    <p class="hint" id="rlStatus" data-i18n="rl_klick">Klicke in die Vorschau, wo das Licht herkommen soll.</p>
+    <div class="seg" id="rlFarbe"><button type="button" data-f="warm" class="active" data-i18n="rl_warm">Warm</button><button type="button" data-f="neutral" data-i18n="rl_neutral">Neutral</button><button type="button" data-f="kuehl" data-i18n="rl_kuehl">Kühl</button></div>
+    <div class="row"><label class="cap"><span data-i18n="db_staerke">Stärke</span> <input type="number" class="val numbox" data-for="rlStaerke" min="0" max="100" value="55"></label><input type="range" id="rlStaerke" data-norender min="0" max="100" value="55"></div>
+    <div class="row"><label class="cap"><span data-i18n="rl_umgebung" data-help="rl_umgebung_tip">Umgebungslicht</span> <input type="number" class="val numbox" data-for="rlUmgebung" min="0" max="100" value="55"></label><input type="range" id="rlUmgebung" data-norender min="0" max="100" value="55"></div>
+    <div class="row"><label class="cap"><span data-i18n="rl_hoehe" data-help="rl_hoehe_tip">Abstand der Lampe</span> <input type="number" class="val numbox" data-for="rlHoehe" min="5" max="100" value="35"></label><input type="range" id="rlHoehe" data-norender min="5" max="100" value="35"></div>
+    <div class="row"><label class="cap"><span data-i18n="fw_weich">Weichheit</span> <input type="number" class="val numbox" data-for="rlWeich" min="0" max="100" value="50"></label><input type="range" id="rlWeich" data-norender min="0" max="100" value="50"></div>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="rlAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="rlUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="dbModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dbTitel" style="width:min(660px,94vw);max-width:660px">
+    <h2 id="dbTitel" data-i18n="db_titel" data-help="db_hint">Doppelbelichtung</h2>
+    <div id="dbVorschauWrap"><canvas id="dbVorschau" width="1" height="1"></canvas><p class="hint" id="dbLeer" hidden data-i18n="db_kein_motiv">Kein Motiv erkannt – die Doppelbelichtung braucht eine Person oder ein klares Objekt.</p></div>
+    <div class="db-quellen" id="dbQuellen"></div>
+    <div class="seg" id="dbStil"><button type="button" data-s="klassisch" class="active" data-i18n="db_klassisch">Klassisch</button><button type="button" data-s="ueber" data-i18n="db_ueber">Überlagern</button><button type="button" data-s="kamera" data-i18n="db_kamera">Kamera</button></div>
+    <div class="seg" id="dbMisch" hidden><button type="button" data-m="source-over" class="active" data-i18n="db_mitteln">Mitteln</button><button type="button" data-m="lighter" data-i18n="db_addieren">Addieren</button><button type="button" data-m="lighten" data-i18n="bm_lighten">Aufhellen</button><button type="button" data-m="darken" data-i18n="bm_darken">Abdunkeln</button></div>
+    <div class="row"><label class="cap"><span data-i18n="db_staerke">Stärke</span> <input type="number" class="val numbox" data-for="dbStaerke" min="0" max="100" value="85"></label><input type="range" id="dbStaerke" data-norender min="0" max="100" value="85"></div>
+    <div class="row" id="dbHgRow"><label class="cap"><span data-i18n="db_hg">Hintergrund aufhellen</span> <input type="number" class="val numbox" data-for="dbHg" min="0" max="100" value="90"></label><input type="range" id="dbHg" data-norender min="0" max="100" value="90"></div>
+    <div class="row"><label class="cap"><span data-i18n="hi_groesse">Größe</span> <input type="number" class="val numbox" data-for="dbGroesse" min="100" max="300" value="100"></label><input type="range" id="dbGroesse" data-norender min="100" max="300" value="100"></div>
+    <div class="row"><label class="cap"><span data-i18n="db_x">Waagerecht verschieben</span> <input type="number" class="val numbox" data-for="dbX" min="-50" max="50" value="0"></label><input type="range" id="dbX" data-norender min="-50" max="50" value="0"></div>
+    <div class="row"><label class="cap"><span data-i18n="db_y">Senkrecht verschieben</span> <input type="number" class="val numbox" data-for="dbY" min="-50" max="50" value="0"></label><input type="range" id="dbY" data-norender min="-50" max="50" value="0"></div>
+    <label class="toggle"><span data-i18n="db_spiegeln">Zweites Foto spiegeln</span><input type="checkbox" id="dbSpiegeln"></label>
+    <input type="file" id="dbDatei" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="dbAbbrechen" data-i18n="cancel">Abbrechen</button>
+      <button id="dbUebernehmen" class="primary" data-i18n="st_apply" data-autofocus>Übernehmen</button>
+    </div>
+  </div>
+</div>
+
+<div id="prModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="prTitel" style="width:min(480px,94vw);max-width:480px">
+    <h2 id="prTitel" data-i18n="pr_titel" data-help="pr_hint">Softproof</h2>
+    <div class="row"><label class="cap" data-i18n="pr_profil">Druckerprofil</label></div>
+    <div class="pr-profil"><p class="hint" id="prName">–</p><button type="button" id="prLaden" data-i18n="pr_laden">Profil laden …</button></div>
+    <input type="file" id="prDatei" accept=".icc,.icm" hidden>
+    <div class="row" style="margin-top:12px"><label class="cap"><span data-i18n="pr_absicht" data-help="pr_absicht_tip">Wiedergabe</span></label>
+      <div class="seg" id="prAbsicht"><button type="button" data-a="p" class="active" data-i18n="pr_wahrn">Wahrnehmung</button><button type="button" data-a="r" data-i18n="pr_rel">Relativ</button><button type="button" data-a="a" data-i18n="pr_papier">Papierweiß</button></div></div>
+    <label class="toggle"><span data-i18n="pr_warnung" data-help="pr_warnung_tip">Farbumfang-Warnung</span><input type="checkbox" id="prWarnung"></label>
+    <p class="hint" id="prInfo"></p>
+    <div class="btnrow" style="margin-top:14px"><button id="prAus" data-i18n="pr_aus">Aus</button><button id="prAn" class="primary" data-i18n="pr_an" data-autofocus>Anzeigen</button></div>
+  </div>
+</div>
+
+<div id="colModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="colTitle" style="max-width:560px">
+    <h2 id="colTitle" data-i18n="plus_collage">Collage erstellen</h2>
+    <p class="hint" id="colHint" data-i18n="col_hint">2–9 Bilder aus dem Stapel auswählen.</p>
+    <div id="colPick" class="pickGrid"></div>
+    <div class="row"><label class="cap"><span data-i18n="col_layout">Layout</span></label>
+      <div class="seg" id="colLayout">
+        <button data-lay="grid" class="active" data-i18n="col_grid">Raster</button>
+        <button data-lay="hstrip" data-i18n="col_hstrip">Streifen ↔</button>
+        <button data-lay="vstrip" data-i18n="col_vstrip">Streifen ↕</button>
+        <button data-lay="free" data-i18n="col_free">Frei</button>
+      </div>
+    </div>
+    <div class="row"><label class="cap"><span data-i18n="col_gap">Abstand</span> <span class="val" id="colGapVal">8 px</span></label><input type="range" id="colGap" min="0" max="20" value="8"></div>
+    <div class="row"><label class="cap" for="colBg"><span data-i18n="col_bg">Hintergrund</span></label><input type="color" id="colBg" value="#ffffff" style="width:48px;height:28px;border:1px solid var(--line-2);border-radius:6px;background:none;cursor:pointer;padding:0"></div>
+    <div id="colPreviewWrap" style="display:flex;justify-content:center;margin:10px 0"><canvas id="colPreview" style="max-width:340px;max-height:280px;border-radius:8px;border:1px solid var(--line);background:var(--chk2);cursor:grab;touch-action:none"></canvas></div>
+    <div id="colThumbs" class="swrow" style="justify-content:center;gap:6px;margin:6px 0;flex-wrap:wrap"></div>
+    <div class="row" id="colItemRow" style="display:none;align-items:center;gap:8px"><label class="cap" style="flex:0 0 auto;margin:0"><span data-i18n="col_zoom">Zoom</span> <span class="val" id="colZoomVal">100%</span></label><input type="range" id="colZoom" min="50" max="250" value="100" style="flex:1"><button id="colReplace" data-i18n="col_replace">Ersetzen</button></div>
+    <input type="file" id="colReplaceInput" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+    <p class="hint" id="colEditHint" data-i18n="col_edit_hint" data-falt>Bild anklicken zum Auswählen · ziehen zum Verschieben · Mausrad zum Skalieren.</p>
+    <p class="hint" id="colStatus"></p>
+    <div class="btnrow" style="margin-top:14px">
+      <button id="colCancel" data-i18n="cancel">Abbrechen</button>
+      <button id="colApply" class="primary" data-i18n="col_apply">Collage erstellen</button>
+    </div>
+  </div>
+</div>
+
+<div id="resizeModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="rszTitle" style="max-width:380px">
+    <h2 id="rszTitle" data-i18n="rsz_title">Bildgröße ändern</h2>
+    <div class="row"><label class="cap" for="rszW" style="flex:1"><span data-i18n="rsz_width">Breite</span></label><input type="number" id="rszW" min="1" max="12000" class="numfld"><span class="numunit">px</span></div>
+    <div class="row"><label class="cap" for="rszH" style="flex:1"><span data-i18n="rsz_height">Höhe</span></label><input type="number" id="rszH" min="1" max="12000" class="numfld"><span class="numunit">px</span></div>
+    <label class="cap" style="cursor:pointer;display:flex;align-items:center;gap:6px;margin-top:4px"><input type="checkbox" id="rszLock" checked> <i data-lucide="lock"></i> <span data-i18n="rsz_lock">Seitenverhältnis sperren</span></label>
+    <p class="hint" id="rszInfo" style="margin-top:8px"></p>
+    <p class="hint" id="rszKapp" style="display:none;margin-top:4px"></p>
+    <div class="btnrow" style="margin-top:14px"><button id="rszCancel" data-i18n="cancel">Abbrechen</button><button id="rszApply" class="primary" data-i18n="rsz_apply">Anwenden</button></div>
+  </div>
+</div>
+
+<div id="canvasModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="canvTitle" style="max-width:380px">
+    <h2 id="canvTitle" data-i18n="canv_title">Leinwand vergrößern</h2>
+    <div class="row"><label class="cap" for="canvW" style="flex:1"><span data-i18n="rsz_width">Breite</span></label><input type="number" id="canvW" min="1" max="12000" class="numfld"><span class="numunit">px</span></div>
+    <div class="row"><label class="cap" for="canvH" style="flex:1"><span data-i18n="rsz_height">Höhe</span></label><input type="number" id="canvH" min="1" max="12000" class="numfld"><span class="numunit">px</span></div>
+    <div class="row" style="align-items:center"><label class="cap" for="canvColor" style="flex:1"><span data-i18n="canv_color">Rand-Farbe</span></label><input type="color" id="canvColor" value="#ffffff" style="width:44px;height:28px;border:1px solid var(--line-2);border-radius:6px;background:none;cursor:pointer;padding:0"><label class="cap" style="cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:12px"><input type="checkbox" id="canvTransp"> <span data-i18n="canv_transparent">Transparent</span></label></div>
+    <label class="toggle" style="margin-top:8px"><input type="checkbox" id="canvKI"> <span data-i18n="canv_ki">Neuen Rand per KI füllen</span></label>
+    <p class="hint" data-i18n="canv_hint" style="margin-top:8px">Das Bild bleibt zentriert, ringsum wird Rand hinzugefügt.</p>
+    <p class="hint" id="canvKapp" style="display:none;margin-top:4px"></p>
+    <div class="btnrow" style="margin-top:14px"><button id="canvCancel" data-i18n="cancel">Abbrechen</button><button id="canvApply" class="primary" data-i18n="canv_apply">Anwenden</button></div>
+  </div>
+</div>
+
+<div id="historyModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="histSnapTitle" style="max-width:420px">
+    <h2 id="histSnapTitle" data-i18n="hist_snaps">Verlauf &amp; Schnappschüsse</h2>
+    <div id="historyList" class="histlist"></div>
+    <hr class="raildiv">
+    <button id="snapAdd" class="wide" data-i18n="snap_add" data-licon="camera">＋ Schnappschuss merken</button>
+    <div id="snapList"></div>
+    <div class="btnrow" style="margin-top:14px"><button id="histClose" class="primary" data-i18n="close">Schließen</button></div>
+  </div>
+</div>
+
+<div id="fbModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="fbTitle" style="max-width:420px;position:relative">
+    <button type="button" id="fbCloseX" aria-label="Schließen" title="Schließen" data-i18n-title="close" style="position:absolute;top:8px;right:8px;width:32px;height:32px;padding:0;border:none;background:transparent;color:var(--muted);border-radius:8px;display:flex;align-items:center;justify-content:center"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+    <h2 id="fbTitle" data-i18n="fb_title">Feedback</h2>
+    <textarea id="fbMsg" data-i18n-aria="fb_ph" rows="4" style="width:100%;box-sizing:border-box;resize:none" data-i18n-ph="fb_ph" placeholder="Was denkst du? Bugs, Wünsche, Lob…"></textarea>
+    <input id="fbEmail" data-i18n-aria="fb_email_ph" type="email" autocomplete="email" style="width:100%;box-sizing:border-box;margin-top:8px" data-i18n-ph="fb_email_ph" placeholder="Deine E-Mail (optional)">
+    <label class="cap fb-tech"><input type="checkbox" id="fbTech" class="schalter"> <span data-i18n="fb_tech">Technische Details anhängen</span></label>
+    <details id="fbTechBox"><summary data-i18n="fb_tech_zeigen">Was wird gesendet?</summary><pre id="fbTechText"></pre></details>
+    <div id="fbHint" style="display:none;margin-top:8px;font-size:13px"></div>
+    <div class="btnrow" style="margin-top:12px"><button id="fbSend" class="primary wide" data-i18n="fb_send">Senden</button></div>
+  </div>
+</div>
+
+<div id="kofiModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="kofiModalTitle" style="max-width:360px;text-align:center">
+    <div aria-hidden="true" style="font-size:38px;line-height:1;margin-bottom:6px"><i data-lucide="heart"></i></div>
+    <h2 id="kofiModalTitle" data-i18n="kofi_modal_title" style="margin:0">Gefällt dir VEYNO?</h2>
+    <p data-i18n="kofi_modal_text" style="color:var(--muted);margin:8px 0 0;font-size:14px;line-height:1.45">Unterstütze die Entwicklung mit einer kleinen Spende.</p>
+    <label class="cap" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer;margin:16px 0 0;font-size:12px;color:var(--muted)"><input type="checkbox" id="kofiModalNever"> <span data-i18n="kofi_modal_never">Diese Meldung nicht mehr anzeigen</span></label>
+    <div class="btnrow" style="margin-top:14px;justify-content:center;gap:8px"><button id="kofiModalGo" class="primary" data-i18n="kofi_modal_go">Jetzt spenden</button><button id="kofiModalNo" data-i18n="kofi_modal_no">Nein danke</button></div>
+  </div>
+</div>
+
+<div id="settingsModal" class="modal">
+  <div class="dialog" id="settingsDialog" role="dialog" aria-modal="true" data-i18n-aria="settings" aria-label="Einstellungen"></div>
+</div>
+<div id="pcHintModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="pcHintTitle">
+  <div class="dialog" style="max-width:380px">
+    <h2 id="pcHintTitle" data-i18n="pc_hint_title">VEYNO läuft am PC besser</h2>
+    <p id="pcHintBody" data-i18n="pc_hint_body" style="font-size:13px;line-height:1.55;color:var(--text);margin:0 0 16px">VEYNO ist ein vollwertiger Foto-Editor mit Masken, Kurven, Retusche und KI-Werkzeugen. Die Mobile-Version ist bewusst auf die wichtigsten 10 Werkzeuge reduziert. Für feine Retusche, mehrlagiges Arbeiten oder große Exporte öffne VEYNO auf einem Desktop/Laptop unter <strong>veyno.art</strong>.</p>
+    <div style="display:flex;justify-content:flex-end;gap:8px"><button type="button" id="pcHintOk" class="primary" data-i18n="pc_hint_ok">Verstanden</button></div>
+  </div>
+</div>
+<div id="syncModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="syncTitle" style="max-width:400px">
+    <h2 id="syncTitle" data-i18n="sync_title">Einstellungen übertragen</h2>
+    <p class="hint" data-i18n="sync_hint" style="margin:0 0 12px" data-falt>Wähle, welche Kategorien vom aktuellen Bild auf alle anderen Bilder im Stapel übertragen werden.</p>
+    <div id="syncCats" style="display:flex;flex-direction:column;gap:9px">
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="light" checked> <span data-i18n="sync_light">Licht &amp; Farbe</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="curve" checked> <span data-i18n="sync_curve">Gradationskurve</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="grade" checked> <span data-i18n="sync_grade">Color Grading</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="detail" checked> <span data-i18n="sync_detail">Detail</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="effects" checked> <span data-i18n="sync_effects">Effekte</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="lens" checked> <span data-i18n="sync_lens">Objektiv</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="lut" checked> <span data-i18n="sync_lut">LUT</span></label>
+      <label class="cap" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;margin:0"><input type="checkbox" data-cat="masks" checked> <span data-i18n="sync_masks">Masken</span></label>
+    </div>
+    <div class="btnrow" style="margin-top:16px"><button id="syncCancel" data-i18n="cancel">Abbrechen</button><button id="syncApply" class="primary" data-i18n="sync_apply">Auf alle anwenden</button></div>
+  </div>
+</div>
+<div id="confirmModal" class="modal">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirmMsg" style="max-width:340px">
+    <h2 id="confirmMsg" style="font-size:15px;font-weight:600">…</h2>
+    <div class="btnrow" style="margin-top:16px"><button id="confirmNo" data-i18n="cancel">Abbrechen</button><button id="confirmYes" class="primary" data-i18n="confirm_yes">Ja</button></div>
+  </div>
+</div>
+
+<script>

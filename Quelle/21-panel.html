@@ -1,0 +1,1059 @@
+  <aside>
+    <div id="mobToolHeader" aria-hidden="true">
+      <div class="mt-l">
+        <span class="mt-ic" id="mtIcon" aria-hidden="true"></span>
+        <span class="mt-name" id="mtName"></span>
+      </div>
+      <div class="mt-r">
+        <button id="mtReset" type="button" class="mt-btn" data-i18n-title="reset_all" title="Alle Einstellungen zurücksetzen" aria-label="Zurücksetzen"><i data-lucide="rotate-ccw"></i></button>
+        <button id="mtDone" type="button" class="mt-btn mt-primary" data-i18n="done">Fertig</button>
+      </div>
+    </div>
+    <div class="card" id="histCard">
+      <div class="cardhead">
+        <h2 data-i18n="hist" id="histTitle" style="flex:1">Histogramm</h2>
+        <button type="button" id="histArtBtn" class="hist-art">Histogramm</button>
+      </div>
+      <div id="histMenu" style="display:none">
+        <label class="toggle" id="clipWarnRow" style="margin:0" title="Lichter rot · Schatten blau (Taste J)" data-i18n-title="clipWarnTitle"><input type="checkbox" id="clipWarn"><span data-i18n="clipWarn">Beschneidung warnen</span><kbd style="margin-left:auto">J</kbd></label>
+      </div>
+      <canvas id="hist" width="256" height="84" role="img" aria-labelledby="histTitle"></canvas>
+      <div class="seg" id="adjSubNav">
+        <button class="active" data-sub="adjCard" data-ic="sun" data-i18n-title="lightcolor" title="Licht & Farbe"></button>
+        <button data-sub="wbCard" data-ic="wb" data-i18n-title="wb_title" title="Weißabgleich"></button>
+        <button data-sub="hslCard" data-ic="mix" data-i18n-title="hsl" title="Farbmixer (HSL)"></button>
+        <button data-sub="curveCard" data-ic="curve" data-i18n-title="curve" title="Gradationskurve"></button>
+        <button data-sub="farbkreisCard" data-ic="colorwheel" data-i18n-title="fk_titel" title="Farbkreis"></button>
+        <button data-sub="gradeCard" data-ic="grade" data-i18n-title="grade" title="Color Grading"></button>
+        <button id="adjMoreBtn" data-i18n-title="more" title="Mehr" aria-expanded="false"><span class="ri" data-ic="adjmore"></span></button>
+      </div>
+      <div id="adjMorePop">
+        <button data-sub="chmixCard"><i data-lucide="vy-rgb"></i> <span data-i18n="chmix">Kanal-Mixer</span></button>
+        <button data-sub="kalibCard"><i data-lucide="sliders-horizontal"></i> <span data-i18n="kalib">Kalibrierung</span></button>
+      </div>
+      <div id="maskBanner" class="maskBanner" role="status">
+        <span class="mb-ic" aria-hidden="true"><i data-lucide="vy-mask"></i></span>
+        <span class="mb-txt" id="maskBannerTxt"></span>
+        <button type="button" class="mb-off" id="maskBannerOff" data-i18n="mb_off" data-i18n-title="mb_offTitle" title="Maske aufheben, wieder das Gesamtbild bearbeiten">Aufheben</button>
+      </div>
+      <div id="targetLabel" class="tgtLabel" style="display:none"></div>
+    </div>
+
+    <div class="card" id="masksCard" data-group="mask">
+      <h2 data-i18n="masks">Masken</h2>
+      <div class="targetRow sel" id="globalRow" data-id="global">
+        <span class="nm" role="button" tabindex="0" data-taste data-i18n="global">Gesamtbild</span><span class="ty">global</span>
+      </div>
+      <div class="sectlabel" id="aiMaskLabel" style="margin-top:12px"><span data-i18n="ai_masks">KI-Masken</span></div>
+      <div class="repgrid dicht two" id="aiMaskRow">
+        <button id="aiPerson"><i data-lucide="user-round"></i> <span data-i18n="ai_person">Person</span></button>
+        <button id="aiSky"><i data-lucide="cloud"></i> <span data-i18n="ai_sky">Himmel</span></button>
+        <button id="aiBg"><i data-lucide="sprout"></i> <span data-i18n="ai_bg">Hintergrund</span></button>
+        <button id="aiTiefe"><i data-lucide="mountain"></i> <span data-i18n="ai_tiefe">Tiefe</span></button>
+      </div>
+      <div class="sectlabel" id="gmLabel"><span data-i18n="gm_titel" data-help="gm_hint">Gesicht</span></div>
+      <div class="repgrid dicht zeile" id="gmRow">
+        <button type="button" data-gm="haut"><i data-lucide="scan-face"></i><span data-i18n="gm_haut">Haut</span></button>
+        <button type="button" data-gm="augen"><i data-lucide="eye"></i><span data-i18n="gm_augen">Augen</span></button>
+        <button type="button" data-gm="iris"><i data-lucide="aperture"></i><span data-i18n="gm_iris">Iris</span></button>
+        <button type="button" data-gm="lippen"><i data-lucide="smile"></i><span data-i18n="gm_lippen">Lippen</span></button>
+        <button type="button" data-gm="zaehne"><i data-lucide="smile-plus"></i><span data-i18n="gm_zaehne">Zähne</span></button>
+        <button type="button" data-gm="brauen"><i data-lucide="spline"></i><span data-i18n="gm_brauen">Brauen</span></button>
+      </div>
+      <div class="sectlabel" id="maskDiv1"><span data-i18n="mask_manual">Von Hand</span></div>
+      <div class="repgrid five" id="maskTypeGrid">
+        <button data-add="brush" data-i18n-title="addBrush" title="+ Pinsel"><i data-lucide="brush"></i><span data-i18n="ty_brush">Pinsel</span></button>
+        <button data-add="radial" data-i18n-title="addRadial" title="+ Radial"><i data-lucide="circle"></i><span data-i18n="ty_radial">Radial</span></button>
+        <button data-add="linear" data-i18n-title="addLinear" title="+ Verlauf"><i data-lucide="move-vertical"></i><span data-i18n="ty_linear">Verlauf</span></button>
+        <button data-add="range" data-i18n-title="addRange" title="+ Bereich"><i data-lucide="sliders-horizontal"></i><span data-i18n="ty_range">Bereich</span></button>
+        <button data-add="lasso" data-i18n-title="addLasso" title="+ Lasso"><i data-lucide="lasso"></i><span data-i18n="ty_lasso">Lasso</span></button>
+      </div>
+      <p class="subhint info-line" id="maskLassoHint" hidden><i data-lucide="info"></i><span><span data-i18n="mlasso_hint">Entlang der Kante klicken, die Linie rastet ein. Schließen: Startpunkt antippen, Doppelklick oder Enter. Rücktaste nimmt einen Punkt zurück.</span> <button type="button" id="maskLassoAb" data-i18n="mlasso_ab">Abbrechen</button></span></p>
+      <p class="subhint info-line" id="maskLeer"><i data-lucide="info"></i><span data-i18n="mask_leer">Eine Maske begrenzt deine Änderungen auf einen Bereich, etwa nur den Himmel. Wähle oben eine KI-Maske oder lege eine von Hand an.</span></p>
+      <div id="maskList"></div>
+    </div>
+
+    <div class="card" id="maskCard" data-group="mask">
+      <h2 data-i18n="mask">Maske</h2>
+      <div class="mk-iconbar" id="maskIconBar" role="toolbar" data-i18n-aria="mask">
+        <button type="button" class="mk-ib" id="mkInvert" data-i18n-title="maskInvert" title="Maske umkehren" aria-pressed="false"><svg class="mk-invert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="12" r="4.5"/><path d="M12 3H6a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h6v-4.5a4.5 4.5 0 0 1 0-9Z" fill="currentColor" stroke="none"/><path d="M12 7.5a4.5 4.5 0 0 1 0 9Z" fill="currentColor" stroke="none"/><path d="M12 3v18"/></svg><span class="mk-lbl" data-i18n="maskInvert">Maske umkehren</span></button>
+        <span class="mk-sep mk-brushonly"></span>
+        <span class="mk-grp mk-brushonly">
+          <button type="button" class="mk-ib" id="mkPaint" data-i18n-title="paint" title="Malen" aria-pressed="true"><i data-lucide="brush"></i></button>
+          <button type="button" class="mk-ib" id="mkErase" data-i18n-title="erase" title="Radieren" aria-pressed="false"><i data-lucide="eraser"></i></button>
+        </span>
+        <button type="button" class="mk-ib mk-brushonly" id="mkEdge" data-i18n-title="brush_edge" title="An Kanten schmiegen" aria-pressed="false"><i data-lucide="magnet"></i></button>
+        <span class="mk-sep mk-brushonly"></span>
+        <button type="button" class="mk-ib mk-brushonly" id="mkFill" data-i18n-title="fill" title="Alles"><i data-lucide="paint-bucket"></i></button>
+        <button type="button" class="mk-ib mk-brushonly" id="mkClear" data-i18n-title="clearMask" title="Leeren"><i data-lucide="trash-2"></i></button>
+      </div>
+      <label class="toggle mk-alt"><input type="checkbox" id="maskInvert"><span data-i18n="maskInvert">Maske umkehren</span></label>
+      <div class="mk-ov-zeile mk-alt mk-alt-ov"><label class="toggle" style="margin:0"><input type="checkbox" id="maskOverlay" checked><span data-i18n="maskOverlay">Maske farbig anzeigen</span></label><span class="mk-ovf" id="ovFarbe" role="radiogroup" data-i18n-aria="ovf_titel" aria-label="Overlay-Farbe"><button type="button" data-f="rot" data-i18n-title="ovf_rot" title="Overlay-Farbe: Rot" style="--f:#eb465a"></button><button type="button" data-f="gruen" data-i18n-title="ovf_gruen" title="Overlay-Farbe: Grün" style="--f:#3cc85a"></button><button type="button" data-f="blau" data-i18n-title="ovf_blau" title="Overlay-Farbe: Blau" style="--f:#3c82f0"></button><button type="button" data-f="weiss" data-i18n-title="ovf_weiss" title="Overlay-Farbe: Weiß" style="--f:#f5f5f5"></button></span></div>
+      <div id="brushTools">
+        <div class="row" style="margin-top:12px"><label class="cap"><span data-i18n="brushSize">Pinselgröße</span> <input type="number" class="val numbox" data-for="brushSize" min="2" max="400" value="80"></label><input type="range" id="brushSize" data-norender min="2" max="400" value="80"></div>
+        <div class="row"><label class="cap"><span data-i18n="hardness">Härte</span> <input type="number" class="val numbox" data-for="brushHardness" min="0" max="100" value="60"></label><input type="range" id="brushHardness" data-norender min="0" max="100" value="60"></div>
+        <div class="row"><label class="cap"><span data-i18n="fluss" data-help="fluss_tip">Fluss</span> <input type="number" class="val numbox" data-for="brushFluss" min="1" max="100" value="100"></label><input type="range" id="brushFluss" data-norender min="1" max="100" value="100"></div>
+        <div class="row"><label class="cap"><span data-i18n="druckZiel" data-help="druckZiel_tip">Stiftdruck</span></label><div class="seg" id="brushDruck"><button data-dz="groesse" class="active" data-i18n="dz_groesse">Größe</button><button data-dz="fluss" data-i18n="dz_fluss">Fluss</button><button data-dz="beides" data-i18n="dz_beides">Beides</button></div></div>
+        <div class="row mk-alt"><div class="seg">
+          <button id="brushAdd" class="active" data-brush="add" data-i18n="paint">Malen</button>
+          <button id="brushErase" data-brush="erase" data-i18n="erase">Radieren</button>
+        </div></div>
+        <label class="toggle mk-alt" style="margin-top:8px"><input type="checkbox" id="brushEdge"><span data-i18n="brush_edge">An Kanten schmiegen</span></label>
+        <div class="row" id="brushKanteRow" hidden><label class="cap"><span data-i18n="kante_tol" data-help="kante_tol_tip">Kantentoleranz</span> <input type="number" class="val numbox" data-for="brushKante" min="5" max="150" value="46"></label><input type="range" id="brushKante" data-norender min="5" max="150" value="46"></div>
+        <div class="btnrow mk-alt" style="margin-top:6px"><button id="maskFill" data-i18n="fill">Alles</button><button id="maskClear" data-i18n="clearMask">Leeren</button></div>
+      </div>
+      <div id="maskLage" hidden><div class="sectlabel"><span data-i18n="ml_lage">Lage</span></div>
+        <div class="ml-raster" id="mlRadial"><label><span data-i18n="ml_x"></span><input type="number" class="numbox" id="mlCx" min="0" max="100" step="0.1"></label><label><span data-i18n="ml_y"></span><input type="number" class="numbox" id="mlCy" min="0" max="100" step="0.1"></label><label><span data-i18n="ml_b"></span><input type="number" class="numbox" id="mlRx" min="2" max="200" step="0.1"></label><label><span data-i18n="ml_h"></span><input type="number" class="numbox" id="mlRy" min="2" max="200" step="0.1"></label><label><span data-i18n="ml_rot"></span><input type="number" class="numbox" id="mlRot" min="-180" max="180" step="0.1"></label></div>
+        <div class="ml-raster" id="mlLinear" hidden><label><span data-i18n="ml_x1"></span><input type="number" class="numbox" id="mlX1" min="-100" max="200" step="0.1"></label><label><span data-i18n="ml_y1"></span><input type="number" class="numbox" id="mlY1" min="-100" max="200" step="0.1"></label><label><span data-i18n="ml_x2"></span><input type="number" class="numbox" id="mlX2" min="-100" max="200" step="0.1"></label><label><span data-i18n="ml_y2"></span><input type="number" class="numbox" id="mlY2" min="-100" max="200" step="0.1"></label></div>
+      </div>
+      <div id="featherTools">
+        <div class="row" style="margin-top:12px"><label class="cap"><span data-i18n="feather">Weiche Kante</span> <input type="number" class="val numbox" data-for="feather" min="0" max="100" value="50"></label><input type="range" id="feather" min="0" max="100" value="50"></div>
+      </div>
+      <div id="rangeTools">
+        <div class="row" style="margin-top:12px"><div class="seg">
+          <button id="rgLumBtn" class="active" data-rmode="lum" data-i18n="rg_lum">Luminanz</button>
+          <button id="rgColorBtn" data-rmode="color" data-i18n="rg_color">Farbe</button>
+          <button id="rgTiefeBtn" data-rmode="tiefe" data-i18n="rg_tiefe">Tiefe</button>
+        </div></div>
+        <div id="rgLumTools">
+          <p class="hint" id="rgTiefeHint" data-i18n="rg_tiefe_hint" hidden>0 = weit weg, 255 = ganz nah.</p>
+          <div class="row"><label class="cap"><span data-i18n="rg_lo">Von</span> <input type="number" class="val numbox" data-for="rgLo" min="0" max="255" value="0"></label><input type="range" id="rgLo" min="0" max="255" value="0"></div>
+          <div class="row"><label class="cap"><span data-i18n="rg_hi">Bis</span> <input type="number" class="val numbox" data-for="rgHi" min="0" max="255" value="128"></label><input type="range" id="rgHi" min="0" max="255" value="128"></div>
+        </div>
+        <div id="rgColorTools">
+          <div class="row" style="display:flex;gap:8px;align-items:center;margin-top:12px">
+            <input type="color" id="rgColorPick" value="#808080" data-i18n-aria="rg_color">
+            <button id="rgEyedrop" style="flex:1;justify-content:center" data-i18n="rg_pick" data-licon="pipette">Aus Bild wählen</button>
+          </div>
+          <label class="toggle" style="margin-top:8px"><input type="checkbox" id="rgNurFarbe"><span data-i18n="rg_nurFarbe" data-help="rg_nurFarbe_tip">Helligkeit ignorieren</span></label>
+          <div class="row"><label class="cap"><span data-i18n="rg_tol">Toleranz</span> <input type="number" class="val numbox" data-for="rgTol" min="1" max="200" value="60"></label><input type="range" id="rgTol" min="1" max="200" value="60"></div>
+        </div>
+        <div class="row"><label class="cap"><span data-i18n="rg_smooth">Weiche Kante</span> <input type="number" class="val numbox" data-for="rgSmooth" min="1" max="120" value="25"></label><input type="range" id="rgSmooth" min="1" max="120" value="25"></div>
+      </div>
+    </div>
+
+    <div class="card" id="adjCard" data-group="adjust">
+      <h2 id="adjTitle" data-i18n="lightcolor">Licht & Farbe</h2>
+      <button id="autoBtn" class="wide" disabled style="margin-bottom:11px" data-i18n-title="tip_auto" title="Automatisch verbessern"><span data-i18n="auto" data-help="auto" data-licon="vy-auto">Auto</span></button>
+      <div class="row" id="profilRow"><label class="cap" for="profilWahl"><span data-i18n="pf_titel" data-help="pf_tip">Profil</span></label>
+        <select id="profilWahl"><option value="standard" data-i18n="pf_standard">Standard</option><option value="neutral" data-i18n="pf_neutral">Neutral</option><option value="lebhaft" data-i18n="pf_lebhaft">Lebhaft</option><option value="landschaft" data-i18n="pf_landschaft">Landschaft</option><option value="portraet" data-i18n="pf_portraet">Porträt</option><option value="mono" data-i18n="pf_mono">Monochrom</option><option value="kamera" data-i18n="pf_kamera">Wie Kamera (RAW)</option></select></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="exposure">Belichtung</span> <input type="number" class="val numbox" data-for="exposure" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="exposure" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="brightness">Helligkeit</span> <input type="number" class="val numbox" data-for="brightness" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="brightness" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="contrast">Kontrast</span> <input type="number" class="val numbox" data-for="contrast" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="contrast" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="highlights">Lichter</span> <input type="number" class="val numbox" data-for="highlights" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="highlights" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="shadows">Schatten</span> <input type="number" class="val numbox" data-for="shadows" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="shadows" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="whites">Weiß</span> <input type="number" class="val numbox" data-for="whites" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="whites" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="blacks">Schwarz</span> <input type="number" class="val numbox" data-for="blacks" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="blacks" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="saturation">Sättigung</span> <input type="number" class="val numbox" data-for="saturation" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="saturation" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="vibrance">Dynamik</span> <input type="number" class="val numbox" data-for="vibrance" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="vibrance" min="-100" max="100" step="0.1" value="0"></div>
+    </div>
+
+    <div class="card" id="wbCard" data-group="adjust">
+      <h2 data-i18n="wb_title">Weißabgleich</h2>
+      <div id="wbPresets" class="repgrid wbtiles"><button id="wbAutoBtn" type="button" data-i18n-title="wb_auto" title="Auto-WB"><i data-lucide="vy-auto"></i><span data-i18n="wb_auto_s">Auto</span></button></div>
+      <div class="row" data-simple="1"><label class="cap"><span data-i18n="temperature">Temperatur</span> <input type="number" class="val numbox" data-for="temperature" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="temperature" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="tint">Tönung</span> <input type="number" class="val numbox" data-for="tint" min="-100" max="100" step="0.1" value="0"></label><input type="range" id="tint" min="-100" max="100" step="0.1" value="0"></div>
+      <div class="row" id="kelvinRow" hidden><label class="cap" for="kelvinFeld"><span data-i18n="kelvin_titel" data-help="kelvin_tip">Kelvin (RAW)</span> <input type="number" class="numbox" id="kelvinFeld" min="1800" max="20000" step="50" style="width:72px"></label></div>
+      <button id="wbPickBtn" type="button" class="wide" style="margin-top:4px" data-i18n-title="wb_pick" title="Weißabgleich-Pipette"><span class="ri" data-ic="dropper"></span> <span data-i18n="wb_pick_s" data-help="wb_pick">Pipette</span></button>
+    </div>
+
+    <div class="card" id="hslCard" data-group="adjust">
+      <h2 data-i18n="hsl">Farbmixer (HSL)</h2>
+      <div class="hsl-farben" id="hslFarben" role="radiogroup" data-i18n-aria="hsl_farbe" aria-label="Farbe"></div>
+      <button id="hslPick" type="button" class="wide" style="margin-top:8px"><span class="ri" data-ic="dropper"></span> <span data-i18n="hsl_pick">Farbe wählen</span></button>
+      <div id="hslSliders" style="margin-top:11px"></div>
+      <div id="punktBox">
+        <div class="sectlabel"><span data-i18n="pk_titel" data-help="pk_hint">Punktfarbe</span></div>
+        <div id="punktListe"></div>
+        <button id="punktPick" type="button" class="wide" style="margin-top:6px"><span class="ri" data-ic="dropper"></span> <span data-i18n="pk_pick">Farbe im Bild anpicken</span></button>
+        <div id="punktRegler" hidden>
+        <div class="row"><label class="cap"><span data-i18n="pk_farbton">Farbton</span> <input type="number" class="val numbox" data-for="pkH" min="-60" max="60" value="0"></label><input type="range" id="pkH" min="-60" max="60" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="pk_saett">Sättigung</span> <input type="number" class="val numbox" data-for="pkS" min="-100" max="100" value="0"></label><input type="range" id="pkS" min="-100" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="pk_hell">Helligkeit</span> <input type="number" class="val numbox" data-for="pkL" min="-100" max="100" value="0"></label><input type="range" id="pkL" min="-100" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="pk_bereich">Bereich</span> <input type="number" class="val numbox" data-for="pkB" min="5" max="90" value="30"></label><input type="range" id="pkB" min="5" max="90" value="30"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="detailsCard" data-group="effects">
+      <h2 data-i18n="tab_effects">Effekte</h2>
+      <div class="row"><label class="cap"><span data-i18n="clarity">Klarheit</span> <input type="number" class="val numbox" data-for="clarity" min="-100" max="100" value="0"></label><input type="range" id="clarity" min="-100" max="100" value="0"></div>
+      <div class="row" id="klarRadiusRow" hidden><label class="cap"><span data-i18n="klarRadius" data-help="klarRadius_tip">Radius</span> <input type="number" class="val numbox" data-for="klarRadius" min="0.3" max="3" step="0.1" value="1"></label><input type="range" id="klarRadius" min="0.3" max="3" step="0.1" value="1"></div>
+      <div class="row"><label class="cap"><span data-i18n="texture">Textur</span> <input type="number" class="val numbox" data-for="texture" min="-100" max="100" value="0"></label><input type="range" id="texture" min="-100" max="100" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="dehaze">Dunst entfernen</span> <input type="number" class="val numbox" data-for="dehaze" min="-100" max="100" value="0"></label><input type="range" id="dehaze" min="-100" max="100" value="0"></div>
+      <div class="sectlabel"><span data-i18n="eff_schaerfe">Schärfe</span></div>
+      <div class="row"><label class="cap"><span data-i18n="sharpen">Schärfe</span> <input type="number" class="val numbox" data-for="sharpen" min="0" max="100" value="0"></label><input type="range" id="sharpen" min="0" max="100" value="0"></div>
+      <div class="row" id="scharfMaskeRow" hidden><label class="cap"><span data-i18n="scharfMaske" data-help="scharfMaske_tip">Maskieren</span> <input type="number" class="val numbox" data-for="scharfMaske" min="0" max="100" value="0"></label><input type="range" id="scharfMaske" min="0" max="100" value="0"></div>
+      <div class="row" id="scharfRadiusRow" hidden><label class="cap"><span data-i18n="scharfRadius" data-help="scharfRadius_tip">Radius</span> <input type="number" class="val numbox" data-for="scharfRadius" min="1" max="3" step="0.1" value="1"></label><input type="range" id="scharfRadius" min="1" max="3" step="0.1" value="1"></div>
+      <div class="row" id="scharfDetailRow" hidden><label class="cap"><span data-i18n="scharfDetail" data-help="scharfDetail_tip">Details</span> <input type="number" class="val numbox" data-for="scharfDetail" min="0" max="100" value="25"></label><input type="range" id="scharfDetail" min="0" max="100" value="25"></div>
+      <div class="row"><label class="cap"><span data-i18n="blur">Weichzeichnen</span> <input type="number" class="val numbox" data-for="blur" min="0" max="30" value="0"></label><input type="range" id="blur" min="0" max="30" value="0"></div>
+      <div class="sectlabel"><span data-i18n="eff_kornvig">Korn und Vignette</span></div>
+      <div class="row" id="grainRow"><label class="cap"><span data-i18n="grain">Filmkorn</span> <input type="number" class="val numbox" data-for="grain" min="0" max="100" value="0"></label><input type="range" id="grain" min="0" max="100" value="0"></div>
+      <div class="row" id="kornGroesseRow" hidden><label class="cap"><span data-i18n="korn_groesse" data-help="korn_groesse_tip">Korngröße</span> <input type="number" class="val numbox" data-for="kornGroesse" min="0" max="100" value="0"></label><input type="range" id="kornGroesse" min="0" max="100" value="0"></div>
+      <div class="row" id="kornRauRow" hidden><label class="cap"><span data-i18n="korn_rau" data-help="korn_rau_tip">Rauheit</span> <input type="number" class="val numbox" data-for="kornRau" min="0" max="100" value="50"></label><input type="range" id="kornRau" min="0" max="100" value="50"></div>
+      <div class="row" id="vignetteRow"><label class="cap"><span data-i18n="vignette">Vignette</span> <input type="number" class="val numbox" data-for="vignette" min="-100" max="100" value="0"></label><input type="range" id="vignette" min="-100" max="100" value="0"></div>
+      <div class="row vig-form" id="vigMitteRow" hidden><label class="cap"><span data-i18n="vig_mitte" data-help="vig_mitte_tip">Mittelpunkt</span> <input type="number" class="val numbox" data-for="vigMitte" min="0" max="100" value="50"></label><input type="range" id="vigMitte" min="0" max="100" value="50"></div>
+      <div class="row vig-form" id="vigRundRow" hidden><label class="cap"><span data-i18n="vig_rund" data-help="vig_rund_tip">Rundheit</span> <input type="number" class="val numbox" data-for="vigRund" min="-100" max="100" value="0"></label><input type="range" id="vigRund" min="-100" max="100" value="0"></div>
+      <div class="row vig-form" id="vigWeichRow" hidden><label class="cap"><span data-i18n="vig_weich" data-help="vig_weich_tip">Weiche Kante</span> <input type="number" class="val numbox" data-for="vigWeich" min="0" max="100" value="50"></label><input type="range" id="vigWeich" min="0" max="100" value="50"></div>
+      <div class="row vig-form" id="vigLichtRow" hidden><label class="cap"><span data-i18n="vig_licht" data-help="vig_licht_tip">Lichter schützen</span> <input type="number" class="val numbox" data-for="vigLicht" min="0" max="100" value="0"></label><input type="range" id="vigLicht" min="0" max="100" value="0"></div>
+      <div class="sectlabel"><span data-i18n="nr_section">Rauschreduzierung</span></div>
+      <div class="seg" id="nrModeSeg" style="margin:6px 0 10px"><button id="nrManualBtn" class="active" data-i18n="nr_manual">Manuell</button><button id="nrAIBtn" data-help="nr_ai_hint" data-i18n="nr_ai" data-licon="brain-circuit">KI</button></div>
+      <div id="nrManualCtl">
+        <div class="row"><label class="cap"><span data-i18n="noiseLum">Rauschen Luminanz</span> <input type="number" class="val numbox" data-for="noiseLum" min="0" max="100" value="0"></label><input type="range" id="noiseLum" min="0" max="100" value="0"></div>
+      <div class="row" id="rauschDetailRow" hidden><label class="cap"><span data-i18n="rauschDetail" data-help="rauschDetail_tip">Detail</span> <input type="number" class="val numbox" data-for="rauschDetail" min="0" max="100" value="50"></label><input type="range" id="rauschDetail" min="0" max="100" value="50"></div>
+        <div class="row"><label class="cap"><span data-i18n="noiseColor">Rauschen Farbe</span> <input type="number" class="val numbox" data-for="noiseColor" min="0" max="100" value="0"></label><input type="range" id="noiseColor" min="0" max="100" value="0"></div>
+      <div class="row" id="farbDetailRow" hidden><label class="cap"><span data-i18n="farbDetail" data-help="farbDetail_tip">Farbdetail</span> <input type="number" class="val numbox" data-for="farbDetail" min="0" max="100" value="0"></label><input type="range" id="farbDetail" min="0" max="100" value="0"></div>
+      <div class="row" id="farbGlattRow" hidden><label class="cap"><span data-i18n="farbGlatt" data-help="farbGlatt_tip">Glättung</span> <input type="number" class="val numbox" data-for="farbGlatt" min="0" max="100" value="0"></label><input type="range" id="farbGlatt" min="0" max="100" value="0"></div>
+      </div>
+      <div id="nrAICtl" style="display:none">
+        <div class="row"><label class="cap"><span data-i18n="nr_strength">Stärke</span> <input type="number" class="val numbox" data-for="aiDenoiseAmt" min="0" max="100" value="60"></label><input type="range" id="aiDenoiseAmt" data-norender min="0" max="100" value="60"></div>
+        <button id="aiDenoiseApply" class="primary wide" data-i18n="nr_apply">Anwenden</button>
+        <p class="subhint info-line" id="aiDenoiseMissing" style="display:none"><i data-lucide="alert-triangle"></i><span data-i18n="nr_unavailable">KI-Rauschreduzierung nicht verfügbar. Modell (denoise.onnx) nicht installiert.</span></p>
+      </div>
+      <div class="sectlabel"><span data-i18n="fx_tone">Tonung</span></div>
+      <div class="repgrid two fxtoggles">
+        <button type="button" data-filter="sepia" aria-pressed="false"><i data-lucide="coffee"></i><span data-i18n="sepia">Sepia</span></button>
+        <button type="button" data-filter="invert" aria-pressed="false"><i data-lucide="contrast"></i><span data-i18n="negativ">Negativ</span></button>
+      </div>
+    </div>
+
+
+    <div class="card" id="tiefeCard" data-group="effects">
+      <h2 data-i18n="tl_titel" data-help="tl_hint">Nach Tiefe</h2>
+      <div class="repgrid dicht two" id="tiefeGrid">
+        <button data-tl="nebel"><i data-lucide="cloud-fog"></i><span data-i18n="tl_nebel">Nebel</span></button>
+        <button data-tl="dunst"><i data-lucide="haze"></i><span data-i18n="tl_dunst">Dunst in der Ferne</span></button>
+        <button data-tl="licht"><i data-lucide="sun-medium"></i><span data-i18n="tl_licht">Vorn aufhellen</span></button>
+        <button data-tl="dunkel"><i data-lucide="vy-hintergrund-dunkel"></i><span data-i18n="tl_dunkel">Hinten abdunkeln</span></button>
+        <button type="button" id="rlOeffnen" data-help="rl_hint"><i data-lucide="lightbulb"></i><span data-i18n="rl_titel">Licht setzen</span></button>
+      </div>
+    </div>
+    <div class="card" id="farbwerkCard" data-group="effects">
+      <h2 data-i18n="fw_titel" data-help="fw_hint">Farbe umsetzen</h2>
+      <div class="seg" id="fwArt"><button type="button" data-a="verlauf" class="active" data-i18n="fw_verlauf">Verlauf</button><button type="button" data-a="selektiv" data-i18n="fw_selektiv">Selektiv</button><button type="button" data-a="key" data-i18n="fw_key">Color Key</button></div>
+      <div id="fwVerlauf" class="fw-teil">
+        <div class="fw-vorgaben" id="fwVorgaben"></div>
+        <div class="fw-farben"><label><span data-i18n="grade_sh">Schatten</span><input type="color" id="fwF0" value="#1d1a3a"></label><label><span data-i18n="grade_mid">Mitten</span><input type="color" id="fwF1" value="#b0566e"></label><label><span data-i18n="grade_hi">Lichter</span><input type="color" id="fwF2" value="#ffd9a0"></label></div>
+        <label class="toggle"><input type="checkbox" id="fwHell" checked> <span data-i18n="fw_hell" data-help="fw_hell_tip">Helligkeit erhalten</span></label>
+      </div>
+      <div id="fwSelektiv" class="fw-teil" hidden>
+        <div class="row"><label class="cap" for="fwGruppe" data-i18n="fw_gruppe">Farben</label><select id="fwGruppe"><option value="rot" data-i18n="fw_g_rot">Rottöne</option><option value="gelb" data-i18n="fw_g_gelb">Gelbtöne</option><option value="gruen" data-i18n="fw_g_gruen">Grüntöne</option><option value="cyan" data-i18n="fw_g_cyan">Cyantöne</option><option value="blau" data-i18n="fw_g_blau">Blautöne</option><option value="magenta" data-i18n="fw_g_magenta">Magentatöne</option><option value="weiss" data-i18n="fw_g_weiss">Weiß</option><option value="neutral" data-i18n="fw_g_neutral">Neutrale Farben</option><option value="schwarz" data-i18n="fw_g_schwarz">Schwarz</option></select></div>
+        <div class="row"><label class="cap"><span>Cyan</span> <input type="number" class="val numbox" data-for="fwC" min="-100" max="100" value="0"></label><input type="range" id="fwC" min="-100" max="100" value="0" data-norender></div>
+        <div class="row"><label class="cap"><span>Magenta</span> <input type="number" class="val numbox" data-for="fwM" min="-100" max="100" value="0"></label><input type="range" id="fwM" min="-100" max="100" value="0" data-norender></div>
+        <div class="row"><label class="cap"><span data-i18n="fw_gelb">Gelb</span> <input type="number" class="val numbox" data-for="fwY" min="-100" max="100" value="0"></label><input type="range" id="fwY" min="-100" max="100" value="0" data-norender></div>
+        <div class="row"><label class="cap"><span data-i18n="fw_schwarz">Schwarz</span> <input type="number" class="val numbox" data-for="fwK" min="-100" max="100" value="0"></label><input type="range" id="fwK" min="-100" max="100" value="0" data-norender></div>
+        <div class="seg" id="fwMethode"><button type="button" data-m="rel" class="active" data-i18n="fw_relativ">Relativ</button><button type="button" data-m="abs" data-i18n="fw_absolut">Absolut</button></div>
+      </div>
+      <div id="fwKey" class="fw-teil" hidden>
+        <div class="row"><label class="cap"><span data-i18n="fw_ton">Farbe, die bleibt</span> <input type="number" class="val numbox" data-for="fwTon" min="0" max="360" value="0"></label><div class="fw-tonzeile"><input type="range" id="fwTon" min="0" max="360" value="0" data-norender><button type="button" id="fwPick" class="iconbtn" data-i18n-title="fw_pick" title="Farbe im Bild anklicken"><i data-lucide="pipette"></i></button></div></div>
+        <div class="row"><label class="cap"><span data-i18n="fw_tol">Toleranz</span> <input type="number" class="val numbox" data-for="fwTol" min="5" max="90" value="25"></label><input type="range" id="fwTol" min="5" max="90" value="25" data-norender></div>
+        <div class="row"><label class="cap"><span data-i18n="fw_weich">Weichheit</span> <input type="number" class="val numbox" data-for="fwWeich" min="0" max="60" value="15"></label><input type="range" id="fwWeich" min="0" max="60" value="15" data-norender></div>
+      </div>
+      <p class="hint" id="fwHinweis" data-i18n="fw_lut_hinweis" data-falt>Wirkt über die LUT: Stärke und Entfernen auch unter Looks → LUT (Look).</p>
+      <button type="button" id="fwAus" class="wide" data-i18n="fw_aus" hidden>Farbe umsetzen entfernen</button>
+    </div>
+    <div class="card" id="bwmixCard" data-group="effects">
+      <h2 data-i18n="bwmix">S/W-Mixer</h2>
+      <label class="toggle"><input type="checkbox" id="bwmixOn"> <span data-i18n="bwmix_on">Schwarz-Weiß aktiv</span></label>
+      <div id="bwmixBody"></div>
+    </div>
+
+    <div class="card" id="effMehrCard" data-group="effects">
+      <h2 data-i18n="eff_mehr">Mehr Effekte</h2>
+      <div class="repgrid dicht two">
+        <button id="bgDoppelBtn" type="button" data-i18n-title="db_hint_kurz" title="Ein zweites Foto ins Motiv belichten oder wie die Mehrfachbelichtung einer Kamera darüberlegen"><i data-lucide="blend"></i><span data-i18n="db_titel">Doppelbelichtung</span></button>
+      </div>
+    </div>
+    <div class="card" id="gradeCard" data-group="adjust">
+      <h2 data-i18n="grade">Color Grading</h2>
+      <div class="gradewheels">
+        <div class="gw" data-zone="sh">
+          <div class="gw-label" data-i18n="grade_sh">Schatten</div>
+          <div class="gw-ring"><div class="gw-dot"></div></div>
+          <input type="range" class="gw-lum" min="-100" max="100" value="0" data-i18n-title="brightness" title="Helligkeit">
+          <div class="gw-zahlen"><label><span>H</span><input type="number" class="numbox gw-h" min="0" max="360" step="1" value="0" data-i18n-aria="gw_h" aria-label="Farbton"></label><label><span>S</span><input type="number" class="numbox gw-s" min="0" max="100" step="1" value="0" data-i18n-aria="gw_s" aria-label="Stärke"></label><label><span>L</span><input type="number" class="numbox gw-l" min="-100" max="100" step="1" value="0" data-i18n-aria="gw_l" aria-label="Helligkeit"></label></div>
+          <button type="button" class="gw-reset" data-i18n-title="grade_reset" title="Zurücksetzen"><i data-lucide="rotate-ccw"></i></button>
+        </div>
+        <div class="gw" data-zone="mid">
+          <div class="gw-label" data-i18n="grade_mid">Mitten</div>
+          <div class="gw-ring"><div class="gw-dot"></div></div>
+          <input type="range" class="gw-lum" min="-100" max="100" value="0" data-i18n-title="brightness" title="Helligkeit">
+          <div class="gw-zahlen"><label><span>H</span><input type="number" class="numbox gw-h" min="0" max="360" step="1" value="0" data-i18n-aria="gw_h" aria-label="Farbton"></label><label><span>S</span><input type="number" class="numbox gw-s" min="0" max="100" step="1" value="0" data-i18n-aria="gw_s" aria-label="Stärke"></label><label><span>L</span><input type="number" class="numbox gw-l" min="-100" max="100" step="1" value="0" data-i18n-aria="gw_l" aria-label="Helligkeit"></label></div>
+          <button type="button" class="gw-reset" data-i18n-title="grade_reset" title="Zurücksetzen"><i data-lucide="rotate-ccw"></i></button>
+        </div>
+        <div class="gw" data-zone="hi">
+          <div class="gw-label" data-i18n="grade_hi">Lichter</div>
+          <div class="gw-ring"><div class="gw-dot"></div></div>
+          <input type="range" class="gw-lum" min="-100" max="100" value="0" data-i18n-title="brightness" title="Helligkeit">
+          <div class="gw-zahlen"><label><span>H</span><input type="number" class="numbox gw-h" min="0" max="360" step="1" value="0" data-i18n-aria="gw_h" aria-label="Farbton"></label><label><span>S</span><input type="number" class="numbox gw-s" min="0" max="100" step="1" value="0" data-i18n-aria="gw_s" aria-label="Stärke"></label><label><span>L</span><input type="number" class="numbox gw-l" min="-100" max="100" step="1" value="0" data-i18n-aria="gw_l" aria-label="Helligkeit"></label></div>
+          <button type="button" class="gw-reset" data-i18n-title="grade_reset" title="Zurücksetzen"><i data-lucide="rotate-ccw"></i></button>
+        </div>
+      </div>
+      <div class="row"><label class="cap"><span data-i18n="grade_blend" data-help="grade_blend_tip">Überblendung</span> <input type="number" class="val numbox" data-for="gradeBlend" min="0" max="100" value="50"></label><input type="range" id="gradeBlend" min="0" max="100" value="50"></div>
+      <div class="row"><label class="cap"><span data-i18n="grade_bal" data-help="grade_bal_tip">Balance</span> <input type="number" class="val numbox" data-for="gradeBal" min="-100" max="100" value="0"></label><input type="range" id="gradeBal" min="-100" max="100" value="0"></div>
+      <button id="gradeReset" class="wide" data-i18n="grade_reset">Zurücksetzen</button>
+    </div>
+
+    <div class="card" id="farbkreisCard" data-group="adjust">
+      <h2 data-i18n="fk_titel" data-help="fk_tip">Farbkreis</h2>
+      <div class="fk-kopf">
+        <canvas id="fkCv" width="240" height="240" tabindex="0" role="application" data-i18n-aria="fk_kreis" aria-label="Farbkreis"></canvas>
+        <div class="fk-regler"><span class="fk-ende">100</span><input type="range" id="fkStaerke" min="0" max="100" step="0.5" value="0" data-i18n-aria="fk_staerke" aria-label="Stärke"><span class="fk-ende">0</span><input type="number" id="fkWert" class="numbox" min="0" max="100" step="0.5" value="0" data-i18n-aria="fk_staerke" aria-label="Stärke"></div>
+      </div>
+      <div class="rh-reihe"><label class="toggle" style="margin:0"><input type="checkbox" id="fkAn" checked> <span data-i18n="fk_aktiv">Aktiv</span></label><select id="fkHarmonie" data-i18n-aria="fk_harmonie" aria-label="Harmonie"><option value="" data-i18n="fk_harmonie">Harmonie …</option><option value="komp" data-i18n="fk_h_komp">Komplementär</option><option value="teil" data-i18n="fk_h_teil">Geteilt komplementär</option><option value="triade" data-i18n="fk_h_triade">Triade</option><option value="analog" data-i18n="fk_h_analog">Analog</option><option value="teal" data-i18n="fk_h_teal">Teal und Orange</option></select><button type="button" id="fkPick" class="ticon" aria-pressed="false" data-i18n-title="fk_pipette" title="Farbe aus dem Bild aufnehmen"><i data-lucide="pipette"></i></button></div>
+      <div id="fkListe" hidden><div class="fk-kopfzeile"><span></span><span data-i18n="fk_sp_ton">Farbton °</span><span data-i18n="fk_sp_st">Stärke %</span><span data-i18n="fk_sp_rw">Reichweite ±°</span><span></span></div></div>
+      <div class="row"><label class="cap"><span data-i18n="fk_haut">Hautschutz</span> <input type="number" class="val numbox" data-for="fkHaut" min="0" max="100" value="60"></label><input type="range" id="fkHaut" min="0" max="100" value="60" data-norender></div>
+      <div class="row"><label class="cap"><span data-i18n="fk_schutz">Schwache Farben schützen</span> <input type="number" class="val numbox" data-for="fkSchutz" min="0" max="100" value="0"></label><input type="range" id="fkSchutz" min="0" max="100" value="0" data-norender></div>
+      <div class="row"><label class="cap"><span data-i18n="fk_luma">Helligkeit halten</span> <input type="number" class="val numbox" data-for="fkLuma" min="0" max="100" value="60"></label><input type="range" id="fkLuma" min="0" max="100" value="60" data-norender></div>
+      <p class="hint" data-i18n="fk_hinweis" style="margin:6px 0" data-falt>Klick auf den Kreis setzt einen Punkt, Ziehen verschiebt ihn, Doppelklick entfernt ihn.</p>
+      <div class="repgrid two tl-grid"><button type="button" id="fkAuto"><i data-lucide="image"></i><span data-i18n="fk_auto">Aus dem Foto</span></button><button type="button" id="fkPunkteWeg" disabled><i data-lucide="x"></i><span data-i18n="fk_weg">Punkte entfernen</span></button></div>
+    </div>
+
+    <div class="card" id="chmixCard" data-group="adjust">
+
+      <h2 data-i18n="chmix">Kanal-Mixer</h2>
+      <label class="toggle"><input type="checkbox" id="chmixOn"> <span data-i18n="chmix_on">Aktiv</span></label>
+      <div id="chmixBody"></div>
+      <button id="chmixReset" class="wide" data-i18n="grade_reset">Zurücksetzen</button>
+    </div>
+
+    <div class="card" id="kalibCard" data-group="adjust">
+      <h2 data-i18n="kalib" data-help="kalib_tip">Kalibrierung</h2>
+      <div class="sectlabel"><span data-i18n="kal_rot">Rot-Primärfarbe</span></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_ton">Farbton</span> <input type="number" class="val numbox" data-for="kalRH" min="-100" max="100" value="0"></label><input type="range" id="kalRH" min="-100" max="100" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_sat">Sättigung</span> <input type="number" class="val numbox" data-for="kalRS" min="-100" max="100" value="0"></label><input type="range" id="kalRS" min="-100" max="100" value="0"></div>
+      <div class="sectlabel"><span data-i18n="kal_gruen">Grün-Primärfarbe</span></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_ton">Farbton</span> <input type="number" class="val numbox" data-for="kalGH" min="-100" max="100" value="0"></label><input type="range" id="kalGH" min="-100" max="100" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_sat">Sättigung</span> <input type="number" class="val numbox" data-for="kalGS" min="-100" max="100" value="0"></label><input type="range" id="kalGS" min="-100" max="100" value="0"></div>
+      <div class="sectlabel"><span data-i18n="kal_blau">Blau-Primärfarbe</span></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_ton">Farbton</span> <input type="number" class="val numbox" data-for="kalBH" min="-100" max="100" value="0"></label><input type="range" id="kalBH" min="-100" max="100" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="kal_sat">Sättigung</span> <input type="number" class="val numbox" data-for="kalBS" min="-100" max="100" value="0"></label><input type="range" id="kalBS" min="-100" max="100" value="0"></div>
+    </div>
+
+    <div class="card" id="curveCard" data-group="adjust">
+      <h2 data-i18n="curve">Gradationskurve</h2>
+      <div class="seg" id="curveTabs">
+        <button data-ch="rgb" class="active">RGB</button>
+        <button data-ch="r">R</button>
+        <button data-ch="g">G</button>
+        <button data-ch="b">B</button>
+      </div>
+      <canvas id="curveCanvas" width="256" height="256" role="img"></canvas>
+      <div class="kurve-punkt" id="kurvePunkt" hidden><label><span data-i18n="kp_ein">Eingang</span> <input type="number" id="kpEin" min="0" max="255" step="1"></label><label><span data-i18n="kp_aus">Ausgang</span> <input type="number" id="kpAus" min="0" max="255" step="1"></label></div>
+      <select id="curveVorgabe" style="width:100%;margin-top:8px" data-i18n-aria="kv_titel" aria-label="Kurvenvorgabe"><option value="" data-i18n="kv_titel">Kurvenvorgabe …</option><option value="linear" data-i18n="kv_linear">Linear</option><option value="mittel" data-i18n="kv_mittel">Mittlerer Kontrast</option><option value="stark" data-i18n="kv_stark">Starker Kontrast</option><option value="matt" data-i18n="kv_matt">Matt (angehobene Tiefen)</option></select>
+      <div class="btnrow" style="margin-top:8px"><button id="curveAuto" data-i18n="curveAuto" data-licon="vy-auto">Auto</button><button id="curveReset" data-i18n="curveReset" data-licon="rotate-ccw">Kanal zurücksetzen</button></div>
+      <div id="parKurve">
+        <div class="sectlabel"><span data-i18n="par_titel">Parametrisch</span></div>
+        <div class="row"><label class="cap"><span data-i18n="par_h" data-help="par_h_tip">Lichter</span> <input type="number" class="val numbox" data-for="parH" min="-100" max="100" value="0"></label><input type="range" id="parH" min="-100" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="par_l" data-help="par_l_tip">Helle Mitteltöne</span> <input type="number" class="val numbox" data-for="parL" min="-100" max="100" value="0"></label><input type="range" id="parL" min="-100" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="par_d" data-help="par_d_tip">Dunkle Mitteltöne</span> <input type="number" class="val numbox" data-for="parD" min="-100" max="100" value="0"></label><input type="range" id="parD" min="-100" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="par_s" data-help="par_s_tip">Tiefen</span> <input type="number" class="val numbox" data-for="parS" min="-100" max="100" value="0"></label><input type="range" id="parS" min="-100" max="100" value="0"></div>
+      </div>
+    </div>
+    <div class="card" id="levelsCard" data-group="adjust">
+      <h2><span data-i18n="lv_titel" data-help="lv_hint">Tonwertkorrektur</span> <span class="lv-kanal" id="lvKanal">RGB</span></h2>
+      <div class="row"><label class="cap"><span data-i18n="lv_schwarz">Schwarzpunkt</span> <input type="number" class="val numbox" data-for="lvB" min="0" max="250" value="0"></label><input type="range" id="lvB" min="0" max="250" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="lv_mitte">Mitteltöne</span> <input type="number" class="val numbox" data-for="lvG" min="-100" max="100" value="0"></label><input type="range" id="lvG" min="-100" max="100" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="lv_weiss">Weißpunkt</span> <input type="number" class="val numbox" data-for="lvW" min="5" max="255" value="255"></label><input type="range" id="lvW" min="5" max="255" value="255"></div>
+      <div class="sectlabel"><span data-i18n="lv_ausgabe">Ausgabe</span></div>
+      <div class="row"><label class="cap"><span data-i18n="lv_oschwarz">Ausgabe-Schwarz</span> <input type="number" class="val numbox" data-for="lvOB" min="0" max="255" value="0"></label><input type="range" id="lvOB" min="0" max="255" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="lv_oweiss">Ausgabe-Weiß</span> <input type="number" class="val numbox" data-for="lvOW" min="0" max="255" value="255"></label><input type="range" id="lvOW" min="0" max="255" value="255"></div>
+      <div class="btnrow" style="margin-top:8px"><button id="lvAuto" data-i18n="curveAuto" data-licon="vy-auto">Auto</button><button id="lvReset" data-i18n="lv_reset" data-licon="rotate-ccw">Zurücksetzen</button></div>
+    </div>
+
+    <div class="card" id="viewCard" data-group="tools">
+      <h2 data-i18n="view">Ansicht</h2>
+      <div class="repgrid dicht two fxtoggles" id="viewGrid">
+        <button id="fsBtn" data-i18n-title="tip_fs" title="Vollbild (F11)"><i data-lucide="maximize"></i><span id="fsLabel" data-i18n="fullscreen">Vollbild</span></button>
+        <button id="origBtn" disabled data-i18n-title="tip_orig" title="Halten = Original"><i data-lucide="vy-original"></i><span data-i18n="original">Original</span></button>
+        <button id="splitBtn" disabled data-i18n-title="tip_split" title="Vorher/Nachher"><i data-lucide="columns-2"></i><span data-i18n="split">Vorher/Nachher</span></button>
+        <button id="abBtn" disabled data-i18n-title="ab_compare" title="A/B compare"><i data-lucide="arrow-left-right"></i><span data-i18n="ab_compare">A/B compare</span></button>
+        <button id="peakBtn" disabled aria-pressed="false" data-i18n-title="sa_peak_tip" title="Markiert scharfe Kanten rot: zeigt, wo der Fokus sitzt"><i data-lucide="focus"></i><span data-i18n="si_peak">Fokus-Peaking</span></button>
+        <button id="karteBtn" disabled aria-pressed="false" data-i18n-title="sa_karte_tip" title="Färbt das Bild nach Detailreichtum: blau weich, gelb bis rot scharf"><i data-lucide="scan-eye"></i><span data-i18n="sa_karte">Schärfe-Karte</span></button>
+        <button id="proofBtn" disabled aria-pressed="false" data-i18n-title="pr_tip" title="Zeigt, wie das Foto mit einem Druckerprofil gedruckt aussähe"><i data-lucide="printer"></i><span data-i18n="pr_titel">Softproof</span></button>
+        <button id="rasterBtn" disabled aria-pressed="false" data-i18n-title="ra_tip" title="Hilfslinien für den Bildaufbau einblenden"><i data-lucide="grid-3x3"></i><span data-i18n="ra_titel">Raster</span></button>
+        <button id="cvdBtn" disabled aria-pressed="false" data-i18n-title="cvd_tip" title="Zeigt, wie Menschen mit Farbsehschwäche das Foto sehen"><i data-lucide="eye"></i><span data-i18n="cvd_titel">Farbsehschwäche</span></button>
+        <button id="lupeBtn" disabled aria-pressed="false" data-i18n-title="lu_tip" title="Lupe: Pixel unter dem Zeiger vergrößert"><i data-lucide="vy-lupe"></i><span data-i18n="lu_titel">Lupe</span></button>
+      </div>
+      <div id="splitOpts" hidden><div class="seg" id="splitRicht" style="margin-top:8px"><button type="button" data-sr="senk" class="active" data-i18n="sr_senk" data-help="sr_tip">Links | rechts</button><button type="button" data-sr="quer" data-i18n="sr_quer">Oben / unten</button></div></div>
+      <div id="cvdOpts" hidden><div class="seg" id="cvdArt" style="margin-top:8px"><button type="button" data-cvd="prot" data-i18n="cvd_prot" data-i18n-title="cvd_prot_tip">Rotblind</button><button type="button" data-cvd="deut" class="active" data-i18n="cvd_deut" data-i18n-title="cvd_deut_tip">Grünblind</button><button type="button" data-cvd="trit" data-i18n="cvd_trit" data-i18n-title="cvd_trit_tip">Blaublind</button><button type="button" data-cvd="grau" data-i18n="cvd_grau" data-i18n-title="cvd_grau_tip">Ohne Farbe</button></div></div>
+      <div id="rasterOpts" hidden>
+        <div class="seg" id="rasterArt" style="margin-top:8px"><button type="button" data-ra="drittel" class="active" data-i18n="ra_drittel">Drittel</button><button type="button" data-ra="gold" data-i18n="ra_gold">Goldener Schnitt</button><button type="button" data-ra="diag" data-i18n="ra_diag">Diagonalen</button><button type="button" data-ra="raster" data-i18n="ra_raster">Raster</button></div>
+        <div class="row" id="rasterNRow" hidden><label class="cap"><span data-i18n="ra_teilung">Teilung</span> <input type="number" class="val numbox" data-for="rasterN" min="2" max="24" value="6"></label><input type="range" id="rasterN" min="2" max="24" value="6"></div>
+      </div>
+    </div>
+
+
+    <div class="card" id="toolsCard" data-group="tools">
+      <h2 data-i18n="tab_tools">Werkzeuge</h2>
+      <div class="sectlabel"><span data-i18n="tools_sec_img">Bild</span></div>
+      <div class="repgrid dicht two tl-grid">
+        <button id="openBtn" data-i18n-title="tip_open" title="Öffnen"><i data-lucide="folder-open"></i><span data-i18n="open">Öffnen</span></button>
+        <button id="mmCopy" data-i18n-title="menu_copy" title="In Zwischenablage kopieren"><i data-lucide="copy"></i><span data-i18n="tl_copy">Kopieren</span></button>
+        <button id="zeitBtn" type="button" class="wide" data-i18n-title="zt_tip" title="Datum und Uhrzeit des Fotos korrigieren, etwa wenn die Kamera-Uhr falsch ging"><i data-lucide="clock"></i><span data-i18n="zt_knopf">Aufnahmezeit</span></button>
+        <span class="such-alias" hidden data-fuer="zeitBtn" data-i18n="such_zeit">Aufnahmezeit Datum Uhrzeit EXIF Zeitzone verschieben Kamera-Uhr</span>
+        <button id="karussellBtn" type="button" class="wide" data-i18n-title="ka_tip" title="Ein breites Foto in nahtlose Kacheln für ein Instagram-Karussell teilen"><i data-lucide="columns-2"></i><span data-i18n="ka_knopf">Karussell</span></button>
+        <span class="such-alias" hidden data-fuer="karussellBtn" data-i18n="such_karussell">Karussell Instagram Panorama Teilen Kacheln Wischen</span>
+      </div>
+      <div class="sectlabel"><span data-i18n="paste_sec">Bearbeitung</span></div>
+      <div class="repgrid dicht two tl-grid">
+        <button id="einstKopieren" type="button" data-i18n-title="paste_copy_tip" title="Die Bearbeitung dieses Fotos kopieren (Strg+Umschalt+C)"><i data-lucide="copy"></i><span data-i18n="paste_copy">Bearbeitung kopieren</span></button>
+        <button id="einstEinfuegen" type="button" data-i18n-title="paste_btn_tip" title="Eine kopierte Bearbeitung einfügen und wählen, was übernommen wird (alles auf einmal: Strg+Umschalt+V)"><i data-lucide="clipboard-paste"></i><span data-i18n="paste_btn">Einfügen …</span></button>
+      </div>
+      <div class="sectlabel"><span data-i18n="history">Verlauf</span></div>
+      <div class="repgrid dicht two tl-grid">
+        <button id="mmHistory" data-i18n-title="hist_snaps" title="Verlauf &amp; Schnappschüsse"><i data-lucide="history"></i><span data-i18n="tl_hist">Verlauf</span></button>
+        <button id="mmReset" data-i18n-title="reset_all" title="Alle Einstellungen zurücksetzen"><i data-lucide="rotate-ccw"></i><span data-i18n="tl_reset">Regler zurück&shy;setzen</span></button>
+        <button id="mmResetAll" class="tl-gefahr" data-i18n-title="reset_everything" title="Alles zurücksetzen"><i data-lucide="trash-2"></i><span data-i18n="tl_resetall">Alles zurück&shy;setzen</span></button>
+      </div>
+      <div class="sectlabel"><span data-i18n="tools_sec_more">Hilfe</span></div>
+      <div class="repgrid dicht two tl-grid">
+        <button id="mmKeys" data-i18n-title="set_shortcuts_t" title="Tastenkürzel (?)"><i data-lucide="keyboard"></i><span data-i18n="tl_keys">Tastenkürzel</span></button>
+        <button id="mmTour" data-i18n-title="tour_menu" title="Kurze Tour"><i data-lucide="compass"></i><span data-i18n="tour_menu">Kurze Tour</span></button>
+      </div>
+      <span class="such-alias" hidden data-fuer="mmKeys" data-i18n="such_keys">Shortcuts Tastatur Hotkeys</span>
+    </div>
+
+    <div class="card klappbar" id="paletteCard" data-group="tools" data-zu="1">
+      <h2 data-i18n="pa_titel" data-help="pa_hint">Farbpalette</h2>
+      <span class="such-alias" hidden data-fuer="paletteCard" data-i18n="such_palette">Farbpalette Farben Hex Design Swatches</span>
+      <div id="paFelder" class="pa-felder"></div>
+      <div class="pa-knoepfe"><button type="button" id="paKopieren" data-i18n="pa_kopieren" data-licon="copy">Hex-Werte kopieren</button><button type="button" id="paSpeichern" data-i18n="pa_speichern" data-licon="download">Als Bild</button></div>
+    </div>
+    <div class="card klappbar" id="addonCard" data-group="tools" data-zu="1">
+      <h2 data-i18n="adn_titel" data-help="adn_hint">Addons</h2>
+      <span class="such-alias" hidden data-fuer="addonCard" data-i18n="such_addon">Addon Plugin Erweiterung Filter Skript</span>
+      <div id="addonFilterSec" hidden><div class="sectlabel"><span data-i18n="adn_filter_sec">Filter aus Addons</span></div><div id="addonFilter" class="ad-filter"></div></div>
+      <p class="hint" id="addonLeer" data-i18n="adn_leer">Noch keine Addons.</p>
+      <div id="addonListe" class="ad-liste"></div>
+      <div class="pa-knoepfe"><button type="button" id="addonHinzu" data-i18n="adn_hinzu" data-licon="plus">Addon hinzufügen…</button><button type="button" id="addonBeispiel" data-i18n="adn_beispiel" data-licon="code">Beispiel-Datei</button></div>
+      <input type="file" id="addonDatei" accept=".js,.mjs,text/javascript" hidden>
+    </div>
+    <div class="card klappbar" id="rahmenCard" data-group="text" data-zu="1" data-reiter>
+      <h2 data-i18n="rh_title" data-help="rh_hint">EXIF-Rahmen</h2>
+      <span class="such-alias" hidden data-fuer="rahmenCard" data-i18n="such_rahmen">Rahmen Instagram Polaroid Rand Aufnahmedaten</span>
+      <div class="sectlabel" data-kr-ic="layout-template"><span data-i18n="rh_vorlagen">Vorlagen</span></div>
+      <div class="repgrid" id="rhVorlagen"><button type="button" data-v="klassisch" data-i18n="rh_v_klassisch">Klassisch</button><button type="button" data-v="schwarz" data-i18n="rh_v_schwarz">Schwarz</button><button type="button" data-v="polaroid" data-i18n="rh_v_polaroid">Sofortbild</button><button type="button" data-v="film" data-i18n="rh_v_film">Unscharf</button><button type="button" data-v="galerie" data-i18n="rh_v_galerie">Galerie</button><button type="button" data-v="minimal" data-i18n="rh_v_minimal">Minimal</button></div>
+      <div class="rh-reihe"><select id="rhEigene" data-i18n-aria="rh_eigene" aria-label="Eigene Vorlagen"></select><button type="button" id="rhVorlageNeu" class="ticon" data-i18n-title="rh_vorlage_speichern" title="Vorlage speichern"><i data-lucide="bookmark-plus"></i></button><button type="button" id="rhVorlageWeg" class="ticon" data-i18n-title="rh_vorlage_weg" title="Vorlage löschen"><i data-lucide="trash-2"></i></button></div>
+
+      <div class="sectlabel" data-kr-mit><span data-i18n="rh_sec_format">Format und Rand</span></div>
+      <div class="seg" id="rhFormat"><button data-v="1:1">1:1</button><button data-v="4:5" class="active">4:5</button><button data-v="3:4">3:4</button><button data-v="9:16">9:16</button><button data-v="3:2">3:2</button><button data-v="16:9">16:9</button><button data-v="foto" data-i18n="rh_f_foto">Foto</button></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_rand">Rand</span> <input type="number" class="val numbox" data-for="rhRand" min="0" max="200" value="60"></label><input type="range" id="rhRand" min="0" max="200" value="60"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_randunten">Rand unten</span> <input type="number" class="val numbox" data-for="rhRandUnten" min="0" max="400" value="0"></label><input type="range" id="rhRandUnten" min="0" max="400" value="0"></div>
+
+      <div class="sectlabel" data-kr-ic="paint-bucket"><span data-i18n="rh_sec_hg">Hintergrund</span></div>
+      <div class="seg" id="rhHgModus"><button data-v="farbe" class="active" data-i18n="rh_m_farbe">Farbe</button><button data-v="verlauf" data-i18n="rh_m_verlauf">Verlauf</button><button data-v="foto" data-i18n="rh_m_foto">Foto unscharf</button></div>
+      <div id="rhFarbfelder"><button type="button" data-c="#ffffff" style="background:#ffffff" aria-label="#ffffff"></button><button type="button" data-c="#f5f0e6" style="background:#f5f0e6" aria-label="#f5f0e6"></button><button type="button" data-c="#c9c9c9" style="background:#c9c9c9" aria-label="#c9c9c9"></button><button type="button" data-c="#6e6e6e" style="background:#6e6e6e" aria-label="#6e6e6e"></button><button type="button" data-c="#1a1a1a" style="background:#1a1a1a" aria-label="#1a1a1a"></button><button type="button" data-c="#000000" style="background:#000000" aria-label="#000000"></button><button type="button" id="rhFotoFarbe" class="rh-foto ticon" data-i18n-title="rh_fotofarbe" title="Aus dem Foto"><i data-lucide="pipette"></i></button><input type="color" id="rhHg" value="#ffffff" data-i18n-title="rh_hg" title="Hintergrund" data-i18n-aria="rh_hg" aria-label="Hintergrund"><span id="rhHg2Zeile" hidden><input type="color" id="rhHg2" value="#d9d9d9" data-i18n-title="rh_hg2" title="Zweite Farbe" data-i18n-aria="rh_hg2" aria-label="Zweite Farbe"></span></div>
+      <div class="row" id="rhUnschaerfeZeile" hidden><label class="cap"><span data-i18n="rh_unschaerfe">Unschärfe</span> <input type="number" class="val numbox" data-for="rhUnschaerfe" min="5" max="100" value="50"></label><input type="range" id="rhUnschaerfe" min="5" max="100" value="50"></div>
+      <div class="row" id="rhDunkelZeile" hidden><label class="cap"><span data-i18n="rh_dunkel">Abdunkeln</span> <input type="number" class="val numbox" data-for="rhDunkel" min="0" max="90" value="20"></label><input type="range" id="rhDunkel" min="0" max="90" value="20"></div>
+
+      <div class="sectlabel" data-kr-ic="image"><span data-i18n="rh_sec_foto">Foto</span></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_ecken">Ecken</span> <input type="number" class="val numbox" data-for="rhEcken" min="0" max="120" value="0"></label><input type="range" id="rhEcken" min="0" max="120" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_schatten">Schatten</span> <input type="number" class="val numbox" data-for="rhSchatten" min="0" max="80" value="0"></label><input type="range" id="rhSchatten" min="0" max="80" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_linie">Linie ums Foto</span> <input type="number" class="val numbox" data-for="rhLinie" min="0" max="20" value="0"></label><input type="range" id="rhLinie" min="0" max="20" value="0"></div>
+
+      <div class="sectlabel" data-kr-ic="type"><span data-i18n="rh_sec_text">Schrift</span></div>
+      <div class="rh-reihe rh-schalter"><select id="rhFont" data-i18n-aria="rh_font" aria-label="Schriftart"></select><button type="button" id="rhFontLaden" class="ticon" data-i18n-title="rh_font_laden" title="Schrift laden"><i data-lucide="upload"></i></button><button type="button" id="rhFett" aria-pressed="false" data-i18n-title="rh_fett" title="Fett"><b>F</b></button><button type="button" id="rhKursiv" aria-pressed="false" data-i18n-title="rh_kursiv" title="Kursiv"><i>K</i></button><button type="button" id="rhGross" aria-pressed="false" data-i18n-title="rh_gross" title="Kamera und Titel in Großbuchstaben">AA</button><input type="color" id="rhText" value="#000000" data-i18n-title="rh_textfarbe" title="Textfarbe" data-i18n-aria="rh_textfarbe" aria-label="Textfarbe"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_schrift">Schriftgröße</span> <input type="number" class="val numbox" data-for="rhSchrift" min="10" max="80" value="27"></label><input type="range" id="rhSchrift" min="10" max="80" value="27"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_abstand">Textabstand</span> <input type="number" class="val numbox" data-for="rhAbstand" min="0" max="120" value="22"></label><input type="range" id="rhAbstand" min="0" max="120" value="22"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_versatz">Text verschieben</span> <input type="number" class="val numbox" data-for="rhVersatz" min="-300" max="300" value="0"></label><input type="range" id="rhVersatz" min="-300" max="300" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="rh_sperrung">Sperrung</span> <input type="number" class="val numbox" data-for="rhSperrung" min="0" max="20" value="0"></label><input type="range" id="rhSperrung" min="0" max="20" value="0"></div>
+      <div class="rh-reihe"><div class="seg" id="rhAusrichtung" data-i18n-aria="rh_ausrichtung" aria-label="Ausrichtung"><button data-v="links" data-i18n-title="rh_links" title="Links"><i data-lucide="align-left"></i></button><button data-v="mitte" class="active" data-i18n-title="rh_mitte" title="Mitte"><i data-lucide="align-center"></i></button><button data-v="rechts" data-i18n-title="rh_rechts" title="Rechts"><i data-lucide="align-right"></i></button></div><div class="seg" id="rhTextPos" data-i18n-aria="rh_position" aria-label="Position"><button data-v="unten" class="active" data-i18n-title="rh_unten" title="Unter dem Foto"><i data-lucide="panel-bottom"></i></button><button data-v="oben" data-i18n-title="rh_oben" title="Über dem Foto"><i data-lucide="panel-top"></i></button></div><button type="button" id="rhTextMitte" class="ticon" aria-pressed="false" data-i18n-title="rh_textmitte" title="Text mittig zwischen Foto und Rand"><i data-lucide="align-vertical-justify-center"></i></button></div>
+      <div class="rh-reihe"><div class="seg" id="rhZeilen" data-i18n-aria="rh_zeilen" aria-label="Zeilen"><button data-v="1" class="active" data-i18n="rh_z1">Eine</button><button data-v="2" data-i18n="rh_z2">Zwei</button></div><select id="rhTrenner" data-i18n-title="rh_trenner" title="Trenner" data-i18n-aria="rh_trenner" aria-label="Trenner"><option value="    " data-i18n="rh_tr_abstand">Abstand</option><option value="  ·  " data-i18n="rh_tr_punkt">Punkt</option><option value="  |  " data-i18n="rh_tr_strich">Strich</option></select></div>
+
+      <div class="sectlabel" data-kr-ic="list-checks"><span data-i18n="rh_daten" data-help="rh_eigen_hinweis">Angaben</span></div>
+      <div class="rh-felder" id="rhFelder">
+        <label class="rh-felder-alle"><input type="checkbox" id="rhAlle"> <span data-i18n="rh_alle">Alle/Keine</span></label>
+        <div class="rh-feld"><label><input type="checkbox" data-f="make"> <span data-i18n="rh_make">Hersteller</span></label><input type="text" class="rh-eigen" data-e="make" maxlength="60" data-i18n-aria="rh_make" aria-label="Hersteller"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="model"> <span data-i18n="rh_model">Modell</span></label><input type="text" class="rh-eigen" data-e="model" maxlength="60" data-i18n-aria="rh_model" aria-label="Modell"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="lens"> <span data-i18n="rh_lens">Objektiv</span></label><input type="text" class="rh-eigen" data-e="lens" maxlength="80" data-i18n-aria="rh_lens" aria-label="Objektiv"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="focal"> <span data-i18n="rh_focal">Brennweite</span></label><input type="text" class="rh-eigen" data-e="focal" maxlength="24" data-i18n-aria="rh_focal" aria-label="Brennweite"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="fnumber" checked> <span data-i18n="rh_fnumber">Blende</span></label><input type="text" class="rh-eigen" data-e="fnumber" maxlength="24" data-i18n-aria="rh_fnumber" aria-label="Blende"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="exposure" checked> <span data-i18n="rh_exposure">Belichtungszeit</span></label><input type="text" class="rh-eigen" data-e="exposure" maxlength="24" data-i18n-aria="rh_exposure" aria-label="Belichtungszeit"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="iso" checked> <span data-i18n="rh_iso">ISO</span></label><input type="text" class="rh-eigen" data-e="iso" maxlength="24" data-i18n-aria="rh_iso" aria-label="ISO"></div>
+        <div class="rh-feld"><label><input type="checkbox" data-f="date"> <span data-i18n="rh_date">Datum</span></label><input type="text" class="rh-eigen" data-e="date" maxlength="40" data-i18n-aria="rh_date" aria-label="Datum"></div>
+      </div>
+      <input type="text" id="rhTitel" maxlength="120" data-i18n-aria="rh_titel" aria-label="Eigener Text">
+      <p class="hint" id="rhHinweis" style="display:none;margin:6px 0 0" data-kr-immer></p>
+
+      <div class="sectlabel" data-kr-ic="file-output"><span data-i18n="rh_sec_datei">Datei</span></div>
+      <div class="rh-reihe"><div class="seg" id="rhBreite" data-i18n-aria="rh_breite" aria-label="Breite" data-i18n-title="rh_breite" title="Breite"><button data-v="1080" class="active">1080</button><button data-v="2160">2160</button><button data-v="4320">4320</button><button data-v="voll" data-i18n="rh_voll" data-i18n-title="rh_voll_tip" title="Foto in voller Auflösung im Rahmen">Original</button></div><div class="seg" id="rhDatei" data-i18n-aria="rh_dateityp" aria-label="Dateityp" data-i18n-title="rh_dateityp" title="Dateityp"><button data-v="jpg" class="active">JPG</button><button data-v="png">PNG</button></div></div>
+      <div class="rh-reihe rh-knoepfe" data-kr-immer>
+        <button id="rhVorschau" aria-pressed="false"><i data-lucide="eye"></i><span data-i18n="rh_vorschau">Vorschau</span></button>
+        <button id="rhSpeichern" class="primary"><i data-lucide="download"></i><span data-i18n="rh_speichern">Rahmen speichern</span></button>
+        <button type="button" id="rhZurueck" class="ticon" data-i18n-title="rh_zurueck" title="Rahmen zurücksetzen"><i data-lucide="rotate-ccw"></i></button>
+      </div>
+    </div>
+
+    <div class="card" id="alignCard" data-group="crop">
+      <h2 data-i18n="align">Zuschneiden &amp; Drehen</h2>
+      <button id="cropBtn" class="wide" disabled style="display:none" data-i18n-title="tip_crop" title="Zuschneiden (C)"><i data-lucide="crop"></i> <span data-i18n="crop">Zuschneiden</span></button>
+
+      <div class="seg dreh-seg">
+        <button id="rotCCW" data-i18n-title="tip_rotL" title="Links drehen 90°"><i data-lucide="rotate-ccw-square"></i><span data-i18n="dreh_l">Links</span></button>
+        <button id="rotCW" data-i18n-title="tip_rotR" title="Rechts drehen 90°"><i data-lucide="rotate-cw-square"></i><span data-i18n="dreh_r">Rechts</span></button>
+        <button id="flipH" data-i18n-title="tip_flipH" title="Horizontal spiegeln"><i data-lucide="flip-horizontal"></i><span data-i18n="dreh_sp">Spiegeln</span></button>
+        <button id="flipV" data-i18n-title="tip_flipV" title="Vertikal spiegeln"><i data-lucide="flip-vertical"></i><span data-i18n="dreh_ki">Kippen</span></button>
+      </div>
+    </div>
+
+
+
+    <div class="card" id="paintToolCard" data-group="paint">
+      <div class="row"><div class="seg" id="paintToolSeg">
+        <button data-ptool="repair" class="active"><i data-lucide="brush-cleaning"></i><span data-i18n="repair">Retusche</span></button>
+        <button data-ptool="liquify"><i data-lucide="droplet"></i><span data-i18n="liquify">Verflüssigen</span></button>
+        <button data-ptool="face"><i data-lucide="smile"></i><span data-i18n="face">Gesicht</span></button>
+      </div></div>
+    </div>
+
+    <div class="card" id="repairCard" data-group="paint">
+      <h2 data-i18n="repair">Retusche</h2>
+      <input type="checkbox" id="repairOn" style="display:none">
+      <div id="repairTools">
+        <div id="repEinst">
+        <p class="subhint info-line"><i data-lucide="info"></i><span id="repHint" data-i18n="hint_repair">Auf einen Fleck klicken.</span></p>
+        <div class="row" id="repSizeRow"><label class="cap"><span data-i18n="rep_size">Größe</span> <input type="number" class="val numbox" data-for="repSize" min="6" max="300" value="50"></label><input type="range" id="repSize" data-norender min="6" max="300" value="50"></div>
+        <div class="row" id="repHardRow" style="display:none"><label class="cap"><span data-i18n="hardness">Härte</span> <input type="number" class="val numbox" data-for="repHard" min="0" max="100" value="60"></label><input type="range" id="repHard" data-norender min="0" max="100" value="60"></div>
+        <div class="row" id="repUpRow" style="display:none"><label class="cap"><span data-i18n="us_factor">Vergrößerung</span></label>
+          <div class="seg" id="repUpSeg"><button id="repUp2" data-i18n-title="hint_upscale">2×</button><button id="repUp4" data-i18n-title="hint_upscale">4×</button></div>
+        </div>
+        <div class="row" id="repSharpStrRow" style="display:none"><label class="cap"><span data-i18n="strength">Stärke</span> <input type="number" class="val numbox" data-for="repSharpStr" min="1" max="100" value="50"></label><input type="range" id="repSharpStr" data-norender min="1" max="100" value="50"></div>
+        <div class="row" id="repGlStrRow" style="display:none"><label class="cap"><span data-i18n="strength">Stärke</span> <input type="number" class="val numbox" data-for="repGlStr" min="1" max="100" value="70"></label><input type="range" id="repGlStr" data-norender min="1" max="100" value="70"></div>
+        <div class="row" id="repDbStrRow" style="display:none"><label class="cap"><span data-i18n="strength">Stärke</span> <input type="number" class="val numbox" data-for="repDbStr" min="1" max="100" value="40"></label><input type="range" id="repDbStr" data-norender min="1" max="100" value="40"></div>
+        <div class="row" id="repKlonFlussRow" style="display:none"><label class="cap"><span data-i18n="fluss" data-help="fluss_tip">Fluss</span> <input type="number" class="val numbox" data-for="repKlonFluss" min="1" max="100" value="100"></label><input type="range" id="repKlonFluss" data-norender min="1" max="100" value="100"></div>
+        <div class="row" id="repDbBereichRow" style="display:none"><label class="cap"><span data-i18n="db_bereich" data-help="db_bereich_tip">Bereich</span></label><div class="seg" id="repDbBereich"><button type="button" data-db="alle" class="active" data-i18n="db_alle">Alle</button><button type="button" data-db="tiefen" data-i18n="db_tiefen">Tiefen</button><button type="button" data-db="mitten" data-i18n="db_mitten">Mitten</button><button type="button" data-db="lichter" data-i18n="db_lichter">Lichter</button></div></div>
+        <div class="row" id="repAugeRow" style="display:none"><label class="cap"><span data-i18n="auge_art" data-help="auge_tip">Augen</span></label><div class="seg" id="repAuge"><button type="button" data-auge="rot" class="active" data-i18n="auge_rot">Rote Augen</button><button type="button" data-auge="tier" data-i18n="auge_tier">Tieraugen</button></div></div>
+        <div class="btnrow" id="repSrcRow" style="display:none"><button id="repSetSrc" data-i18n="rep_setsrc" data-licon="crosshair">Quelle setzen</button></div>
+        </div>
+        <div class="repgrid dicht two">
+          <button id="repObject" data-repmode="object"><i data-lucide="vy-eraser-sparkles"></i><span data-i18n="rep_object_lang">Objekt entfernen</span></button>
+          <button id="repSpot" class="active" data-repmode="spot"><i data-lucide="circle-dot-dashed"></i><span data-i18n="rep_spot">Fleck</span></button>
+          <button id="repHeal" data-repmode="heal"><i data-lucide="bandage"></i><span data-i18n="rep_heal">Reparieren</span></button>
+          <button id="repClone" data-repmode="clone"><i data-lucide="stamp"></i><span data-i18n="rep_clone">Klonen</span></button>
+          <button id="repVerschieben" data-repmode="verschieben" data-help="rep_verschieben_tip"><i data-lucide="move"></i><span data-i18n="rep_verschieben">Verschieben</span></button>
+          <button id="repGlaetten" data-repmode="glaetten" data-help="rep_glaetten_tip"><i data-lucide="vy-face-retouch"></i><span data-i18n="rep_glaetten">Haut glätten</span></button>
+          <button id="repRedeye" data-repmode="redeye"><i data-lucide="vy-red-eye"></i><span data-i18n="rep_redeye">Rote Augen</span></button>
+          <button id="repDodge" data-repmode="dodge"><i data-lucide="vy-dodge"></i><span data-i18n="rep_dodge">Aufhellen</span></button>
+          <button id="repBurn" data-repmode="burn"><i data-lucide="vy-burn"></i><span data-i18n="rep_burn">Abdunkeln</span></button>
+          <button id="repSharpen" data-repmode="sharpen"><i data-lucide="vy-sharpen"></i><span data-i18n="rep_sharpen">Schärfen</span></button>
+        </div>
+        <div class="sectlabel"><span data-i18n="rep_ganz">Ganzes Bild</span></div>
+        <div class="repgrid dicht two">
+          <button id="repUpscale" data-repmode="upscale" data-studio><i data-lucide="vy-upscale"></i><span data-i18n="rep_upscale">Hochskalieren</span></button>
+          <button id="repStaub" type="button"><i data-lucide="scan-search"></i><span data-i18n="staub_knopf">Sensorstaub</span></button>
+          <button id="repKratzer" type="button"><i data-lucide="vy-alte-fotos"></i><span data-i18n="staub_m_kratzer_kurz">Alte Fotos</span></button>
+          <button id="repKolor" type="button" data-help="ko_tip"><i data-lucide="vy-saturation"></i><span data-i18n="ko_knopf">Kolorieren</span></button>
+          <button id="repAnonym" type="button" data-i18n-title="uk_tip" title="Gesichter, Nummernschilder und anderes verpixeln, weichzeichnen oder schwärzen, auf deinem Gerät"><i data-lucide="scan-face"></i><span data-i18n="uk_knopf">Unkenntlich</span></button>
+          <span class="such-alias" hidden data-fuer="repAnonym" data-i18n="such_unkenntlich">Anonymisieren Verpixeln Weichzeichnen Gesicht Nummernschild Kennzeichen Datenschutz Zensur</span>
+        </div>
+        <div class="btnrow" id="repUndoRow" style="margin-top:6px"><button id="repUndo" data-i18n="rep_undo" data-licon="undo-2">Letzten Schritt zurück</button></div>
+      </div>
+    </div>
+
+
+    <div class="card" id="liquifyCard" data-group="paint">
+      <h2 data-i18n="liquify">Verflüssigen</h2>
+      <input type="checkbox" id="liquifyOn" style="display:none">
+      <div id="liquifyTools" style="display:none">
+        <div class="repgrid" style="margin-bottom:12px">
+          <button id="liqPush" class="active" data-liqmode="push" type="button"><i data-lucide="move"></i><span data-i18n="liq_push">Schieben</span></button>
+          <button id="liqGrow" data-liqmode="grow" type="button"><i data-lucide="maximize-2"></i><span data-i18n="liq_grow">Aufblasen</span></button>
+          <button id="liqShrink" data-liqmode="shrink" type="button"><i data-lucide="minimize-2"></i><span data-i18n="liq_shrink">Zusammenziehen</span></button>
+          <button id="liqDreh" data-liqmode="dreh" type="button"><i data-lucide="vy-strudel-rechts"></i><span data-i18n="liq_dreh">Strudel rechts</span></button>
+          <button id="liqDrehL" data-liqmode="drehL" type="button"><i data-lucide="vy-strudel-links"></i><span data-i18n="liq_drehL">Strudel links</span></button>
+        </div>
+        <div class="row"><label class="cap"><span data-i18n="liq_size">Pinselgröße</span> <input type="number" class="val numbox" data-for="liqSize" min="20" max="500" value="120"></label><input type="range" id="liqSize" data-norender min="20" max="500" value="120"></div>
+        <div class="row"><label class="cap"><span data-i18n="liq_str">Stärke</span> <input type="number" class="val numbox" data-for="liqStr" min="5" max="100" value="50"></label><input type="range" id="liqStr" data-norender min="5" max="100" value="50"></div>
+        <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="hint_liquify">Über das Bild ziehen, um Pixel zu schieben. Aufblasen/Zusammenziehen: an einer Stelle klicken/ziehen.</span></p>
+      </div>
+    </div>
+
+    <div class="card" id="faceCard" data-group="paint">
+      <h2 data-i18n="face_retouch">Gesichts-Retusche</h2>
+      <input type="checkbox" id="faceOn" style="display:none">
+      <div id="faceTools">
+        <p class="subhint" id="faceStatus" data-i18n="face_detecting">Gesicht wird erkannt …</p>
+        <div class="row"><label class="cap"><span data-i18n="face_skin">Haut glätten</span> <input type="number" class="val numbox" data-for="faceSkin" min="0" max="100" value="0"></label><input type="range" id="faceSkin" data-norender min="0" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="face_eyes">Augen aufhellen</span> <input type="number" class="val numbox" data-for="faceEyes" min="0" max="100" value="0"></label><input type="range" id="faceEyes" data-norender min="0" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="face_dark">Augenringe reduzieren</span> <input type="number" class="val numbox" data-for="faceDark" min="0" max="100" value="0"></label><input type="range" id="faceDark" data-norender min="0" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="face_teeth">Zähne aufhellen</span> <input type="number" class="val numbox" data-for="faceTeeth" min="0" max="100" value="0"></label><input type="range" id="faceTeeth" data-norender min="0" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="face_tone">Hautton angleichen</span> <input type="number" class="val numbox" data-for="faceTone" min="0" max="100" value="0"></label><input type="range" id="faceTone" data-norender min="0" max="100" value="0"></div>
+        <div class="btnrow" style="margin-top:10px"><button id="faceApply" class="primary" data-i18n="apply">Übernehmen</button><button id="faceReset" data-i18n="str_reset">Zurücksetzen</button></div>
+        <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="hint_face">Regler einstellen, dann „Übernehmen". Erkennt Gesicht(er) automatisch und retuschiert nur die passenden Bereiche. Voll widerrufbar (Strg+Z).</span></p>
+      </div>
+    </div>
+
+    <div class="card" id="drawCard" data-group="draw">
+      <h2 data-i18n="draw">Zeichnen</h2>
+      <input type="checkbox" id="drawOn" style="display:none">
+      <div id="drawTools" style="display:none">
+        <div class="dz-leiste" role="toolbar" data-i18n-aria="dz_werkzeuge" aria-label="Zeichenwerkzeuge">
+          <div class="dz-gruppe" id="drawToolBar">
+            <button class="dtool active" data-dtool="brush" type="button" title="Pinsel" data-i18n-title="draw_t_brush"><i data-lucide="brush"></i><span data-i18n="dt_brush">Pinsel</span></button>
+            <button class="dtool" data-dtool="line" type="button" title="Linie" data-i18n-title="draw_t_line"><i data-lucide="vy-form-linie"></i><span data-i18n="dt_line">Linie</span></button>
+            <button class="dtool" data-dtool="rect" type="button" title="Rechteck" data-i18n-title="draw_t_rect"><i data-lucide="vy-form-rechteck"></i><span data-i18n="dt_rect">Rechteck</span></button>
+            <button class="dtool" data-dtool="ellipse" type="button" title="Kreis/Ellipse" data-i18n-title="draw_t_ellipse"><i data-lucide="vy-form-ellipse"></i><span data-i18n="dt_ellipse">Ellipse</span></button>
+            <button class="dtool" data-dtool="arrow" type="button" title="Pfeil" data-i18n-title="draw_t_arrow"><i data-lucide="vy-form-pfeil"></i><span data-i18n="dt_arrow">Pfeil</span></button>
+            <button class="dtool" data-dtool="fill" type="button" title="Füllen" data-i18n-title="draw_t_fill"><i data-lucide="paint-bucket"></i><span data-i18n="dt_fill">Füllen</span></button>
+          </div>
+          <span class="dz-trenner" aria-hidden="true"></span>
+          <div class="dz-gruppe" id="drawUtilBar">
+            <button id="drawEyedrop" class="dtool" type="button" title="Pipette: Farbe aus dem Bild" data-i18n-title="draw_pick"><i data-lucide="pipette"></i><span data-i18n="dt_pick">Pipette</span></button>
+            <button id="drawEraseBtn" class="dtool" type="button" title="Radierer" data-i18n-title="erase"><i data-lucide="eraser"></i><span data-i18n="erase">Radieren</span></button>
+          </div>
+        </div>
+        <figure class="dz-vorschau"><canvas id="drawVorschau" aria-hidden="true"></canvas>
+          <figcaption><span id="drawVorschauName"></span><span id="drawVorschauWert"></span></figcaption></figure>
+
+        <div class="dz-abschnitt" id="dzStrich">
+        <div class="sectlabel dz-kopf"><span data-i18n="dz_strich">Strich</span><button id="drawNewLayer" class="dz-neu" type="button" title="Neue Zeichen-Ebene" data-i18n-title="draw_newlayer_tip"><i data-lucide="plus"></i><span data-i18n="draw_newlayer_kurz">Neue Ebene</span></button></div>
+        <div class="sectlabel" id="drawBrushLbl"><span data-i18n="draw_sec_brush">Pinselspitze</span></div>
+        <div class="seg dz-spitzen" id="drawBrushTypes">
+          <button class="active" data-btype="normal" type="button" title="Normal" data-i18n-title="draw_b_normal"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_normal">Normal</span></button>
+          <button data-btype="airbrush" type="button" title="Airbrush" data-i18n-title="draw_b_air"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_air">Airbrush</span></button>
+          <button data-btype="texture" type="button" title="Textur" data-i18n-title="draw_b_texture"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_texture">Textur</span></button>
+          <button data-btype="calligraphy" type="button" title="Kalligrafie" data-i18n-title="draw_b_callig"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_callig">Kalligrafie</span></button>
+          <button data-btype="aquarell" type="button" title="Wasserfarbe" data-i18n-title="draw_b_aqua"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_aqua">Wasserfarbe</span></button>
+          <button data-btype="pixel" type="button" title="Verpixler" data-i18n-title="draw_b_pixel_tip"><canvas class="dz-probe" aria-hidden="true"></canvas><span data-i18n="draw_b_pixel">Verpixler</span></button>
+        </div>
+
+        <div class="row" id="drawSizeRow" style="margin-top:12px"><label class="cap"><span data-i18n="draw_size">Größe</span> <input type="number" class="val numbox" data-for="drawSize" min="1" max="200" value="24"></label><input type="range" id="drawSize" data-norender min="1" max="200" value="24"></div>
+        <div class="row" id="drawHardRow"><label class="cap"><span data-i18n="hardness">Härte</span> <input type="number" class="val numbox" data-for="drawHard" min="0" max="100" value="70"></label><input type="range" id="drawHard" data-norender min="0" max="100" value="70"></div>
+        <div class="row" id="drawOpacityRow"><label class="cap"><span data-i18n="draw_opacity">Deckkraft</span> <input type="number" class="val numbox" data-for="drawOpacity" min="5" max="100" value="100"></label><input type="range" id="drawOpacity" data-norender min="5" max="100" value="100"></div>
+        <div class="row" id="drawGlattRow"><label class="cap"><span data-i18n="draw_glatt">Glättung</span> <input type="number" class="val numbox" data-for="drawGlatt" min="0" max="100" value="30"></label><input type="range" id="drawGlatt" data-norender min="0" max="100" value="30"></div>
+        <label class="toggle" id="drawFillRow" style="display:none;margin-top:2px;cursor:pointer;align-items:center;gap:7px"><input type="checkbox" id="drawFill"><span data-i18n="draw_fill_shape">Gefüllt</span></label>
+        <div class="row" id="drawTolRow" style="display:none"><label class="cap"><span data-i18n="draw_tolerance">Toleranz</span> <input type="number" class="val numbox" data-for="drawTol" min="0" max="150" value="30"></label><input type="range" id="drawTol" data-norender min="0" max="150" value="30"></div>
+        <div class="dz-vorlagen"><span class="dz-klein" data-i18n="dz_vorlagen">Vorlagen</span><div id="drawPresets" class="swrow"></div></div>
+        </div>
+
+        <div class="dz-abschnitt" id="dzFarbe">
+        <div class="sectlabel"><span data-i18n="draw_color">Farbe</span></div>
+        <div class="row" style="margin-top:0">
+          <div class="swrow" id="drawColorRow">
+            <input type="color" id="drawColor" value="#e23b3b" data-i18n-aria="txt_color" aria-label="Farbe">
+            <div id="drawSwatches" class="swrow" style="flex:1 1 auto"></div>
+            <button id="drawMoreCols" class="swatch-more" type="button" title="Weitere Farben" data-i18n-title="draw_morecols">＋</button>
+          </div>
+          <div id="drawRecent" class="swrow" title="Zuletzt verwendet" data-i18n-title="draw_recent"></div>
+        </div>
+        <button id="drawGrad" class="dtoggle dz-schalter" type="button" aria-pressed="false"><span data-i18n="draw_gradient">Farbverlauf-Pinsel</span><span class="dot" style="margin-left:auto"></span></button>
+        <div class="row" id="drawGrad2Row" style="display:none;margin-top:4px"><label class="cap" for="drawColor2"><span data-i18n="draw_color2">Zweite Farbe</span></label><input type="color" id="drawColor2" value="#3b82f6" style="margin-top:4px"></div>
+        </div>
+        <div class="dz-abschnitt dz-fuss">
+        <div class="setsec collapsed" id="drawAdvSec" style="margin-top:12px">
+          <div class="setsec-h"><span data-i18n="draw_advanced">Symmetrie &amp; Misch-Modus</span><span class="chev"><i data-lucide="chevron-down"></i></span></div>
+          <div class="setsec-body">
+            <div class="row" style="margin-top:0"><label class="cap" data-i18n="draw_symmetry">Symmetrie</label>
+              <div class="seg" id="drawSym" style="margin-top:4px"><button data-v="off" class="active" data-i18n="off_">Aus</button><button data-v="v" title="Vertikale Achse" data-i18n-title="draw_sym_v">↔</button><button data-v="h" title="Horizontale Achse" data-i18n-title="draw_sym_h">↕</button><button data-v="both" title="Beide" data-i18n-title="draw_sym_both">✛</button></div></div>
+            <div class="row" style="margin-top:8px"><label class="cap" for="drawBlend" data-i18n="draw_blend">Misch-Modus</label>
+              <select id="drawBlend" class="metain" style="margin-top:4px;width:100%">
+                <option value="source-over" data-i18n="blend_normal">Normal</option>
+                <option value="multiply" data-i18n="blend_multiply">Multiplizieren</option>
+                <option value="screen" data-i18n="blend_screen">Negativ multipl.</option>
+                <option value="overlay" data-i18n="blend_overlay">Ineinanderkopieren</option>
+                <option value="soft-light" data-i18n="blend_softlight">Weiches Licht</option>
+              </select></div>
+          </div>
+        </div>
+        <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="hint_draw">Frei aufs Bild malen. Jeder Strich liegt auf einer eigenen Ebene. Rückgängig mit Strg+Z.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="straightenCard" data-group="crop">
+      <h2 data-i18n="persp">Perspektive</h2>
+      <input type="range" id="strAngle" data-norender min="-15" max="15" step="0.1" value="0" style="display:none">
+      <span id="strAngleVal" style="display:none">0,0°</span>
+      <div class="row"><label class="cap"><span data-i18n="up_titel" data-help="up_tip">Automatisch</span></label><div class="seg" id="upSeg"><button type="button" data-u="auto" data-i18n="up_auto">Auto</button><button type="button" data-u="ebene" data-i18n="up_ebene">Waagerecht</button><button type="button" data-u="senkrecht" data-i18n="up_senkrecht">Senkrecht</button><button type="button" data-u="voll" data-i18n="up_voll">Voll</button></div></div>
+      <div class="row"><label class="cap"><span data-i18n="persp_v">Vertikal</span> <input type="number" class="val numbox" data-for="perspV" min="-50" max="50" value="0"></label><input type="range" id="perspV" data-norender min="-50" max="50" value="0"></div>
+      <div class="row"><label class="cap"><span data-i18n="persp_h">Horizontal</span> <input type="number" class="val numbox" data-for="perspH" min="-50" max="50" value="0"></label><input type="range" id="perspH" data-norender min="-50" max="50" value="0"></div>
+      <div class="btnrow" id="geomApplyRow" style="margin-top:8px;display:none"><button id="geomApply" class="primary" data-i18n="apply">Übernehmen</button><button id="geomReset" data-i18n="str_reset">Zurücksetzen</button></div>
+      <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="hint_persp">Stürzende Linien geraderücken (z. B. Gebäude). Live-Vorschau, „Übernehmen" beschneidet automatisch.</span></p>
+    </div>
+
+    <div class="card" id="lensCard" data-group="crop">
+      <h2 data-i18n="lens_section">Lens</h2>
+      <button id="lensProfil" class="wide" data-i18n-title="lens_profil_tip" title="Kamera und Objektiv aus den Bilddaten erkennen und Verzeichnung, Vignette und Farbsäume aus der lensfun-Datenbank einstellen"><span data-i18n="lens_profil" data-licon="vy-lens">Objektivprofil anwenden</span></button>
+      <p class="hint" id="lensProfilInfo" style="display:none;margin:6px 0 4px"></p>
+      <div class="row" id="lensDistRow"><label class="cap"><span data-i18n="lensDist">Verzeichnung</span> <input type="number" class="val numbox" data-for="lensDist" min="-100" max="100" value="0"></label><input type="range" id="lensDist" min="-100" max="100" value="0"></div>
+      <div class="row" id="lensCARow"><label class="cap"><span data-i18n="lensCA">Farbsäume (CA)</span> <input type="number" class="val numbox" data-for="lensCA" min="-100" max="100" value="0"></label><input type="range" id="lensCA" min="-100" max="100" value="0"></div>
+    </div>
+
+
+    <div class="card" id="groesseCard" data-group="crop">
+      <h2 data-i18n="geo_groesse">Größe &amp; Leinwand</h2>
+      <div class="repgrid dicht tl-grid">
+        <button id="mmResize" data-studio data-i18n-title="rsz_title" title="Bildgröße ändern"><i data-lucide="scaling"></i><span data-i18n="tl_resize">Bildgröße</span></button>
+        <button id="mmCanvas" data-studio data-i18n-title="canv_title" title="Leinwand vergrößern"><i data-lucide="expand"></i><span data-i18n="tl_canvas">Leinwand</span></button>
+        <button id="mmRandFuellen" data-studio data-i18n-title="rf_tip" title="Transparente Ränder aus dem Bildinhalt per KI auffüllen"><i data-lucide="vy-randfuellen"></i><span data-i18n="rf_knopf">Leere Ränder füllen</span></button>
+      </div>
+    </div>
+
+    <div class="card" id="textCard" data-group="text">
+      <h2 data-i18n="tab_text">Text</h2>
+      <button id="addTextBtn" class="wide" disabled data-i18n="txt_add" data-licon="type" style="margin-bottom:6px">＋ Neuer Text</button>
+      <div id="textList"></div>
+      <div id="textCtl" style="display:none">
+        <textarea id="txtContent" rows="2" style="width:100%;margin-top:8px;display:block;resize:vertical" data-i18n-ph="txt_ph" placeholder="Text eingeben" data-i18n-aria="txt_ph" aria-label="Text eingeben"></textarea>
+        <div class="sectlabel"><span data-i18n="txt_s_schrift">Schrift</span></div>
+        <div class="txt-zeile">
+          <select id="txtFont">
+            <optgroup label="Eigene Schriften" id="txtFontEigen" data-i18n-label="font_eigen" hidden></optgroup>
+            <optgroup label="Sans">
+              <option value="system-ui, sans-serif">System</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="'Arial Black', sans-serif">Arial Black</option>
+              <option value="'Segoe UI', sans-serif">Segoe UI</option>
+              <option value="Calibri, sans-serif">Calibri</option>
+              <option value="Candara, sans-serif">Candara</option>
+              <option value="'Century Gothic', sans-serif">Century Gothic</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="Tahoma, sans-serif">Tahoma</option>
+              <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+              <option value="'Franklin Gothic Medium', sans-serif">Franklin Gothic</option>
+              <option value="Bahnschrift, sans-serif">Bahnschrift</option>
+              <option value="'Gill Sans', sans-serif">Gill Sans</option>
+            </optgroup>
+            <optgroup label="Serif">
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="Cambria, serif">Cambria</option>
+              <option value="Garamond, serif">Garamond</option>
+              <option value="'Palatino Linotype', serif">Palatino</option>
+              <option value="'Book Antiqua', serif">Book Antiqua</option>
+              <option value="'Bookman Old Style', serif">Bookman</option>
+              <option value="Rockwell, serif">Rockwell (Slab)</option>
+            </optgroup>
+            <optgroup label="Display">
+              <option value="Impact, sans-serif">Impact</option>
+              <option value="'Comic Sans MS', cursive">Comic Sans</option>
+              <option value="'Brush Script MT', cursive">Brush Script</option>
+              <option value="'Segoe Script', cursive">Segoe Script</option>
+              <option value="'Segoe Print', cursive">Segoe Print</option>
+              <option value="'Ink Free', cursive">Ink Free</option>
+            </optgroup>
+            <optgroup label="Mono">
+              <option value="Consolas, monospace">Consolas</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Lucida Console', monospace">Lucida Console</option>
+            </optgroup>
+          </select><button type="button" id="fontLaden" class="ticon" data-i18n-title="font_laden" title="Eigene Schrift laden (TTF, OTF, WOFF)"><i data-lucide="plus"></i></button><button type="button" id="fontWeg" class="ticon" data-i18n-title="font_weg" title="Eigene Schrift entfernen" hidden><i data-lucide="trash-2"></i></button><input type="file" id="fontDatei" accept=".ttf,.otf,.woff,.woff2,font/ttf,font/otf,font/woff,font/woff2" hidden>
+        </div>
+        <div class="txt-zeile txt-stil">
+          <button id="txtBold" type="button" class="txt-b" data-i18n-title="txt_bold" title="Fett" data-i18n-aria="txt_bold" aria-label="Fett"><i data-lucide="bold"></i></button>
+          <button id="txtItalic" type="button" class="txt-b" data-i18n-title="txt_italic" title="Kursiv" data-i18n-aria="txt_italic" aria-label="Kursiv"><i data-lucide="italic"></i></button>
+          <button id="txtOutline" type="button" class="txt-b" data-i18n-title="txt_outline" title="Kontur" data-i18n-aria="txt_outline" aria-label="Kontur"><i data-lucide="type-outline"></i></button>
+          <div class="seg" id="txtAusricht"><button type="button" data-al="left" data-i18n-title="txt_links" title="Linksbündig"><i data-lucide="align-left"></i></button><button type="button" data-al="center" class="active" data-i18n-title="txt_mitte" title="Zentriert"><i data-lucide="align-center"></i></button><button type="button" data-al="right" data-i18n-title="txt_rechts" title="Rechtsbündig"><i data-lucide="align-right"></i></button></div>
+          <input type="color" id="txtColor" value="#ffffff" data-i18n-title="txt_color" title="Farbe" data-i18n-aria="txt_color" aria-label="Farbe">
+        </div>
+        <div class="row"><label class="cap"><span data-i18n="txt_size" data-help="txt_size_tip">Größe</span> <input type="number" class="val numbox" data-for="txtSize" min="1" max="40" value="8"></label><input type="range" id="txtSize" min="1" max="40" value="8"></div>
+        <div class="sectlabel"><span data-i18n="txt_s_abstand">Abstände</span></div>
+        <div class="row"><label class="cap"><span data-i18n="txt_abstand" data-help="txt_abstand_tip">Zeichenabstand</span> <input type="number" class="val numbox" data-for="txtAbstand" min="-20" max="100" value="0"></label><input type="range" id="txtAbstand" min="-20" max="100" value="0"></div>
+        <div class="row"><label class="cap"><span data-i18n="txt_zeile" data-help="txt_zeile_tip">Zeilenabstand</span> <input type="number" class="val numbox" data-for="txtZeile" min="80" max="250" value="118"></label><input type="range" id="txtZeile" min="80" max="250" value="118"></div>
+        <div class="sectlabel"><span data-i18n="txt_s_lage">Lage</span></div>
+        <div class="row"><label class="cap"><span data-i18n="lyr_opacity" data-help="txt_opacity">Deckkraft</span> <input type="number" class="val numbox" data-for="txtOpacity" min="0" max="100" value="100"></label><input type="range" id="txtOpacity" min="0" max="100" value="100"></div>
+        <div class="row"><label class="cap"><span data-i18n="txt_rot">Drehung</span> <input type="number" class="val numbox zero" id="txtRotNum" min="-180" max="180" step="1" value="0"></label><input type="range" id="txtRot" min="-180" max="180" value="0"></div>
+        <label class="toggle"><input type="checkbox" id="txtTile"> <span data-i18n="txt_tile">Als Wasserzeichen kacheln</span></label>
+        <div class="sectlabel"><span data-i18n="txt_s_effekt">Effekte</span></div>
+        <div class="row"><label class="cap"><span data-i18n="txt_schatten" data-help="txt_schatten_tip">Schatten</span> <input type="number" class="val numbox" data-for="txtSchatten" min="0" max="100" value="0"></label><input type="range" id="txtSchatten" min="0" max="100" value="0"></div>
+        <div class="row" id="txtKonturRow" hidden><label class="cap"><span data-i18n="txt_kontur" data-help="txt_kontur_tip">Konturbreite</span> <input type="number" class="val numbox" data-for="txtKontur" min="1" max="30" value="9"></label><div style="display:flex;gap:8px;align-items:center"><input type="range" id="txtKontur" min="1" max="30" value="9" style="flex:1"><input type="color" id="txtKonturFarbe" value="#000000" data-i18n-aria="txt_konturFarbe" aria-label="Konturfarbe"></div></div>
+        <button id="txtDel" class="wide txt-weg" data-i18n="txt_del" data-licon="trash-2">Text löschen</button>
+      </div>
+      <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="hint_text">Text hinzufügen, im Bild ziehen zum Platzieren. Niedrige Deckkraft + „Kacheln" = Wasserzeichen.</span></p>
+    </div>
+    <div class="card klappbar" id="logoCard" data-group="text" data-zu="1">
+      <h2 data-i18n="wz_titel" data-help="wz_hint">Logo-Wasserzeichen</h2>
+      <div class="wz-kopf"><div id="wzVorschau" class="wz-vorschau leer"></div>
+        <div class="wz-knoepfe"><button id="wzLaden" type="button"><span data-i18n="wz_laden" data-licon="image-plus">Logo laden</span></button><button id="wzEntfernen" type="button" disabled><span data-i18n="wz_entfernen" data-licon="x">Entfernen</span></button></div></div>
+      <input type="file" id="wzDatei" accept="image/png,image/webp,image/svg+xml,image/*" hidden>
+      <label class="toggle"><span data-i18n="wz_an" data-help="wz_an_tip">Auf jedes Foto setzen</span><input type="checkbox" id="wzAn" disabled></label>
+      <div class="row wz-posrow"><label class="cap"><span data-i18n="wz_pos">Position</span></label>
+        <div class="wz-pos" id="wzPos"><button type="button" data-p="ol" data-i18n-title="wz_p_ol" title="oben links" aria-label="oben links"></button><button type="button" data-p="om" data-i18n-title="wz_p_om" title="oben Mitte" aria-label="oben Mitte"></button><button type="button" data-p="or" data-i18n-title="wz_p_or" title="oben rechts" aria-label="oben rechts"></button><button type="button" data-p="ml" data-i18n-title="wz_p_ml" title="Mitte links" aria-label="Mitte links"></button><button type="button" data-p="mm" data-i18n-title="wz_p_mm" title="Mitte" aria-label="Mitte"></button><button type="button" data-p="mr" data-i18n-title="wz_p_mr" title="Mitte rechts" aria-label="Mitte rechts"></button><button type="button" data-p="ul" data-i18n-title="wz_p_ul" title="unten links" aria-label="unten links"></button><button type="button" data-p="um" data-i18n-title="wz_p_um" title="unten Mitte" aria-label="unten Mitte"></button><button type="button" data-p="ur" data-i18n-title="wz_p_ur" title="unten rechts" aria-label="unten rechts" class="active"></button></div></div>
+      <div class="row"><label class="cap"><span data-i18n="wz_groesse">Größe</span> <input type="number" class="val numbox" data-for="wzGroesse" min="3" max="60" value="18"></label><input type="range" id="wzGroesse" data-norender min="3" max="60" value="18"></div>
+      <div class="row"><label class="cap"><span data-i18n="lyr_opacity" data-help="wz_deck_tip">Deckkraft</span> <input type="number" class="val numbox" data-for="wzDeck" min="5" max="100" value="80"></label><input type="range" id="wzDeck" data-norender min="5" max="100" value="80"></div>
+      <div class="row"><label class="cap"><span data-i18n="wz_rand">Abstand zum Rand</span> <input type="number" class="val numbox" data-for="wzRand" min="0" max="20" value="3"></label><input type="range" id="wzRand" data-norender min="0" max="20" value="3"></div>
+      <div class="row"><label class="cap"><span data-i18n="wz_dreh">Drehung</span> <input type="number" class="val numbox" data-for="wzDreh" min="-45" max="45" value="0"></label><input type="range" id="wzDreh" data-norender min="-45" max="45" value="0"></div>
+      <label class="toggle" style="margin-top:6px"><input type="checkbox" id="wzKachel" disabled><span data-i18n="wz_kachel" data-help="wz_kachel_tip">Über das ganze Bild kacheln</span></label>
+    </div>
+
+    <div class="card" id="settingsCard" data-group="settings">
+      <div class="setHead" style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px">
+        <h2 data-i18n="settings" id="settingsTitle" style="margin:0">Einstellungen</h2>
+        <button id="settingsCloseX" class="ticon" type="button" aria-label="Schließen" data-i18n-title="close" title="Schließen" style="width:36px;height:36px;border-radius:8px"><i data-lucide="x" style="width:18px;height:18px"></i></button>
+      </div>
+      <div id="setLayout">
+        <nav id="setNav" role="tablist" aria-labelledby="settingsTitle">
+          <button class="setnav-btn active" role="tab" aria-selected="true" data-setcat="gen"><span class="ri" data-ic="gear"></span><span data-i18n="sc_gen">Allgemein</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="look"><span class="ri" data-ic="brush"></span><span data-i18n="sc_look">Aussehen</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="view"><span class="ri" data-ic="monitor"></span><span data-i18n="sc_view">Ansicht</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="export"><span class="ri" data-ic="export"></span><span data-i18n="sc_export">Export</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="img"><span class="ri" data-ic="image"></span><span data-i18n="sc_img">Bild-Infos</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="adv"><span class="ri" data-ic="bolt"></span><span data-i18n="sc_adv">Erweitert</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="news"><span class="ri" data-ic="whatsnew"></span><span data-i18n="sc_news">Neuigkeiten</span></button>
+          <button class="setnav-btn" role="tab" aria-selected="false" data-setcat="about"><span class="ri" data-ic="info"></span><span data-i18n="sc_about">Über</span></button>
+        </nav>
+        <div id="setPanes">
+        <section class="setpane on" role="tabpanel" data-setcat="gen">
+          <div class="row"><label class="cap" for="langSel" data-i18n="set_language">Sprache</label>
+            <select id="langSel" class="wide metain" style="margin-top:4px;box-sizing:border-box"><option value="en">English</option><option value="de">Deutsch</option><option value="es">Español</option><option value="fr">Français</option></select></div>
+          <div class="row" style="margin-top:8px"><label class="cap" data-i18n="set_autosave">Automatisch sichern</label>
+            <div class="seg" id="setAutosave" style="margin-top:4px"><button data-v="30">30s</button><button data-v="90" class="active">90s</button><button data-v="300">5min</button><button data-v="off" data-i18n="off_">Aus</button></div></div>
+          <label class="toggle"><input type="checkbox" id="setConfirmClose"> <span data-i18n="set_confirmclose">Beim Schließen warnen (ungespeichert)</span></label>
+          <label class="toggle"><input type="checkbox" id="setPersist"> <span data-i18n="set_persist">Letztes Bild merken</span></label>
+          <label class="toggle"><input type="checkbox" id="setFotoMerken"> <span data-i18n="set_fotomerken" data-help="set_fotomerken_tip">Bearbeitung je Foto merken</span></label>
+          <label class="toggle"><input type="checkbox" id="setXmp"> <span data-i18n="set_xmp" data-help="set_xmp_tip">Lightroom-Bearbeitungen (.xmp) übernehmen</span></label>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="look">
+          <div class="row" style="margin-top:8px"><label class="cap" data-i18n="set_theme">Design</label>
+            <div class="seg" style="margin-top:4px"><button id="themeLight" data-i18n="theme_light">Hell</button><button id="themeDark" data-i18n="theme_dark">Dunkel</button></div></div>
+          <div class="row" style="margin-top:8px"><label class="cap" data-i18n="set_accent">Akzentfarbe</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:4px;flex-wrap:wrap;padding-left:6px"><input type="color" id="accentPick" value="#52b788" data-i18n-aria="set_accent"><div id="accentPresets" style="display:flex;gap:6px;flex-wrap:wrap"></div><button id="accentFromImg" style="padding:5px 10px;font-size:11.5px" data-i18n-title="accent_img_t" title="Akzentfarbe aus dem geöffneten Bild ableiten"><span class="ri" data-ic="dropper"></span><span data-i18n="accent_img">Aus Bild</span></button></div></div>
+          <div class="row" style="margin-top:10px"><label class="cap"><span data-i18n="set_uiscale">Oberflächen-Größe</span> <button type="button" id="uiScaleAuto" data-i18n="set_uiscale_auto" data-i18n-title="set_uiscale_auto_tip" title="Größe passend zum Fenster wählen">Automatisch</button> <span class="val" id="uiScaleVal">100%</span></label><input type="range" id="uiScale" data-norender min="70" max="250" step="5" value="100"></div>
+          <label class="toggle" style="margin-top:8px"><input type="checkbox" id="setRound"> <span data-i18n="set_round">Abgerundete Bild-Ecken</span></label>
+          <label class="toggle" style="margin-top:8px"><input type="checkbox" id="setKompakt"> <span data-i18n="set_kompakt" data-help="set_kompakt">Kompakte Regler</span></label>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="view">
+          <div class="row" style="margin-top:6px"><label class="cap" data-i18n="set_zoomspeed">Zoom-Geschwindigkeit</label>
+            <div class="seg" id="setZoomSpeed" style="margin-top:4px"><button data-v="slow" data-i18n="speed_slow">Langsam</button><button data-v="normal" class="active" data-i18n="speed_normal">Normal</button><button data-v="fast" data-i18n="speed_fast">Schnell</button></div></div>
+          <label class="toggle"><input type="checkbox" id="setRulers"> <span data-i18n="set_rulers">Lineal anzeigen</span></label>
+          <div class="row" style="margin-top:0"><label class="cap" data-i18n="set_checker">Transparenz-Schachbrett</label>
+            <div class="seg" id="setChecker" style="margin-top:4px"><button data-v="small" data-i18n="size_s">Klein</button><button data-v="mid" class="active" data-i18n="size_m">Mittel</button><button data-v="large" data-i18n="size_l">Groß</button></div></div>
+          <label class="toggle"><input type="checkbox" id="setClip"> <span data-i18n="set_clipwarn">Clipping-Warnung</span></label>
+          <div class="row set-clip-grenzen"><label class="cap"><span data-i18n="clip_grenzen" data-help="clip_grenzen_tip">Schwellen</span></label><div class="set-clip-felder"><label for="setClipLicht" data-i18n="clip_licht">Lichter ab</label> <input type="number" id="setClipLicht" min="80" max="100" step="0.5" value="95"> % <label for="setClipTiefe" data-i18n="clip_tiefe">Tiefen bis</label> <input type="number" id="setClipTiefe" min="0" max="20" step="0.5" value="5"> %</div></div>
+          <label class="toggle"><input type="checkbox" id="setArDetect" checked> <span data-i18n="set_ardetect">Seitenverhältnis vorschlagen</span></label>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="export">
+          <div class="row" style="margin-top:0"><label class="cap" data-i18n="exFormat">Format</label>
+            <div class="seg" id="setExFmt" style="margin-top:4px"><button data-v="image/jpeg" class="active">JPG</button><button data-v="image/png">PNG</button><button data-v="image/webp">WebP</button></div></div>
+          <div class="row" style="margin-top:8px"><label class="cap"><span data-i18n="exQuality">Qualität</span> <span class="val" id="setQualVal">92</span></label><input type="range" id="setQual" data-norender min="1" max="100" value="92"></div>
+          <div class="row" id="setExPathRow" style="display:none;margin-top:8px"><label class="cap" for="setExPath" data-i18n="set_exportpath">Standard-Exportpfad</label><button id="setExPath" class="wide" style="margin-top:4px;overflow:hidden;text-overflow:ellipsis">…</button></div>
+          <div class="setsub"><span data-i18n="set_meta">Metadaten beim Export</span></div>
+          <div class="row" style="display:block"><label class="cap" for="metaAuthor" data-i18n="ex_artist">Autor</label><input type="text" id="metaAuthor" class="metain"></div>
+          <div class="row" style="display:block"><label class="cap" for="metaCopyright" data-i18n="ex_copy">Copyright</label><input type="text" id="metaCopyright" class="metain"></div>
+          <div class="row" style="display:block"><label class="cap" for="metaTitle" data-i18n="set_metatitle">Titel</label><input type="text" id="metaTitle" class="metain"></div>
+          <p class="hint" data-i18n="set_metahint">Wird beim Export in JPG/PNG eingebettet.</p>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="img">
+          <div class="setsub" style="margin-top:0;display:flex;align-items:center;gap:6px"><span data-i18n="set_fileinfo" data-help="set_fileinfo">Datei-Info</span></div>
+          <div id="fileInfoBox" class="fileinfo"><span class="hint" data-i18n="set_nofile">Kein Bild geladen.</span></div>
+          <div id="locCard" class="fileinfo" style="margin-top:10px">
+            <div class="firow"><span class="k" data-i18n="loc_title">Standort</span><span class="v" id="locCoords">Kein Standort verfügbar</span></div>
+          </div>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="adv">
+          <label class="toggle"><input type="checkbox" id="setGPU" checked> <span data-i18n="set_gpu">GPU-Beschleunigung (WebGL)</span></label>
+          <label class="toggle"><input type="checkbox" id="setFast"> <span data-i18n="set_fast">Schnellvorschau beim Ziehen</span></label>
+          <div class="row" style="margin-top:6px"><label class="cap" data-i18n="set_previewq">Vorschau-Qualität beim Ziehen</label>
+            <div class="seg" id="setPreviewQ" style="margin-top:4px"><button data-v="low" data-i18n="q_low">Niedrig</button><button data-v="mid" class="active" data-i18n="q_mid">Mittel</button><button data-v="high" data-i18n="q_high">Hoch</button></div></div>
+          <label class="toggle"><input type="checkbox" id="setDither"> <span data-i18n="set_dither">Dithering (gegen Banding)</span></label>
+          <label class="toggle"><input type="checkbox" id="setTipps" checked> <span data-i18n="set_tipps" data-help="set_tipps_tip">Kurz-Tipps beim ersten Öffnen eines Reiters</span></label>
+          <div class="row" style="margin-top:6px"><label class="cap" for="setPipette"><span data-i18n="set_pipette" data-help="set_pipette_tip">Pipetten-Messfläche</span></label><select id="setPipette" style="width:100%;margin-top:4px"><option value="" data-i18n="pip_std">Standard</option><option value="1">1 px</option><option value="3">3 × 3 px</option><option value="5">5 × 5 px</option><option value="11">11 × 11 px</option><option value="31">31 × 31 px</option></select></div>
+          <label class="toggle"><input type="checkbox" id="setDetailVoll" checked> <span data-i18n="set_detailVoll" data-help="set_detailVoll_tip">Beim Hineinzoomen echte Originalpixel zeigen</span></label>
+          <label class="toggle"><input type="checkbox" id="setStiftDruck" checked> <span data-i18n="set_stiftdruck" data-help="set_stiftdruck_tip">Stiftdruck steuert die Pinselgröße</span></label>
+          <label class="toggle"><input type="checkbox" id="setAiEraser" checked> <span data-i18n="set_ai_eraser">KI-Objektentferner</span></label>
+          <p class="hint" data-i18n="set_ai_eraser_hint" style="margin:-2px 0 8px" data-falt>Bessere Füllung bei strukturierten Hintergründen. Lädt einmalig ein Modell; fällt sonst auf die klassische Methode zurück.</p>
+          <div class="row" style="margin-top:6px"><label class="cap" data-i18n="set_kiq">KI-Modelle</label>
+            <div class="seg" id="setKiQ" style="margin-top:4px"><button data-v="hoch" data-i18n="kiq_hoch">Höchste Qualität</button><button data-v="schnell" data-i18n="kiq_schnell">Schnell</button></div></div>
+          <p class="hint" id="kiQAuto" data-i18n="kiq_auto" hidden style="margin:4px 0 0">Automatisch gewählt: dieses Gerät hat wenig Arbeitsspeicher.</p>
+          <div id="kiSpeicher" hidden><div id="kiSpListe"></div><div class="ki-sp-fuss"><span id="kiSpSumme"></span><button id="kiSpAlle" type="button"></button></div></div>
+          <p class="hint" data-i18n="set_kiq_hint" style="margin:4px 0 8px" data-falt>Höchste Qualität nutzt größere Modelle zum Freistellen, Entrauschen, Entfernen, Auswählen und für Himmel und Tiefe. Bessere Ergebnisse, aber langsamer und einmalig rund 930 MB Download.</p>
+          <div class="setsub"><span data-i18n="set_sec_lab">Versteckte Funktionen</span></div>
+          <p class="hint" data-i18n="lab_hint">Experimentelles: noch nicht fertig, kann sich jederzeit ändern.</p>
+          <button id="labBaBtn" class="wide" data-i18n="lab_ba" data-licon="columns-2">Vorher/Nachher-Bild erstellen</button>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="news">
+          <div id="whatsnewList"><p class="wn-empty" data-i18n="wn_loading">Lade Änderungshistorie …</p></div>
+        </section>
+        <section class="setpane" role="tabpanel" data-setcat="about">
+          <div class="about-kopf"><img src="icon-192.png" alt="" width="56" height="56"><div><div class="about-name">VEYNO</div><div class="hint" id="aboutVersion" style="margin:2px 0 0;font-variant-numeric:tabular-nums"></div></div></div>
+          <p class="hint" data-i18n="set_about" style="margin:14px 0 0">VEYNO · deine Bilder bleiben auf deinem Gerät.</p>
+          <div class="setsub"><span data-i18n="priv_title">Deine Fotos bleiben auf deinem Gerät</span></div>
+          <p class="priv-kern" data-i18n="priv_fotos">Bearbeiten, KI und Export rechnet dein Browser. Kein Foto und keine Bearbeitung wird hochgeladen.</p>
+          <p class="hint" data-i18n="priv_sonst" style="margin:8px 0 2px">Mit dem Internet hat VEYNO nur hier zu tun:</p>
+          <ul class="priv-liste" id="privListe">
+            <li><b data-i18n="priv_zaehler_t">Seitenaufruf:</b> <span data-i18n="priv_zaehler">der Server führt wie üblich ein Zugriffsprotokoll (IP-Adresse, Zeit, abgerufene Datei). Daraus lesen wir Besucherzahlen ab. Keine Cookies; welche Werkzeuge du nutzt, wird nicht gemessen.</span></li>
+            <li><b data-i18n="priv_fb_t">Feedback:</b> <span data-i18n="priv_fb">nur wenn du sendest: deine Nachricht und die VEYNO-Version, auf Wunsch deine E-Mail und technische Details (keine Bilder, keine Dateinamen).</span></li>
+            <li><b data-i18n="priv_laden_t">Downloads:</b> <span data-i18n="priv_laden">KI-Modelle und Programmteile kommen von veyno.art. Dabei wird nichts von dir hochgeladen.</span></li>
+          </ul>
+          <p class="hint" id="legalLinks" style="margin-top:6px"><a href="licenses.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" data-i18n="set_licenses">Open-Source-Lizenzen</a> · <a href="legal.html" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none" data-i18n="set_legal">Impressum &amp; Datenschutz</a></p>
+          <div class="setsub"><span data-i18n="qt_titel">Quelltext</span></div>
+          <p class="hint" data-i18n="qt_hint" style="margin:0 0 10px">VEYNO ist eine einzige Datei. Hier steht jede Zeile, so wie sie gerade in deinem Browser läuft.</p>
+          <button id="qtEinst" class="wide" type="button"><i data-lucide="code"></i> <span data-i18n="qt_knopf">Quelltext ansehen</span></button>
+          <div class="setsub"><span data-i18n="kofi_support">VEYNO unterstützen</span></div>
+          <p class="hint" data-i18n="about_support" style="margin:0 0 10px">Keine Werbung, keine Investoren: Spenden tragen Server und Entwicklung.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button id="kofiSupport" class="wide"><i data-lucide="heart"></i> <span data-i18n="kofi_support">VEYNO unterstützen</span></button>
+            <label class="cap" style="cursor:pointer;display:flex;align-items:center;gap:7px;margin:0"><input type="checkbox" id="kofiToastOn" class="schalter"> <span data-i18n="kofi_setting">Spenden-Hinweis nach Export anzeigen</span></label>
+          </div>
+        </section>
+        </div>
+      </div>
+    </div>
+    <div class="card" id="filterCard" data-group="filter">
+      <h2 data-i18n="tab_filter">Filter</h2>
+      <button type="button" id="lookMenuBtn" class="ticon" aria-haspopup="menu" aria-expanded="false" data-i18n-title="look_menu" title="Weitere Möglichkeiten"><i data-lucide="menu"></i></button>
+      <div id="lookMenu" role="menu" hidden>
+        <div class="row" id="lookStrengthRow" role="none" style="display:none;margin:2px 4px 6px"><label class="cap"><span data-i18n="strength">Stärke</span> <input type="number" class="val numbox" data-for="lookStrength" min="0" max="100" value="100"></label><input type="range" id="lookStrength" min="0" max="100" value="100"></div>
+        <button id="surpriseBtn" type="button" role="menuitem"><span data-i18n="surprise" data-licon="dices">Überrasch mich</span></button>
+        <button id="savePreset" type="button" role="menuitem" data-i18n="savePreset" data-licon="bookmark-plus">Aktuelle Einstellung speichern</button>
+        <button id="refLookBtn" type="button" role="menuitem" data-i18n-title="ref_tip" title="Farben und Stimmung eines Vorbild-Fotos übernehmen"><span data-i18n="ref_knopf" data-licon="image-plus">Look von Foto übernehmen</span></button>
+        <button id="importLr" type="button" role="menuitem" data-i18n="imp_lr" data-licon="file-plus" data-i18n-title="imp_lr_tip" title="Lightroom-Presets (.xmp, .lrtemplate) als eigene Presets übernehmen — Werte werden ungefähr umgerechnet">Lightroom-Preset importieren</button>
+      </div>
+      <div id="katalog">
+        <button type="button" id="katKopf" aria-expanded="false" aria-controls="katInhalt"><span class="kat-ic"><i data-lucide="swatch-book"></i></span><span class="kat-titel" data-i18n="kat_titel">Preset-Katalog</span><span id="katZahl" class="kat-zahl" data-nosearch></span><span class="kat-pfeil"><i data-lucide="chevron-down"></i></span></button>
+        <div id="katInhalt" hidden>
+          <div id="katChips" role="tablist" data-i18n-aria="kat_kategorien" aria-label="Kategorien"></div>
+          <button type="button" id="katMehr" class="kat-mehr" hidden aria-expanded="false" aria-controls="katChips"></button>
+          <p id="katHinweis" class="subhint" hidden></p>
+          <div id="katRaster" class="fxgrid" role="tabpanel"></div>
+          <div class="row" id="katStaerkeRow" hidden><label class="cap"><span data-i18n="kat_staerke" data-help="kat_staerke_tip">Stärke</span> <input type="number" class="val numbox" data-for="katStaerke" min="0" max="100" value="100"></label><input type="range" id="katStaerke" min="0" max="100" value="100"></div>
+          <div class="row" id="kpStaerkeRow" hidden><label class="cap"><span data-i18n="kp_staerke" data-help="kp_staerke_tip">Stärke</span> <input type="number" class="val numbox" data-for="kpStaerke" min="0" max="100" value="100"></label><input type="range" id="kpStaerke" min="0" max="100" value="100"></div>
+        </div>
+        <span class="such-alias" hidden data-i18n="such_katalog" data-fuer="katKopf">Katalog Jahreszeiten Frühling Sommer Herbst Winter Natur Wald Bäume Berge Meer Stadt Nacht Neon Porträt Haut Film Schwarzweiß Vintage Analog Nebel Sonnenuntergang Gewitter Hochzeit Food Essen Architektur Landschaft Kino Matt Pastell Reise Studio Produkt Duoton Tonung Sepia Infrarot RAW HDR KI Abendhimmel Feuerhimmel Goldene Stunde</span>
+      </div>
+      <input type="file" id="refLookInput" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+      <div class="row" id="refAmtRow" style="display:none;margin:10px 0 2px"><label class="cap"><span data-i18n="ref_staerke" data-help="ref_staerke_tip">Stärke des Vorbild-Looks</span> <input type="number" class="val numbox" data-for="refAmt" min="0" max="100" value="100"></label><input type="range" id="refAmt" data-norender min="0" max="100" value="100"></div>
+      <span class="such-alias" hidden data-i18n="such_looks">Filter Presets Vorlagen</span>
+      <div id="filterGrid" class="fxgrid"></div>
+      <div id="presetGrid" style="display:none"></div>
+      <h2 style="margin-top:16px" data-i18n="myPresets">Meine Presets</h2>
+      <div id="userPresets"></div>
+      <input type="file" id="importLrFile" accept=".xmp,.lrtemplate" multiple hidden>
+    </div>
+    <div class="card" id="adaptivCard" data-group="filter">
+      <h2 data-i18n="ad_titel" data-help="ad_hint">Adaptive Looks</h2>
+      <div class="repgrid dicht two" id="adaptivGrid">
+        <button type="button" data-ad="himmelDrama"><i data-lucide="cloud-lightning"></i><span data-i18n="ad_himmelDrama">Himmel dramatisch</span></button>
+        <button type="button" data-ad="himmelBlau"><i data-lucide="cloud-sun"></i><span data-i18n="ad_himmelBlau">Himmel blauer</span></button>
+        <button type="button" data-ad="motivHervor"><i data-lucide="user-round"></i><span data-i18n="ad_motivHervor">Motiv hervorheben</span></button>
+        <button type="button" data-ad="portraetWarm"><i data-lucide="sun"></i><span data-i18n="ad_portraetWarm">Porträt warm</span></button>
+        <button type="button" data-ad="hgEntsaett"><i data-lucide="droplet-off"></i><span data-i18n="ad_hgEntsaett">Hintergrund entsättigen</span></button>
+        <button type="button" data-ad="hgDunkel"><i data-lucide="vy-hintergrund-dunkel"></i><span data-i18n="ad_hgDunkel">Hintergrund abdunkeln</span></button>
+      </div>
+    </div>
+    <div class="card" id="lutCard" data-group="filter">
+      <h2 data-i18n="lut">LUT (Look)</h2>
+      <input type="file" id="lutInput" accept=".cube" style="display:none">
+      <button id="lutLoadBtn" class="wide" data-i18n="lut_load" data-licon="file-plus">＋ LUT laden (.cube)</button>
+      <button id="lutAusBtn" class="wide" data-i18n="lut_aus" data-help="lut_aus_tip" data-licon="download" style="margin-top:6px">Look als LUT speichern (.cube)</button>
+      <div id="lutActive" style="display:none">
+        <div class="row" style="display:flex;gap:8px;align-items:center;margin-top:8px">
+          <span id="lutName" class="cap" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+          <button id="lutRemove" class="iconbtn" data-i18n-title="tip_remove" title="Entfernen"><i data-lucide="x"></i></button>
+        </div>
+        <div class="row"><label class="cap"><span data-i18n="lut_amt">Stärke</span> <input type="number" class="val numbox" data-for="lutAmt" min="0" max="100" value="100"></label><input type="range" id="lutAmt" min="0" max="100" value="100"></div>
+      </div>
+    </div>
+    <div class="card fl-einzeln" id="filesCard" data-group="files">
+      <h2 data-i18n="tab_files">Stapel</h2>
+      <div class="fl-add"><button id="filesUpload" data-i18n-title="files_upload" title="Bilder hinzufügen"><span data-i18n="fl_fotos" data-licon="image-plus">Fotos</span></button><button id="filesOrdner" data-i18n-title="files_ordner" title="Ordner hinzufügen"><span data-i18n="fl_ordner" data-licon="folder-plus">Ordner</span></button><button id="batchKopie" data-i18n-title="fl_kopie_tip" title="Virtuelle Kopie: dasselbe Foto noch einmal, mit eigener Bearbeitung"><span data-i18n="fl_kopie" data-licon="copy">Duplikat</span></button></div>
+      <div class="fl-zwei"><button id="filesSichten" data-i18n-title="si_tip" title="Fotos im Vollbild durchgehen und bewerten"><span data-i18n="si_knopf" data-licon="vy-sichten">Fotos sichten</span></button><button id="filesKontakt" data-i18n-title="kb_tip" title="Die Fotos des Stapels als Raster auf Papierseiten"><span data-i18n="kb_titel" data-licon="layout-grid">Kontaktbogen</span></button></div>
+      <input type="file" id="filesInput" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl,.xmp" multiple hidden>
+      <p class="hint"><span id="filesCount" data-nosearch>0</span><span class="fl-mehr"> · <span data-i18n="files_hint">Ein Bild bearbeiten, dann die Bilder markieren, die denselben Look bekommen sollen.</span></span></p>
+      <div id="batchStrip" class="batchstrip"></div>
+      <p class="fl-aktiv fl-mehr" id="filesAktiv" data-nosearch></p>
+      <p class="subhint info-line" id="filesLeer"><i data-lucide="info"></i><span data-i18n="files_leer">Füge weitere Fotos oder einen ganzen Ordner hinzu. Dann überträgst du die Bearbeitung dieses Fotos auf alle und exportierst alle auf einmal.</span></p>
+      <div class="sectlabel fl-mehr"><span data-i18n="fl_sec_transfer">Bearbeitung übertragen</span></div>
+      <div class="repgrid dicht tl-grid fl-mehr">
+        <button id="batchTransfer" data-i18n-title="fl_mark_tip" title="Alle markieren"><i data-lucide="check-check"></i><span data-i18n="fl_mark">Alle markieren</span></button>
+        <button id="batchApply" disabled data-i18n-title="files_applysel" title="Auf Auswahl anwenden"><i data-lucide="clipboard-paste"></i><span data-i18n="fl_apply">Auf markierte</span></button>
+        <button id="batchSync" data-i18n-title="sync_btn" title="Einstellungen synchronisieren"><i data-lucide="refresh-cw"></i><span data-i18n="fl_sync">Sync …</span></button>
+      </div>
+      <button id="batchExport" class="wide primary fl-mehr" style="margin-top:10px" disabled><span data-i18n="files_exportall" data-licon="download">Alle exportieren</span></button>
+      <div class="setsec klapp collapsed fl-mehr" id="exOptSec"><div class="setsec-h"><span data-i18n="fl_sec_exopt">Export-Optionen</span><span class="chev"><i data-lucide="chevron-down"></i></span></div><div class="setsec-body">
+      <div class="row" id="exZielRow" style="margin-top:0"><label class="cap" data-i18n="exo_ziel">Speichern als</label><div class="seg" id="exZielSeg"><button type="button" data-z="zip" class="active" data-i18n="exo_zip">ZIP-Download</button><button type="button" data-z="ordner" data-i18n="exo_ordner">In einen Ordner</button></div></div>
+      <div class="row"><label class="cap" for="exMuster"><span data-i18n="exo_muster" data-help="exo_muster_tip">Dateiname</span></label><input type="text" id="exMuster" class="metain" spellcheck="false" autocomplete="off" placeholder="{name}_{nr}" maxlength="120"></div>
+      <p class="hint" id="exMusterBsp" style="margin:2px 0 0"></p>
+      </div></div>
+      <div class="setsec klapp collapsed fl-mehr" id="flackerSec"><div class="setsec-h"><span data-i18n="fl_sec_zeitraffer">Zeitraffer</span><span class="chev"><i data-lucide="chevron-down"></i></span></div><div class="setsec-body">
+      <button id="flackerBtn" class="wide" style="margin-top:0" data-i18n-title="fl_flacker_tip" title="Helligkeitssprünge zwischen den Bildern einer Zeitraffer-Serie ausgleichen"><span data-i18n="fl_flacker" data-licon="activity">Zeitraffer entflackern</span></button>
+      <div class="row" style="margin-top:6px"><label class="cap"><span data-i18n="fl_glaettung" data-help="fl_glaettung_tip">Glättung (Bilder)</span> <input type="number" class="val numbox" data-for="flackerFenster" min="3" max="31" step="2" value="9"></label><input type="range" id="flackerFenster" data-norender min="3" max="31" step="2" value="9"></div>
+      <button id="angleichBtn" type="button" class="wide" style="margin-top:8px" data-i18n-title="fl_angleich_tip" title="Bringt die markierten Fotos (sonst alle anderen) auf die Helligkeit des offenen Fotos, über ihren Belichtungsregler"><span data-i18n="fl_angleich" data-licon="sun">Belichtung an dieses Foto angleichen</span></button>
+      <span class="such-alias" hidden data-fuer="angleichBtn" data-i18n="such_angleich">Belichtung angleichen Helligkeit Serie abgleichen Match</span>
+      </div></div>
+    </div>
+    <div class="card klappbar" id="aktionCard" data-group="files" data-zu="1">
+      <h2 data-i18n="akt_titel" data-help="akt_hint">Aktionen</h2>
+      <span class="such-alias" hidden data-fuer="aktionCard" data-i18n="such_aktion">Aktionen Makro aufzeichnen Stapel automatisch</span>
+      <div class="akt-knoepfe"><button id="aktAufnahme" type="button"><i data-lucide="circle"></i><span data-i18n="akt_aufnehmen">Aufnehmen</span></button><button id="aktAnwenden" type="button" disabled><i data-lucide="zap"></i><span data-i18n="akt_anwenden">Auf markierte</span></button></div>
+      <ol id="aktListe" class="akt-liste"></ol>
+      <label class="toggle"><input type="checkbox" id="aktExport"> <span data-i18n="akt_export">Danach alle exportieren</span></label>
+      <div class="akt-gespeichert"><select id="aktWahl" data-i18n-aria="akt_wahl"></select><button id="aktSpeichern" type="button" class="iconbtn" data-i18n-title="akt_speichern" title="Aktion speichern"><i data-lucide="bookmark-plus"></i></button><button id="aktLoeschen" type="button" class="iconbtn" data-i18n-title="akt_loeschen" title="Gespeicherte Aktion löschen"><i data-lucide="trash-2"></i></button></div>
+    </div>
+    <div class="card klappbar" id="mergeCard" data-group="files" data-zu="1">
+      <h2 data-i18n="hdr_title" data-help="hdr_hint">Aufnahmen kombinieren</h2>
+      <span class="such-alias" hidden data-fuer="mergeCard" data-i18n="such_sterne">HDR Focus-Stack Panorama Sternspuren Startrails Sterne Nacht Stapeln</span>
+      <div class="repgrid dicht two tl-grid">
+        <button id="hdrMerge" data-i18n-title="hdr_merge" title="Zu HDR zusammenführen"><i data-lucide="vy-brightness"></i><span data-i18n="fl_hdr">HDR</span></button>
+        <button id="focusMerge" data-i18n-title="focus_merge" title="Focus-Stack zusammenführen"><i data-lucide="vy-fokus-stapel"></i><span data-i18n="fl_focus">Focus-Stack</span></button>
+        <button id="panoMerge" data-i18n-title="pano_merge" title="Panorama zusammenfügen"><i data-lucide="vy-panorama"></i><span data-i18n="fl_pano">Panorama</span></button>
+        <button id="stMerge" data-i18n-title="st_tip" title="Viele Nachtaufnahmen zu Sternspuren stapeln"><i data-lucide="moon-star"></i><span data-i18n="st_title">Sternspuren</span></button>
+      </div>
+      <p class="hint" data-i18n="fl_merge_hint" style="margin:8px 0 0" data-falt>Mehrere Aufnahmen desselben Motivs in den Stapel laden, dann zusammenfügen.</p>
+      <div class="row" style="margin:12px 0 2px"><label class="cap"><span data-i18n="hdr_strength">HDR-Stärke</span> <input type="number" class="val numbox" data-for="hdrStrength" min="0" max="100" value="100"></label><input type="range" id="hdrStrength" data-norender min="0" max="100" value="100"></div>
+      <p class="hint" id="hdrBusy" style="display:none;margin-top:8px" data-i18n="hdr_busy">Wird verschmolzen …</p>
+      <div id="hdrProg" class="progbar" style="display:none"><div id="hdrProgBar"></div></div>
+    </div>
+    <div class="card" id="projCard" data-group="files">
+      <h2 data-i18n="project" data-help="project">Projekt</h2>
+      <div class="repgrid dicht two tl-grid">
+        <button id="saveProj"><i data-lucide="save"></i><span data-i18n="save">Speichern</span></button>
+        <button id="loadProj"><i data-lucide="folder-open"></i><span data-i18n="load">Laden</span></button>
+      </div>
+      <input type="file" id="projInput" accept="application/json,.fedit" hidden>
+    </div>
+    <div class="card" id="bgCard" data-group="background">
+      <h2 data-i18n="tab_background">Hintergrund</h2>
+      <button id="bgRemoveBtn" class="primary wide" style="margin-top:10px"><span data-i18n="bg_remove" data-licon="scissors">Hintergrund entfernen</span></button>
+      <button id="bgPinselBtn" class="wide" style="margin-top:6px" data-i18n-title="bg_pinsel_tip" title="Ohne KI: über den Hintergrund malen, um ihn zu entfernen"><span data-i18n="bg_pinsel" data-licon="brush">Von Hand freistellen</span></button>
+      <p class="hint" data-i18n="bg_intro" style="margin:2px 0 0" data-falt>Stellt das Motiv automatisch frei — oder du malst den Hintergrund von Hand weg. Danach wählst du Farbe, Bild oder Unschärfe als neuen Hintergrund.</p>
+      <p class="hint" id="bgBusy" style="display:none;margin-top:8px" data-i18n="bg_busy">Wird berechnet …</p>
+      <div id="bgResult" style="display:none">
+        <div class="sectlabel"><span data-i18n="bg_new">Neuer Hintergrund</span></div>
+        <div id="bgPresets" class="bgtiles"></div>
+        <input type="file" id="bgUpload" accept="image/*,.heic,.heif,.tif,.tiff,.cr2,.cr3,.nef,.arw,.dng,.raf,.orf,.rw2,.pef,.srw,.raw,.crw,.nrw,.srf,.sr2,.ptx,.x3f,.3fr,.mef,.mos,.iiq,.kdc,.dcr,.erf,.mrw,.rwl" hidden>
+        <button id="bgUploadBtn" class="wide" style="margin-top:8px"><span data-i18n="bg_own" data-licon="image-plus">Eigenes Bild</span></button>
+        <div class="row" style="margin:12px 0 2px"><label class="cap"><span data-i18n="bg_blur">Hintergrund-Unschärfe</span> <input type="number" class="val numbox" data-for="bgBlur" min="0" max="100" value="0"></label><input type="range" id="bgBlur" min="0" max="100" value="0"></div>
+        <div class="sectlabel"><span data-i18n="bg_sec_edge">Kante &amp; Motiv</span></div>
+        <div class="row" style="margin:4px 0 8px"><label class="cap"><span data-i18n="bg_feather">Kanten weichzeichnen</span> <input type="number" class="val numbox" data-for="bgFeather" min="0" max="12" value="2"></label><input type="range" id="bgFeather" min="0" max="12" value="2"></div>
+        <div class="repgrid dicht two tl-grid">
+          <button id="bgInvert"><i data-lucide="contrast"></i><span data-i18n="bg_invert">Umkehren</span></button>
+          <button id="bgRestore"><i data-lucide="undo-2"></i><span data-i18n="bg_restore">Hintergrund zurück</span></button>
+        </div>
+        <div class="sectlabel"><span data-i18n="bg_refine">Nachschärfen</span></div>
+        <button id="bgBrushToggle" type="button" class="tl-schalter"><span data-i18n="bg_brush2" data-licon="brush">Mit dem Pinsel nacharbeiten</span><span class="tl-sw" aria-hidden="true"></span></button>
+        <div id="bgBrushCtl" style="display:none">
+          <div class="row" style="margin-top:8px"><div class="seg"><button id="bgBrushAdd" class="active" data-i18n="bg_fg">Vordergrund</button><button id="bgBrushErase" data-i18n="bg_bg">Hintergrund</button></div></div>
+          <div class="row" style="margin-top:8px"><label class="cap"><span data-i18n="bg_brushsize">Pinselgröße</span> <input type="number" class="val numbox" data-for="bgBrushSize" min="6" max="300" value="80"></label><input type="range" id="bgBrushSize" data-norender min="6" max="300" value="80"></div>
+          <p class="subhint info-line" data-falt><i data-lucide="info"></i><span data-i18n="bg_brush_hint">Auf dem Bild malen: Vordergrund holt zurück, Hintergrund radiert weg. Leertaste+Ziehen schwenkt.</span></p>
+        </div>
+        <div class="sectlabel"><span data-i18n="pf_sec" data-help="pf_hint">Produktfoto</span></div>
+        <div class="seg" id="pfSchatten" style="margin-top:4px"><button type="button" data-s="aus" class="active" data-i18n="pf_aus">Ohne</button><button type="button" data-s="weich" data-i18n="pf_weich">Schlagschatten</button><button type="button" data-s="boden" data-i18n="pf_boden">Bodenschatten</button></div>
+        <div id="pfSchattenRegler">
+        <div class="row" style="margin:6px 0 2px"><label class="cap"><span data-i18n="pf_staerke">Deckkraft</span> <input type="number" class="val numbox" data-for="pfStaerke" min="0" max="100" value="55"></label><input type="range" id="pfStaerke" data-norender min="0" max="100" value="55"></div>
+        <div class="row" style="margin:6px 0 2px"><label class="cap"><span data-i18n="pf_weichheit">Weichheit</span> <input type="number" class="val numbox" data-for="pfWeich" min="0" max="100" value="45"></label><input type="range" id="pfWeich" data-norender min="0" max="100" value="45"></div>
+        <div class="row" style="margin:6px 0 2px"><label class="cap"><span data-i18n="pf_abstand">Abstand</span> <input type="number" class="val numbox" data-for="pfAbstand" min="0" max="100" value="35"></label><input type="range" id="pfAbstand" data-norender min="0" max="100" value="35"></div>
+        </div>
+        <div class="row" style="margin:6px 0 2px"><label class="cap"><span data-i18n="pf_spiegel">Spiegelung</span> <input type="number" class="val numbox" data-for="pfSpiegel" min="0" max="100" value="0"></label><input type="range" id="pfSpiegel" data-norender min="0" max="100" value="0"></div>
+        <div class="row" style="margin:6px 0 2px"><label class="cap"><span data-i18n="pf_rand">Rand</span> <input type="number" class="val numbox" data-for="pfRand" min="0" max="30" value="0"></label><input type="range" id="pfRand" data-norender min="0" max="30" value="0"></div>
+      </div>
+    </div>
+    <div class="card" id="bgMehrCard" data-group="background">
+      <h2 data-i18n="bg_mehr">Mehr für den Hintergrund</h2>
+      <span class="such-alias" hidden data-fuer="bgMehrCard" data-i18n="such_bgmehr">Himmel ersetzen Objektivunschärfe Bokeh Unschärfe Tiefe Blende</span>
+      <div class="repgrid dicht two">
+        <button id="bgHimmelBtn" type="button" data-i18n-title="hi_hint_kurz" title="Himmel erkennen und einen neuen einsetzen"><i data-lucide="cloud-sun"></i><span data-i18n="hi_title">Himmel ersetzen</span></button>
+        <button id="bgLinseBtn" type="button" data-i18n-title="li_hint_kurz" title="Hintergrund und Vordergrund unscharf wie bei offener Blende"><i data-lucide="vy-bokeh"></i><span data-i18n="li_titel">Objektivunschärfe</span></button>
+      </div>
+    </div>
+  </aside>
+
+</main>
+
+<div id="tourHl"></div>
+<div id="tourCard" role="dialog" aria-live="polite" aria-labelledby="tourTitle">
+  <h3><span class="tour-num" id="tourNum">1</span><span id="tourTitle"></span><span class="tour-zahl" id="tourZahl"></span></h3>
+  <p id="tourText"></p>
+  <div class="tour-foot"><span class="tour-dots" id="tourDots"></span><button id="tourZurueck" class="ghost" type="button" data-i18n-title="tour_zurueck" title="Zurück" aria-label="Zurück">‹</button><button id="tourSkip" class="ghost" style="font-size:11.5px;padding:5px 9px"></button><button id="tourNext" class="primary" style="font-size:12px;padding:6px 13px"></button></div>
+</div>

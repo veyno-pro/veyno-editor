@@ -1,0 +1,14 @@
+{
+  "name": "veyno-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VEYNO static server + feedback endpoint",
+  "main": "veyno-server.js",
+  "scripts": {
+    "start": "node veyno-server.js"
+  },
+  "license": "SEE LICENSE IN ../LICENSE",
+  "dependencies": {
+    "nodemailer": "^9.0.1"
+  }
+}

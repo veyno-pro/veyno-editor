@@ -1,0 +1,16 @@
+{
+  "name": "VEYNO Photo Editor",
+  "short_name": "VEYNO",
+  "description": "Photo editor with AI background removal, RAW, HDR and panorama — runs fully in your browser.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ebecef",
+  "theme_color": "#ebecef",
+  "lang": "de",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-maskierbar.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

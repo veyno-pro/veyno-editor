@@ -1,0 +1,39 @@
+{
+  "name": "veyno",
+  "version": "1.9.0",
+  "description": "VEYNO – Foto-Editor (Desktop)",
+  "author": "VEYNO",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "windows": "node bauen-windows.js"
+  },
+  "devDependencies": {
+    "electron": "^31.3.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.veyno.app",
+    "productName": "VEYNO",
+    "copyright": "© 2026 VEYNO",
+    "files": ["main.js", "preload.js", "app/**/*"],
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "icon": "build/icon.ico" },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "packElevateHelper": false,
+      "allowToChangeInstallationDirectory": true,
+      "license": "build/lizenz.txt",
+      "include": "build/installer.nsh",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "VEYNO",
+      "artifactName": "VEYNO-Setup-${version}.exe",
+      "deleteAppDataOnUninstall": false
+    },
+    "linux": { "target": "AppImage", "category": "Graphics", "icon": "build/icon.png" },
+    "mac": { "target": "dmg" }
+  }
+}

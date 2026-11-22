@@ -1,0 +1,13 @@
+* text=auto eol=lf
+
+*.wasm  binary
+*.onnx  binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.zip   binary
+*.ico   binary
+
+Electron/build/lizenz.txt  text eol=crlf
+Electron/INSTALLATION.txt  text eol=crlf

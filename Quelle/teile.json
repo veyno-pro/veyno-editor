@@ -1,0 +1,176 @@
+{
+ "hinweis": "Parts that Entwickler-Tools/quelle.mjs assembles into pro.html, in this order.",
+ "module": true,
+ "buendel": true,
+ "modulHinweis": "The .js parts are ES modules; when building, import blocks and the word export are removed (Entwickler-Tools/module.mjs).",
+ "teile": [
+  {
+   "datei": "00-kopf.html",
+   "inhalt": "Kopf, Meta, CSP, fruehes Skript"
+  },
+  {
+   "datei": "10-stil-grund.css",
+   "inhalt": "Grundlayout, Buehne, Crop, Leisten"
+  },
+  {
+   "datei": "11-stil-bereiche.css",
+   "inhalt": "Seitenleiste, Masken-Spalte, Karten, Themen"
+  },
+  {
+   "datei": "12-stil-modi.css",
+   "inhalt": "Quick/Studio, Quick-2, Handy"
+  },
+  {
+   "datei": "13-stil-werkzeuge.css",
+   "inhalt": "Werkzeug-Reiter, Dialoge, Apple-Stil"
+  },
+  {
+   "datei": "15-stil-fein.css",
+   "inhalt": "Stil Fein: ruhige Optik"
+  },
+  {
+   "datei": "20-oberflaeche.html",
+   "inhalt": "Topbar, Leiste, Buehne, untere Leiste"
+  },
+  {
+   "datei": "21-panel.html",
+   "inhalt": "rechtes Panel mit allen Karten"
+  },
+  {
+   "datei": "22-dialoge.html",
+   "inhalt": "Dialoge"
+  },
+  {
+   "datei": "30-kern.js",
+   "inhalt": "Kern: Zustand, Hilfsfunktionen"
+  },
+  {
+   "datei": "31-laden-exif.js",
+   "inhalt": "Hilfsfunktionen, Laden, EXIF, Standort"
+  },
+  {
+   "datei": "31-2-raw.js",
+   "inhalt": "Kamera-RAW über LibRaw"
+  },
+  {
+   "datei": "31-3-masken-regler.js",
+   "inhalt": "Masken, Ziele, Regler, Mixer, Farbräder, Bereichsmasken"
+  },
+  {
+   "datei": "31-4-retusche-pinsel.js",
+   "inhalt": "Retusche, Pinselmasken, Weißabgleich, Formgriffe, Render-Anstoß"
+  },
+  {
+   "datei": "32-filter-gpu.js",
+   "inhalt": "Filter, Masken-Filter, WebGL-Vorschau"
+  },
+  {
+   "datei": "33-export-stapel.js",
+   "inhalt": "Export-Worker, Render, Looks, Stapel"
+  },
+  {
+   "datei": "34-hdr-panorama.js",
+   "inhalt": "HDR, Fokus, Panorama, Sternspuren und weitere Verschmelzungen"
+  },
+  {
+   "datei": "34-2-presets-hilfe.js",
+   "inhalt": "Eigene Presets sortieren, Kontext-Hilfe"
+  },
+  {
+   "datei": "34-3-projekt-autosave.js",
+   "inhalt": "Projekt speichern und laden, Autosicherung"
+  },
+  {
+   "datei": "34-4-ansicht-zuschnitt.js",
+   "inhalt": "Perspektive, Zoom und Schwenken, Vergleiche, Vollbild, Zuschnitt"
+  },
+  {
+   "datei": "35-hintergrund-ki.js",
+   "inhalt": "Hintergrund entfernen, KI-Masken, KI-Hochskalieren, neuer Hintergrund"
+  },
+  {
+   "datei": "35-2-rundgang.js",
+   "inhalt": "Rundgang"
+  },
+  {
+   "datei": "35-3-gif-collage.js",
+   "inhalt": "Plus-Menü: GIF, Collage"
+  },
+  {
+   "datei": "35-4-bildgroesse-exif.js",
+   "inhalt": "Bildgröße, Leinwand, EXIF, Pixel-Farbe"
+  },
+  {
+   "datei": "35-5-verlauf-export.js",
+   "inhalt": "Verlauf, Export-Dialog"
+  },
+  {
+   "datei": "35a-oberflaeche-neu.js",
+   "inhalt": "Schmale Leiste, Flyout, Stil Fein setzen"
+  },
+  {
+   "datei": "35b-farbkreis.js",
+   "inhalt": "Farbkreis: Zeichnen, Punkte, Regler"
+  },
+  {
+   "datei": "35c-praezision.js",
+   "inhalt": "Feinzug, Zahlenwerte an Rädern, Masken, Zuschnitt"
+  },
+  {
+   "datei": "35d-kartenreiter.js",
+   "inhalt": "Abschnitts-Leiste für lange Karten"
+  },
+  {
+   "datei": "35e-schriftwahl.js",
+   "inhalt": "Schriftauswahl, jede Schrift in sich selbst"
+  },
+  {
+   "datei": "36-export.js",
+   "inhalt": "Voll-Export, 16 Bit, Metadaten, Druck"
+  },
+  {
+   "datei": "36-2-leisten-reiter-sprache.js",
+   "inhalt": "Spenden-Fenster, Tastenkürzel, untere Leiste, Reiter, Sprache"
+  },
+  {
+   "datei": "36-3-einstellungen.js",
+   "inhalt": "Einstellungen"
+  },
+  {
+   "datei": "36-4-ebenen-text-zeichnen.js",
+   "inhalt": "Ebenen, Text, Verflüssigen, Zeichnen, Geraderichten"
+  },
+  {
+   "datei": "36-5-ki-retusche.js",
+   "inhalt": "KI-Entrauschen, Gesicht, Objekt entfernen, Magnet-Lasso"
+  },
+  {
+   "datei": "36a-zeichnen.js",
+   "inhalt": "Zeichnen: Strich-Vorschau"
+  },
+  {
+   "datei": "37-modus-handy.js",
+   "inhalt": "Nur-Studio-Hinweis, Handy-Layout"
+  },
+  {
+   "datei": "38-barrierefreiheit.js",
+   "inhalt": "A11y, Abschluss"
+  },
+  {
+   "datei": "38a-spenden.js",
+   "inhalt": "Spendenstand in der Kopfleiste, Hinweis ohne Speicher"
+  },
+  {
+   "datei": "38b-addons.js",
+   "inhalt": "Addons: Presets, Export-Vorlagen und Filter aus fremden Skripten, abgeschottet im Arbeiter"
+  },
+  {
+   "datei": "38c-extras.js",
+   "inhalt": "Instagram-Karussell, Gesichter und Rahmen unkenntlich machen, Waveform und RGB-Parade"
+  },
+  {
+   "datei": "99-ende.html",
+   "inhalt": "Schluss"
+  }
+ ]
+}

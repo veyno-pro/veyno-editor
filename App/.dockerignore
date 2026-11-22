@@ -1,0 +1,7 @@
+*.cmd
+*.ps1
+LIES-MICH.txt
+Dockerfile
+.dockerignore
+node_modules
+.env

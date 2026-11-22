@@ -1,0 +1,5 @@
+Die Objektiv- und Kameradaten in lensfun.json stammen aus der lensfun-Datenbank (https://lensfun.github.io,
+https://github.com/lensfun/lensfun, Stand bbd4332a9ec566fd9aa548c9e0d8ced238c56261 2026-09-24).
+Lizenz: Creative Commons Namensnennung - Weitergabe unter gleichen Bedingungen 3.0 (CC BY-SA 3.0),
+https://creativecommons.org/licenses/by-sa/3.0/ — VEYNO hat die XML-Dateien in ein kompaktes JSON umgewandelt
+(Entwickler-Tools/lensfun-bauen.mjs); die umgewandelte Datei steht unter derselben Lizenz.
